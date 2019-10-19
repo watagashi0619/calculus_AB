@@ -1,0 +1,863 @@
+\documentclass[dvipdfmx,a4j,10pt]{jsarticle}
+\usepackage{amsthm}
+\usepackage{newtxtext,newtxmath}
+\usepackage{mathrsfs}
+\renewcommand{\bf}{\bfseries\sffamily}
+\usepackage{empheq}
+\usepackage{framed}
+\usepackage{color}
+\usepackage{tikz}
+\usepackage{braket}
+%\usepackage{comment}
+\newtheoremstyle{mystyle1}% % Name
+    {}%                      % Space above
+    {}%                      % Space below
+    {\normalfont}%           % Body font
+    {}%                      % Indent amount
+    {\bfseries\sffamily}%             % Theorem head font
+    {\hspace{0.5em}}%                      % Punctuation after theorem head
+    { }%                     % Space after theorem head, ‘ ‘, or \newline
+    {\thmname{#1}\thmnumber{#2}\thmnote{（#3）\\}}%                      % Theorem head spec (can be left empty, meaning `normal')
+\theoremstyle{mystyle1}
+\newtheorem{dfn}{定義}[part]
+\newtheorem{thm}[dfn]{定理}
+\newtheorem{axi}[dfn]{公理}
+\newtheorem{cor}[dfn]{系}
+\newtheorem{prop}[dfn]{命題}
+
+\newtheoremstyle{mystyle2}% % Name
+    {}%                      % Space above
+    {}%                      % Space below
+    {\normalfont}%           % Body font
+    {}%                      % Indent amount
+    {\bfseries\sffamily}%             % Theorem head font
+    {\hspace{0.5em}}%                      % Punctuation after theorem head
+    { }%                     % Space after theorem head, ‘ ‘, or \newline
+    {\thmname{#1}\thmnote{（#3）\\}}%                      % Theorem head spec (can be left empty, meaning `normal')
+\theoremstyle{mystyle2}
+\newtheorem{dfn*}{定義}
+\newtheorem{thm*}{定理}
+\newtheorem{ex}{例題}
+\newtheorem{example}{例}
+\newtheorem{rem}{注意}
+\newtheorem{ans}{解答}
+\newtheorem{note}{注意}
+\newtheorem{lem}{補題}
+
+\makeatletter
+\renewenvironment{proof}[1][\proofname]{\par
+  \pushQED{\qed}%
+  \normalfont
+  \topsep6\p@\@plus6\p@ \trivlist
+  \item[\hskip\labelsep{\bfseries #1}]\ignorespaces
+}{%
+  \popQED\endtrivlist\@endpefalse
+}
+\renewcommand\proofname{証明}
+\renewcommand{\qedsymbol}{$\blacksquare$}
+\makeatother
+
+\renewcommand{\thepart}{\arabic{part}}
+
+\renewcommand{\thenote}{}
+\renewcommand{\thelem}{}
+
+\title{微分積分学B}
+\author{KUinfoB1 Twitter:\_2pt}
+\author{2019年度 1T23,24 担当：久保}
+\date{}
+\begin{document}
+\maketitle
+\begin{enumerate}
+\item 評価の方法について
+	\begin{itemize}
+		\item 小テスト：20点$\times$3回\\
+			定義の確認，簡単な計算，演習問題の簡単な問題など
+		\item 期末試験
+	\end{itemize}
+	%授業の出席は取らない
+\item 参考書\\
+本講義では$n$次元での話を展開するため，あまりよい参考書はないが参考として以下に提示する。
+	\begin{itemize}
+		\item 解析入門II - 小平邦彦 [岩波書店]
+		\item 続・微分積分読本（多変数） - 小林昭七 [裳華房]
+		\item 解析入門I(II)- 杉浦光夫 [東京大学出版]
+	\end{itemize}
+\end{enumerate}
+
+\begin{note}
+	この講義ノートは，授業の板書をもとに編集者が勝手にレイアウトを変更している箇所があります。より実際の授業の板書に近いノートを他の方が別のファイル（2018年度版）で上げていますので，そちらも合わせて見ていただいた方が良いかと思われます。なお，授業内容，板書は2018年度版と変化はありません。
+\end{note}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\part{$n$次元ユークリッド空間$\mathbb{R}^n$}
+\section{$\mathbb{R}^n$のノルムと内積}
+\[\mathbb{R}^n:=\{x=(x^1,x^2,\cdots,x^k):x^k\in\mathbb{R}(\forall k=1,\cdots,n)\}\footnotemark\]
+\footnotetext{
+次元の$x^k$は$x^{(k)}$等と書くこともある。
+}
+$\mathbb{R}^n$は$n$次元実線形空間である（ベクトル空間）。\\
+$V$が線形空間であるとは，スカラー倍と和が定義された空間のことである。
+\begin{example}
+$\forall x,\forall y\in V,\alpha,\beta\in\mathbb{R}$とするとき$\alpha x\in V,x+y\in V,\alpha x+\beta y\in V$
+\end{example}
+\paragraph{ノルム - norm}
+ベクトル$x=(x^1,\cdots,x^n)$の長さの概念
+\[|x|_n=|x|:=\sqrt{(x^1)^2+(x^2)^2+\cdots+(x^n)^2}\footnotemark\]
+\footnotetext{
+$l_2$normといい，$||x||_2$とも書く。なお$l_1$normは$\sum_{k=1}^n|x^k|$。
+}
+\begin{framed}
+\begin{thm}
+$x,y\in\mathbb{R}^n,a\in\mathbb{R}$に対し
+\begin{enumerate}
+	\item $|x|\geq0$であり$|x|=0$となるのは$x=0$\footnote{この$0$は$(0,0,\cdot,0)\in\mathbb{R}^n$のこと。}のみ。
+	\item $\displaystyle \left|\sum_{i=1}^n x^iy^i\right|\leq|x||y|$が成り立つ。等号成立は$x$と$y$が線形従属のときのみ。\footnotemark
+	\item $|x+y|_n\leq|x|_n+|y|_n$
+	\item $|ax|_n=|a||x|_n$
+\end{enumerate}
+\footnotetext{
+論文等では$||y||_1\leq\sqrt{n}||y||_2$といった使い方をよくする。
+}
+\end{thm}
+\end{framed}
+\begin{proof}　
+\begin{enumerate}
+	\item 明らか。
+	\item $x$と$y$が線形従属ならば$x=\lambda y$\ $(\lambda\neq0)$とする。
+	\[
+	\begin{split}
+	\sum_{i=1}^n x^iy^i &= \sum_{i=1}^n(\lambda y^i)y^i\\
+	&=\lambda\sum_{i=1}^n(y^i)^2\\
+	&=\lambda|y|^2
+	\end{split}
+	\]
+	\[
+	\begin{split}
+	|x|&=|\lambda y|\\
+	&=\sqrt{\sum_{i=1}^n(\lambda y^i)^2}\\
+	&=|\lambda|\sqrt{\sum_{i=1}^n(y^i)^2}\\
+	&=|\lambda||y|
+	\end{split}
+	\]
+	\[
+	\begin{split}
+	\left|\sum_{i=1}^nx^iy^i\right|&=|\lambda||y|^2\\
+	&=|\lambda||y|\cdot|y|\\
+	&=|x||y|
+	\end{split}
+	\]
+	$x$と$y$が線形従属でないとき，$\forall\lambda\in\mathbb{R}$に対して$\lambda x-y\neq0$だから
+	\[
+	\begin{split}
+		0&<|\lambda y-x|^2\\
+		&\sum_{i=1}^n(\lambda y^i-x^i)^2\\
+		&=\lambda^2\sum_{i=1}^n(y^i)^2-2\lambda\sum_{i=1}^nx^iy^i+\sum_{i=1}^n(x^i)^2
+	\end{split}
+	\]
+	となる。右辺の$\lambda$の2次方程式は実解を持たないので，判別式は負。
+	\[
+	4\left(\sum_{i=1}^nx^iy^i\right)^2-4 \sum_{i=1}^n(x^i)^2 \sum_{i=1}^n(y^i)^2<0
+	\]
+	\item
+	\[
+	\begin{split}
+	|x+y|^2&=\sum_{i=1}^n(x^i+y^i)^2\\
+	&=\sum_{i=1}^n(x^i)^2+\sum_{i=1}^n(y^i)^2+2\sum_{i=1}^nx^iy^i\\
+	&\leq|x|^2+|y|^2+2|x||y|\\
+	&=(|x|+|y|)^2
+    \end{split}
+	\]
+	\item 2.の途中で示した。
+\end{enumerate}
+\end{proof}
+
+\newpage
+
+\paragraph{内積 - inner product}
+$x,y\in\mathbb{R}^n$に対して$\braket{x,y}:=\sum_{i=1}^nx^iy^i$を$x$と$y$の内積という。
+\begin{framed}
+\begin{thm}\
+\begin{enumerate}
+	\item 対称性：$\braket{x,y}=\braket{y,x}$
+	\item 双線形性：
+	$\braket{ax,y}=\braket{x,ay}=a\braket{x,y}$
+	$\braket{x_1+x_2,y}=\braket{x_1,y}+\braket{x_2,y}$
+	$\braket{x,y_1+y_2}=\braket{x,y_1}+\braket{x,y_2}$
+	\item $\braket{x,x}\geq0$であり，$\braket{x,x}=0$となるのは$x=0$のときのみ
+	\item $|x|=\sqrt{\braket{x,x}}$
+	\item 偏極等式：$\braket{x,y}=\frac{|x+y|^2-|x-y|^2}{4}$\footnotemark
+	\end{enumerate}
+\end{thm}
+\end{framed}
+\footnotetext{内積の方が厳しい。ノルム空間の方がゆるい。たまたま内積から作られたノルムであれば内積を作り直すようなものが作れる。}
+\begin{proof}　
+\begin{enumerate}
+	\item \[\braket{x,y}=\sum_{i=1}^nx^iy^i= \sum_{i=1}^ny^ix^i=\braket{y,x}\]
+	\item \[\braket{ax,y}= \sum_{i=1}^n(ax^i)y^i=a \sum_{i=1}^nx^iy^i=a\braket{x,y}\]
+	\[\braket{x_1+x_2,y}= \sum_{i=1}^n(x_1^i+x_2^i)y^i= \sum_{i=1}^nx_1^iy^i+ \sum_{i=1}^nx_2^iy^i=\braket{x_1,y}+\braket{x_2,y}\]
+	\item 明らか
+	\item 明らか
+	\item
+	\[
+	\begin{split}
+	\frac{|x+y|^2-|x-y|^2}{4}&=\frac{1}{4}\left(\braket{x+y,x+y}-\braket{x-y,x-y}\right)\\
+	&=\frac{1}{4}\left\{\braket{x,x}+2\braket{x,y}+\braket{y,y}-(\braket{x,x}-2\braket{x,y}+\braket{y,y})\right\}\\
+	&=\braket{x,y}
+	\end{split}
+	\]
+\end{enumerate}
+
+\end{proof}
+
+\newpage
+
+\begin{note}　
+	\begin{itemize}
+		\item 零ベクトル$(0,0,\cdots,0)\in\mathbb{R}^n$を$0$と表記する。
+		\item $i$番目成分のみが1で他が0であるベクトル$e_i=(0,\cdots,1,\cdots,0)$とすると，$e_1,e_2,\cdots,e_n$は$\mathbb{R}^n$の基底（base）となる。
+		\begin{dfn*}
+		ベクトル空間$V$に対し，$\{v_1,v_2,\cdots,v_n\}$が基底であるとは，
+		\begin{itemize}
+			\item $v_1,v_2,\cdots,v_n$は線形独立
+			\item $\forall x\in V$に対して$\exists\alpha_1,\alpha_2,\cdots,\alpha_n\in\mathbb{R}$\ s.t.\ $x=\sum_{i=1}^n\alpha_iv_i$
+		\end{itemize}
+    \end{dfn*}
+	\item $T:\mathbb{R}^n\to\mathbb{R}^n$：線形写像\\
+	$\forall x,y\in\mathbb{R}$に対して
+	$\begin{cases}
+		T(x+y)=T(x)+T(y)\\
+		T(\alpha x)=\alpha T(x)
+	\end{cases}$\footnote{つまり$T(\alpha x+\beta y)=\alpha T(x)+\beta T(y)$}\\
+	ある1つの行列$A=(a_{ij})$（$m\times n$行列）\footnote{$T$の表現行列という。}が存在して
+	\[T(x)=Ax\]
+	と書ける。
+	\[
+	T(b_i)=\sum_{i=1}^n a_{ji}e_j
+	\]
+	ベクトル$T(b_i)$は行列$A$の第$i$列になっている。\\
+	$S:\mathbb{R}^m\to\mathbb{R}^l$：線形写像の表現行列を$B$（$l\times n$行列）とすると，合成写像$S\circ T(x)=S(T(x))$の表現行列は$BA$となる。
+	\item $x\in\mathbb{R}^n,y\in\mathbb{R}^m$に対して$(x,y)\in\mathbb{R}^{n+m}$で$(x^1,x^2,\cdots,x^n,y^1,y^2,\cdots,y^n)\in\mathbb{R}^{n+m}$と表すものとする。
+	\end{itemize}
+
+\end{note}
+\paragraph{点列の極限について}
+$\{x_m\}_{m=1}^\infty\subset\mathbb{R}^n$を$\mathbb{R}^n$の点列とする。
+\begin{itemize}
+	\item $\displaystyle\{x_m\}_{m=1}^\infty $が$x\in\mathbb{R}^n$に収束する$\displaystyle\overset{def}{\Leftrightarrow}\lim_{m\to\infty}|x_m-x|_n=0$
+	\begin{note}
+	$\displaystyle \lim_{m\to\infty}|x_m-x|=0\Leftrightarrow\lim_{m\to\infty}\sqrt{\sum_{i=1}^n(x_m^i-x^i)^2}=0\Leftrightarrow\lim_{m\to\infty}|x_m^i-x^i|=0 (\forall i)$
+	\end{note}
+	\item $\displaystyle\{x_m\}_{m=1}^\infty $がCauchy列$\displaystyle\overset{def}{\Leftrightarrow}\lim_{m,l\to\infty}|x_m-x_l|_n=0\Leftrightarrow\forall\epsilon>0,\exists M\in\mathbb{N}\ $s.t.\ $\forall m,\forall l>M \Rightarrow |x_m-x_l|<\epsilon$
+	\item $\{x_m\}_{m=1}^\infty\subset\mathbb{R}^n$が収束列であることとCauchy列であることは同値。
+	\begin{proof}
+	上の注意を用いれば1次元$\mathbb{R}$のときと同じなのでOK（前期Th3.8）
+	\end{proof}
+	\item $\{x_m\}_{m=1}^\infty\subset\mathbb{R}^n$が有界$\overset{def}{\Leftrightarrow} \exists M>0\ s.t.\ |x_m|<M\ (\forall n)$
+	\item Bolzano-Weierstrassの定理\\
+	$\{x_m\}\subset\mathbb{R}^n$が有界ならば$\{x_m\}_{m=1}^\infty$は収束する部分列が選べる。\\
+	（i.e.\ $\exists\{x_{m_k}\}_{k=1}^\infty\subset\{x_m\}\ $s.t.\ $x_{m_k}\to\exists x\ (k\to\infty)$）
+	\begin{proof}
+	$\{x_m\}$は有界列なので各成分$\{x_m^i\}_{m=1}^\infty\subset\mathbb{R}$は$\mathbb{R}$の有界列となる。第1成分$\{x^1_m\}_{m=1}^\infty\subset\mathbb{R}$から$\mathbb{R}$で収束する部分列がとれる。その部分列から第2成分$\{x_m^2\}$が$\mathbb{R}$で収束する部分列が同様にとれる。これを繰り返す。
+	\end{proof}
+\end{itemize}
+
+\newpage
+
+\section{$\mathbb{R}^n$の開集合・閉集合・コンパクト集合}
+\begin{note}
+本格的に勉強がしたければ，集合と位相の本をやるとよい。
+\end{note}
+$A_m\subset\mathbb{R}^n\ (m=1,2,\cdots)$とする。
+\begin{itemize}
+\item 和集合（合併）
+	\[
+	\bigcup_{m=1}^\infty A_m:=\{x\in\mathbb{R}^n:\exists m\in\mathbb{N}\ {\rm s.t.}\ x\in A_m\}
+	\]
+\item 共通部分
+	\[
+	\bigcap_{m=1}^\infty A_m:=\{x\in\mathbb{R}^n:\forall m\in\mathbb{N}, x\in A_m\}
+	\]
+\end{itemize}
+集合$A\subset\mathbb{R}^m$と$B\subset\mathbb{R}^n$に対し，
+\[
+A\times B:=\{(x,y)\in\mathbb{R}^{m+n}:x\in A,y\in B\}
+\]
+\begin{example}\
+\begin{itemize}
+	\item $\mathbb{R}^{m+n}=\mathbb{R}^m\times\mathbb{R}^n$
+	\item $[a,b]\times [c,d]=\{(x,y)\in\mathbb{R}^2:x\in[a,b],y\in[c,d]\}$\\
+\end{itemize}
+\end{example}
+
+\begin{note}
+一般に
+\begin{itemize}
+    \item $[a_1,b_1]\times[a_2,b_2]\times\cdots\times[a_n,b_n]\subset\mathbb{R}^n$の形の集合を$\mathbb{R}^n$の閉方体という
+    \item $(a_1,b_1)\times(a_2,b_2)\times\cdots\times(a_n,b_n)\subset\mathbb{R}^n$の形の集合を$\mathbb{R}^n$の開方体という
+\end{itemize}
+\end{note}
+
+\begin{framed}
+\begin{dfn*}[開集合]
+集合$U\in\mathbb{R}^n$が開集合$\overset{def}{\Leftrightarrow}$$\forall x\in U$に対して$x$を含み，かつ，$U$に含まれる開方体\footnotemark が存在する。
+\end{dfn*}
+\end{framed}
+\footnotetext{この開方体は$x$に依存する。}
+\begin{example}　
+\begin{itemize}
+	\item 開方体は開集合
+	\item $\{|x|<1\}$：ballは開集合（一般に集合$\{x\in\mathbb{R}^n:|x-a|<r\}$は開集合）
+	\item $\mathbb{R}^n$全体は開集合
+\end{itemize}
+
+\end{example}
+\begin{framed}
+\begin{dfn*}[閉集合]
+$C\subset\mathbb{R}^n$が閉集合$\overset{def}{\Leftrightarrow}$$\mathbb{R}^n-C:=\{x\in\mathbb{R}^n:x\notin C\}$が開集合
+\end{dfn*}
+\end{framed}
+集合$A\subset\mathbb{R}^n$と点$x\in\mathbb{R}^n$の関係は次の3つのいずれかとなる。
+\begin{enumerate}
+	\item $x\in B\subset A$となる開方体$B$が存在する。
+	\item $x\in B\subset \mathbb{R}^n-A$となる開方体$B$が存在する。
+	\item $x\in B$となる開方体は$A$の点と$\mathbb{R}^n-A$の点を少なくとも1つずつ含む。
+\end{enumerate}
+集合$A$に対し，
+\begin{enumerate}
+\item を満たす点全体を$A$の内部という。
+\item を満たす点全体を$A$の外部という。
+\item を満たす点全体を$A$の境界という。
+\end{enumerate}
+\begin{note}
+$A$の内部は開集合，$A$の外部は開集合となる。よってその残りである$A$の境界は閉集合となる。開集合の和集合は開集合である。
+\end{note}
+$\mathscr{O}$を開集合の族とする。（i.e. $\mathscr{O}=\{U_{\lambda}\subset\mathbb{R}^n:U_\lambda$はopen,$\lambda\in\Lambda\}$）
+\begin{itemize}
+	\item 開被覆（over covering）
+$\mathscr{O}$が$A\subset\mathbb{R}^n$の開被覆（open covering）であるとは，任意の$x\in A$に対して$\mathscr{O}$の中の開集合$U_\lambda$があって$x\in U_\lambda$であることである。
+	\item コンパクト（compact）
+集合$A\subset\mathbb{R}^n$がコンパクト（compact）であるとは，$A$の任意の開被覆$\mathscr{O}$に対して$\mathscr{O}$の中の有限個の開集合をうまく選べば，それだけで$A$を覆うことができることである。
+\begin{example}\
+	\begin{itemize}
+		\item 有限個の点の集合はコンパクト
+		\item $\displaystyle\left\{0と\frac{1}{n}の全部（nは自然数）\right\}$は$\mathbb{R}$のコンパクト集合
+		\item $\displaystyle\left\{\frac{1}{n}の全部（nは自然数）\right\}$は$\mathbb{R}$のコンパクト集合でない。
+	\end{itemize}
+\end{example}
+\end{itemize}
+
+\begin{itemize}
+\item 集合$A\subset\mathbb{R}^n$が有界である$\Leftrightarrow$$\exists M>0\ \rm{s.t.}\ A\subset\{x\in\mathbb{R}^n:|x|<M\}$
+\end{itemize}
+
+\newpage
+
+\begin{framed}
+\begin{thm}[Heine-Borel]
+    閉区間はcompactである。
+\end{thm}
+\end{framed}
+
+\begin{proof}
+$\mathscr{O}$を閉区間$[a,b]$の開被覆とする。$x\in[a,b]$で$[a,x]$が$\mathscr{O}$の中の有限個だけで覆われるものの全体を$A$とする（$A:=\{x\in[a,b]:[a,x]が\mathscr{O}の中の有限個で覆われる\}$）。明らかに$a\in A$であり，$A$は上に有界である（例えば$b$が一つの上界）。compactの定義より$b\in A$を示せばよい。そこで，$A$の上限を$\alpha$とし，
+\begin{enumerate}
+\item $\alpha\in A$
+\item $b=\alpha$
+\end{enumerate}
+を示せばよい。
+\begin{enumerate}
+\item $\mathscr{O}$は$[a,b]$の開被覆であり，$a\leq b$だから$a\in U$となる開集合$U\in\mathscr{O}$が存在する。\\
+$\alpha$は$A$の上限なので，$\alpha$の十分近くに$\exists x\in A$\ \rm{s.t.}\ $x\in U$となるものがある。$x\in A$より$[a,x]$は$\mathscr{O}$の中の有限個で覆われている。また$[x,\alpha]$は1個の開集合$U\in\mathscr{O}$で覆われている。よって$[a,\alpha]=[a,x]\cup[x,\alpha]$は$\mathscr{O}$の有限個で覆われる。したがって$\alpha\in A$
+
+\item $\alpha<b$と仮定する。このとき$\alpha<x'<b$となる$x'$で$U$に属するものが存在する。$\alpha\in A$だから$[a,\alpha]$は$\mathscr{O}$の有限子で覆われている。$[\alpha,x']$も1個の開集合$U\in\mathscr{O}$で覆われている。よって$x'\in A$となり，$\alpha$が$A$の上限であることに矛盾。したがって$\alpha=b$。
+\end{enumerate}
+
+\end{proof}
+
+\begin{itemize}
+\item $B\subset\mathbb{R}^m$がcompactで$x\in\mathbb{R}^n$ならば$\{x\}\times B\subset\mathbb{R}^{n+m}$もcompact。
+\end{itemize}
+
+\begin{framed}
+\begin{thm}\label{th1.4}
+$B\subset\mathbb{R}^m$はcompact，点$x\in\mathbb{R}^n$に対して$\mathscr{O}$を$\{x\}\times B\subset\mathbb{R}^{n+m}$の開被覆とする。このとき，ある開集合$U\subset\mathbb{R}^n$であって$x\in U$かつ$U\times B$は$\mathscr{O}$の中の有限個で覆われるようなものが存在する。
+\end{thm}
+\end{framed}
+
+\begin{proof}
+    $\{x\}\times B$がcompactより，有限個の開被覆（$\mathscr{O}'$とする）を$\mathscr{O}$から選んで$\{x\}\times B$がそれ（$\mathscr{O}$）で覆える。よって$U\times B$が$\mathscr{O}'$で覆われるような開集合$U$を見つければよい。
+    $\forall y\in B$に対して$\exists W\in\mathscr{O}'$\ s.t.\ $(x,y)\in W$（$\because (x,y)\in\{x\}\times B$）。$W$はopenより$\exists U_y\times V_y:$開方体 s.t. $(x,y)\in U_y\times V_y\subset W$。ここで$\{V_y\}_{y\in B}$は$B$の開被覆で$B$はcompactより有限個の$V_y$で$B$を覆うことができる。
+    \[
+        B\subset V_{y_1}\cup V_{y_2}\cup\cdots\cup V_{y_k}
+    \]
+    そこで$U:=U_{y_1}\cap U_{y_2}\cap\cdots\cap U_{y_k}$とおくと，$U$は開方体で，$\forall (x',y')\in U\times B$に対して$y'$はある$i$に対して$y'\in V_{y_i}$であり，かつ$x'\in U_{y_i}$となる。よって$(x',y')\in U_{y_i}\times V_{y_i}$となり，$U_{y_i}\times V_{y_i}$はある$W\in\mathscr{O}'$に含まれる。
+\end{proof}
+
+\begin{framed}
+\begin{cor}
+$A\subset\mathbb{R}^n,B\subset\mathbb{R}^m$が共にcompactならば$A\times B\subset\mathbb{R}^{m+n}$もcompact。
+\end{cor}
+\end{framed}
+
+\begin{proof}
+    $\mathscr{O}$を$A\times B$の開被覆とすると，$\forall x\in A$に対し$\mathscr{O}$は$\{x\}\times B$を覆う。定理\ref{th1.4}より$\exists U_x\subset\mathbb{R}^n:$open s.t. $x\in U_x$かつ$U_x\times B$は$\mathscr{O}$の有限個で覆われる。$A$はcompactで$\{U_x\}_{x\in A}$は$A$の開被覆だから，その中の有限個$U_{x_1},U_{x_2},\cdots,U_{x_k}$がすでに$A$を覆う。各$U_{x_i}\times B$は$\mathscr{O}$の中の有限個で覆われるので，$A\times B$全体が$\mathscr{O}$の中の有限個で覆われる。（$A\subset U_{x_1}\cup U_{x_2}\cup \times \cup U_{x_k}$）
+\end{proof}
+
+\begin{framed}
+    \begin{cor}\label{cor1.6}
+        各$A_i$がcompactならば$A_1\times A_2\times \cdots A_k$もcompactである。特に$\mathbb{R}^k$の閉方体はcompactである。
+    \end{cor}
+\end{framed}
+
+\begin{framed}
+    \begin{cor}
+        $\mathbb{R}^n$の有界閉集合はcompact（逆も成立）
+    \end{cor}
+\end{framed}
+
+\begin{proof}
+    $A\subset\mathbb{R}^n$が有界閉集合ならば$A$を含む閉方体$B$が存在する。$\mathscr{O}$をAの開被覆とすると，$\mathscr{O}$に$\mathbb{R}^n-A$（これはopen）を合わせたものは$B$を覆う。系\ref{cor1.6}より$B$はcompactであるのでその中の有限個$U_1,U_2,\cdots,U_k,\mathbb{R}^n-A$がすでに$B$を覆う。したがって$U_1,U_2,\cdots,U_k$は$A$を覆う。
+\end{proof}
+
+\newpage
+
+\section{$\mathbb{R}^n$上の関数と連続性}
+\begin{itemize}
+    \item $f:\mathbb{R}^n\to\mathbb{R}^m$と書いた時，$f$は$\mathbb{R}^n$から$\mathbb{R}^m$への関数という。
+    \item $A\subset\mathbb{R}^n$に対して$f$が定義され，$f(x)$の値は$B\subset\mathbb{R}^m$に入る時，$f:A\to B$と書く。
+    \item $A$を$f$の定義域（domain）という。
+    \item $f(A):=\{f(x)\in\mathbb{R}^m:x\in A\}$を値域（range）という。
+    \item $c\subset\mathbb{R}^m$に対して$f^{-1}(c):=\{x\in A:f(x)\in c\}$
+    \begin{note}
+        $f^{-1}$は逆写像を用いて定めていない。逆関数の存在もいえない。
+    \end{note}
+    \item $f:A\to B$が単射である，もしくは1対1である$\overset{def}{\Leftrightarrow}$$[x,y\in A,x\neq y \Rightarrow f(x)\neq f(y)]$
+    \item $f:A\to B$が全射である，もしくは上への写像である$\overset{def}{\Leftrightarrow}$$[\forall z\in B,\exists x\in A$\ s.t.\ $f(x)=z]$
+    \item $A\subset\mathbb{R}^n$とする。\\
+    $f:A\to\mathbb{R}^m:$単射\ に対し，逆関数$f^{-1}$は$f(A)\to\mathbb{R}^n$が$z\in f(A)$に対して$f(x)=z$となるただ1つの点$x\in A$を$f^{-1}(z)$と定めることで定義される。\\
+    $f(x)=z$となるただ1つの点を定められないと仮定，すなわち$\exists x'\in A$でも$f(x')=z$とすると，$x\neq x'$のとき，$f$は単射であるので$f(x)\neq f(x')$。このとき$z=f(x)\neq f(x')=z$となり矛盾する。
+    \begin{note}
+        単射かつ全射，すなわち全単射のときは$f$は必ず逆関数をもつ。\\（i.e.$f:A\to B:$全単射$\Rightarrow$$\exists f^{-1}:B\to A$）
+    \end{note}
+    \item 関数の成分表示\\
+    $f:A\to\mathbb{R}^n$に対し
+    \[
+    f(x)=(f^1(x),f^2(x),\cdots,f^m(x))
+    \]
+    と書くことで$m$個の成分表示
+    \[
+    f^1,f^2,\cdots,f^m:A\to\mathbb{R}
+    \]
+    が決まる。
+    \item 関数の極限\\
+    $f:A\to\mathbb{R}^m\ (A\subset\mathbb{R}^n)$に対して
+    \[
+    \lim_{x\to a}f(x)=b \overset{def}{\Leftrightarrow} \forall\epsilon>0,\exists>0\ s.t.\ |x-a|<\delta(x\in A)\Rightarrow|f(x)-b|<\epsilon
+    \]
+    \item 連続性
+    \begin{itemize}
+        \item $f:A\to\mathbb{R}^m$が$a\in A$で連続である$\overset{def}{\Leftrightarrow}$$\displaystyle\lim_{x\to a}f(x)=f(a)$
+        \item $f$が$A$上連続である$\overset{def}{\Leftrightarrow}$$\forall a\in A$で$f$が連続である
+    \end{itemize}
+\end{itemize}
+
+\newpage
+
+\begin{framed}
+    \begin{thm}
+        $f:A\to\mathbb{R}^m\ (A\subset\mathbb{R}^n)$が連続$\Leftrightarrow$$\forall U\subset \mathbb{R}^m:$openに対して$\exists V\subset\mathbb{R}^n:$open\ s.t.\ $f^{-1}(U)=V\cap A$\footnotemark
+    \end{thm}
+\end{framed}
+
+\footnotetext{
+$f:$連続$\Leftrightarrow$open setの逆像がopen set。\\
+ある写像が連続であることとその映った先の開集合の引き戻しが開集合であることは同値である。
+}
+
+\begin{proof}　\\
+    （$\Rightarrow$について）\\
+    $f:$連続とする。$a\in f^{-1}(U)$ならば$f(a)\in U$。$U$はopenより，$\exists B_a:$openb lock(開方体) s.t.\ $f(a)\in B_a\subset U$とできる。$f:$連続ゆえ$a$を含む十分小さいopen block $C_a$をとると，$x\in C_a\cap A$ならば$f(x)\in B_a$となる（これにより$a\in f^{-1}(U)\to C_a$が定まった）。$\displaystyle V:=\bigcup_{a\in f^{-1}(U)}C_a=\{x\in\mathbb{R}^n:\exists a\in f^{-1}(U)$\ s.t.\ $x\in C_a\}$とすると，$V:$openで$f^{-1}(U)=V\cap A$となる。
+    \footnote{
+    $f^{-1}(U)\subset V\cap A$は定義より明らか。$V\cap A\subset f^{-1}(U)$について，$\forall x\in V\cap A$に対して$\exists a\in f^{-1}(U)$\ s.t.\ $x\in C_a\cap A$。このとき$f(x)\in B_a\subset U$より$x\in f^{-1}(U)$。
+    }
+    \\
+    （$\Leftarrow$について）\\
+    $\forall\epsilon>0$に対して$U:=\{y\in\mathbb{R}^m:|y-f(a)<\epsilon|\}$とする。このとき$U$はopen setなので$\exists V\subset\mathbb{R}^n:$open set s.t. $f^{-1}(U)=V\cap A$とできる。$V$は$\mathbb{R}^n$のopen setであり，$a\in V\cap A$であるから$\exists\delta>0$ s.t. $\{x\in A:|x-a|<\delta\}\subset V\cap A$。ゆえに，$f(\{x\in A:|x-a|<\delta\})\subset U$となり\footnote{
+    $\therefore\{x\in A:|x-a|<\delta\}\subset V\cap A=f^{-1}(U)$
+    }，
+    $f$は$A$で連続である。
+    \footnote{
+    $f(\{x\in A:|x-a|<\delta\})\subset\{y\in\mathbb{R}^m:|y-f(a)|<\epsilon\}$より，$\forall\epsilon>0,\exists\delta>0$ s.t. $x\in A,|x-a|<\delta\Rightarrow|f(x)-f(a)|<\epsilon$
+    }
+\end{proof}
+
+\begin{framed}
+    \begin{thm}
+        $f:A\to\mathbb{R}^m(A\subset\mathbb{R}^n)$が連続で$A$がcompactならば$f(A)\subset\mathbb{R}^m$はcompactである。
+    \end{thm}
+\end{framed}
+
+\begin{proof}
+    $\mathscr{O}$を$f(A)$の開被覆とする。$\mathscr{O}$中の各開集合$U$に対し$\mathbb{R}^n$の開集合$V_U$で$f^{-1}(U)=V_U\cap A$となるものが存在する。$\mathscr{O}':=\{V_U\subset\mathbb{R}^n:U\in\mathscr{O}\}$とすると$\mathscr{O}'$は$A$の開被覆。$A$はcompactより$\mathscr{O}'$中の有限個$V_{U_1},V_{U_2},\cdots,V_{U_k}$がすでに覆っている，よって$f(A)$は$U_1,U_2,\cdots,U_k$で覆われる。
+\end{proof}
+
+\newpage
+
+\part{多変数関数の微分}
+
+\section{微分（全微分可能性）}
+
+\paragraph{一変数の微分}
+
+$f:\mathbb{R}\to\mathbb{R}$の微分
+\[
+\lim_{h\to 0}\frac{f(a+h)-f(a)}{h}=f'(a)
+\]
+（言い換え）$a\in\mathbb{R}$で微分可能とは，\\
+\[
+\exists\lambda:\mathbb{R}\to\mathbb{R}:線形写像 s.t. \lim_{h\to 0}\frac{f(a+h)-f(a)-\lambda(h)}{h}=0
+\]
+\footnote{線形写像なら$\lambda(h)=f'(a)h\\ y=px$みたいな}
+
+\begin{thm}[全微分]
+関数$f:\mathbb{R}^n\to\mathbb{R}^m$が点$a\in\mathbb{R}^n$で微分可能（全微分可能）とは，
+\[
+\exists\lambda:\mathbb{R}^n\to\mathbb{R}^m:線形写像 s.t. \lim_{h\to 0}\frac{|f(a+h)-f(a)-\lambda(h)|}{|h|}=0
+\]
+分母は$\mathbb{R}^n$のnorm，分子は$\mathbb{R}^m$のnormであることに注意。$\lambda$は一次元での微分係数の一般化。この$\lambda$を$Df(a)$と書く。
+\end{thm}
+
+\newpage
+
+\begin{framed}
+	\begin{thm}
+		$f:\mathbb{R}^n\to\mathbb{R}^m$が$a\in\mathbb{R}^n$で全微分可能のとき，$\mathbb{R}^n$から$\mathbb{R}^m$の線形写像$\lambda$で$\displaystyle \lim_{h\to 0}\frac{|f(a+h)-f(a)-\lambda(h)|}{|h|}=0 $を満たすものは1つしかない。
+	\end{thm}
+\end{framed}
+
+\footnote{一意性の証明は2つ持ってきて矛盾させる。}
+
+\begin{proof}
+	線形写像$\mu:\mathbb{R}^n\to\mathbb{R}^m$も$\displaystyle \lim_{h\to 0}\frac{|f(a+h)-f(a)-\lambda(h)|}{|h|}=0$を満たすとする。
+	\[
+	\begin{split}
+	\lim_{h\to 0}\frac{|\lambda(h)-\mu(h)|}{|h|}
+	&= \lim_{h\to0}\frac{|\lambda(h)-\{f(a+h)-f(a)\}+\{f(a+h)-f(a)\}-\mu(h)|}{|h|}\\
+	&\leq\lim_{h\to0}\frac{|f(a+h)-f(a)-\lambda(h)|}{|h|}+\lim_{h\to0}\frac{|f(a+h)-f(a)-mu(h)|}{|h|}\footnotemark\\
+	&= 0\footnotemark
+	\end{split}
+	\]
+	\footnotetext{normの三角不等式。}
+	\footnotetext{微分の定義と仮定から。}
+	よって
+	\[
+	\lim_{h\to0}\frac{|\lambda(h)-\mu(h)|}{|h|}=0
+	\]
+	よって，$\forall x\in\mathbb{R}^n$に対し$t\to0$のとき$tx\to0$となるので，$\forall x\neq0$に対し上式より（$h=tx$として）
+	\[
+	\begin{split}
+	0 &=\lim_{t\to0}\frac{|\lambda(tx)-\mu(tx)|}{tx}\\
+	&= \lim_{t\to0}\frac{|\lambda(x)-\mu(x)|}{|x|}\footnotemark\\
+	&= \frac{|\lambda(x)-\mu(x)|}{|x|}
+	\end{split}
+	\]
+	よって$\lambda(x)=\mu(x)$$(\forall x\in\mathbb{R}^n)$となる。
+	\footnotetext{
+	線形写像$\lambda(h)=Ah$は$\lambda(tx)=t\lambda(x),\lambda(0)=0$
+	}
+\end{proof}
+
+\footnote{$\lambda:\mathbb{R}^n\to\mathbb{R}^m\Leftrightarrow A:m\times n$行列$\lambda(x)=Ax$}
+
+\newpage
+
+\paragraph{$Df(a):\mathbb{R}^n\to\mathbb{R}^m$について}
+これは$\mathbb{R}^n$から$\mathbb{R}^m$への線形写像なので$\mathbb{R}^n$と$\mathbb{R}^m$の標準基底に関する表現行列（$m\times n$行列）を用いると具体的に表せる。この$m\times n$行列を$f$の$a$でのヤコピ行列といい，$f'(a)$とかく。
+
+$f:\mathbb{R}^n\to\mathbb{R}^m$，$x=(x^1,x^2,\cdots,x^n)$$f={}^{t}(f^1,f^2,\cdots,f^m)$
+\[
+Df(a)=f'(a)=
+\begin{pmatrix}
+u_{11} & u_{12} & \cdots & \cdots & \cdots & a_{1n}\\
+u_{21} & u_{22} &        &        &        & a_{2n} \\
+\vdots &        & \ddots &        &        & \vdots \\
+\vdots &        &        & u_{ij} &        & \vdots \\
+\vdots &        &        &        & \ddots & \vdots \\
+u_{m1} & u_{m2} & \cdots & \cdots & \cdots & a_{mn}
+\end{pmatrix}
+\]
+ただし$\displaystyle u_{ij}=\frac{\partial f^i}{\partial x^j}(a)$である。
+
+\begin{note}\
+	\begin{itemize}
+		\item 関数$f$が$\mathbb{R}^n$の点$a$を含むある開集合上だけで定義されている場合でも$Df(a)$は定義できる。（$Df(a):\mathbb{R}^n\to\mathbb{R}^m$:linear）
+		\item 関数$f:A\to\mathbb{R}^m$が$A$だけでしか定義されていない場合は$f$が$A$を含むある開集合上の可微分関数に拡張できる時，$f$は$A$上微分可能という。
+		\item 全微分可能ならば連続である。
+	\end{itemize}
+\end{note}
+
+\begin{example}
+$f(x,y)={}^{t}(f^1(x,y),f^2(x,y))={}^{t}(xy,x+y)$\\
+これを	$(x,y)=(a,b)$で微分$(a,b)\to(a+h,b+k)$
+\[
+\begin{split}
+\lim_{
+\tiny
+\begin{pmatrix}
+h \\
+k \\
+\end{pmatrix}
+\to
+\begin{pmatrix}
+0 \\
+0 \\
+\end{pmatrix}}
+\frac{
+\left|
+\begin{pmatrix}
+(a+h)(b+k) \\
+(a+h)+(b+k) \\
+\end{pmatrix}
+-
+\begin{pmatrix}
+ab \\
+a+b \\
+\end{pmatrix}
+-
+\begin{pmatrix}
+b & a \\
+1 & 1\\
+\end{pmatrix}
+\begin{pmatrix}
+h \\
+k \\
+\end{pmatrix}
+\right|
+}
+{\left|\begin{pmatrix}
+h \\
+k \\
+\end{pmatrix}\right|}
+&=
+\lim_{
+\tiny
+\begin{pmatrix}
+h \\
+k \\
+\end{pmatrix}
+\to
+\begin{pmatrix}
+0 \\
+0 \\
+\end{pmatrix}}
+\frac{\left|
+\begin{pmatrix}
+hk \\
+0 \\
+\end{pmatrix}
+\right|}{\left|
+\begin{pmatrix}
+h \\
+k \\
+\end{pmatrix}
+\right|}
+\\
+&=
+\lim_{
+\tiny
+\begin{pmatrix}
+h \\
+k \\
+\end{pmatrix}
+\to
+\begin{pmatrix}
+0 \\
+0 \\
+\end{pmatrix}}
+\frac{|hk|}{\sqrt{h^2+k^2}}\to0
+\end{split}
+\]
+\end{example}
+\footnote{
+$
+\begin{pmatrix}
+ak+bh+hk \\
+h+k \\
+\end{pmatrix}
+=
+\begin{pmatrix}
+b & a \\
+1 & 1\\
+\end{pmatrix}
+\begin{pmatrix}
+h \\
+k \\
+\end{pmatrix}
++
+\begin{pmatrix}
+h,kの\\
+二次以上 \\
+\end{pmatrix}
+$
+}
+
+\newpage
+
+\section{合成関数の微分と積の微分}
+
+\begin{framed}
+	\begin{thm}\label{th2.2}
+		$f:\mathbb{R}^n\to\mathbb{R}^m$が$a\in\mathbb{R}^n$で全微分可能，$g:\mathbb{R}^m\to\mathbb{R}^l$が$f(a)$で全微分可能ならば，$g\circ f:\mathbb{R}^n\to\mathbb{R}^l$は$a\in\mathbb{R}^n$で全微分可能で
+		\[
+		D(g\circ f)(a)=Dg(f(a))\circ Df(a)
+		\]
+		（これは$(g\circ f)'(a)=g'(f(a))\cdot f'(a)$と行列の積の形でもかける。）（$f(a)=b$とすれば$Dg(b)\circ Df(a)$）
+	\end{thm}
+\end{framed}
+
+\begin{proof}
+	$b:=f(a)$，$\lambda=Df(a)$，$\mu:=Dg(f(a))$とおき，
+	\begin{equation}
+	\phi(x):=f(x)-f(a)-\lambda(x-a)
+	\end{equation}
+	\begin{equation}
+		\psi(x):=g(y)-g(b)-\mu(y-b)
+	\end{equation}
+	\begin{equation}
+		\rho(x):=g\circ f(x)-g\circ f(a)-\mu\circ\lambda(x-a)
+	\end{equation}
+	とおく。
+	$f$と$g$は全微分可能より
+	\begin{equation}
+		\lim_{x\to a}\frac{|\phi(x)|}{|x-a|}=0
+	\end{equation}
+	\footnote{
+	$
+	\displaystyle\lim_{x\to a}\frac{|f(x)-f(a)-\lambda(x-a)|}{|x-a|}=0
+	$
+	}
+	\begin{equation}
+		\lim_{y\to b}\frac{|\psi(x)|}{|y-b|}=0
+	\end{equation}
+	\footnote{
+	$
+	\displaystyle\lim_{y\to b}\frac{|g(y)-g(b)-\mu(y-b)|}{|y-b|}=0
+	$
+	}
+	このとき$\displaystyle\lim_{x\to a}\frac{|\rho(x)|}{|x-a|}=0$を示せばよい。
+	\footnote{
+	$
+	\displaystyle\lim_{x\to a}\frac{|g\circ f(x)-g\circ f(a)-\mu\circ\lambda(x-a)|}{|x-a|}=0
+	$
+	}
+	\[
+	\begin{split}
+	\rho(x) &= g(f(x))-g(b)-\mu(\lambda(x-a))\\
+	&= g(f(x))-g(b)-\mu(f(x)-f(a)-\phi(x))\\
+	&=\{g(f(x))-g(b)-\mu(f(x)-f(a))\}+\mu(\phi(x))\footnotemark\\
+	&=\psi (f(x))+\mu (\phi(x))
+	\end{split}
+	\]
+	\footnotetext{$\because$(2)}
+	となるので，次の2つが示されればよい。
+	\begin{equation}\label{th2.2*}
+		\lim_{x\to a}\frac{|\phi(f(x))|}{|x-a|}=0
+	\end{equation}
+	\begin{equation}\label{th2.2**}
+		\lim_{x\to a}\frac{|\mu(\phi(x))|}{|x-a|}=0
+	\end{equation}
+	(\ref{th2.2**})は(4)と演習問題1の1より明らか。\\
+$\mu:$linearならば$\mu(h)\leq\exists M|h|$が成立する。
+\[
+\frac{|\mu(\phi(x))|}{|x-a|}\leq\frac{\exists M|\phi(x)|}{|x-a|}\to0\ (x\to a)
+\]
+(\ref{th2.2*})については，$\forall\epsilon>0$と，(5)によって$\exists\delta>0$を選んで
+\[
+|f(x)-b|<\delta\Rightarrow|\psi(f(x))|<\epsilon|f(x)-b|
+\]
+さらに$f:$全微分可能より，$f$は連続なので$\exists\delta_1>0$ s.t. $|x-a|<\delta_1\Rightarrow|f(x)-b|<\delta$とできる。\\
+よって
+\[
+\begin{split}
+|\psi(f(x))| &< \epsilon|f(x)-b|\\
+&= \epsilon|\phi(x)+\lambda(x-a)|\footnotemark\\
+&\leq \epsilon|\phi(x)|+\epsilon M|x-a|\footnotemark
+\end{split}
+\]
+\footnotetext{$\because$(1)}
+\footnotetext{$|\lambda(x-a)|\leq\exists M|x-a|$（演習問題1[1]aより）}
+ゆえに
+\[
+|x-a|<\delta_1\Rightarrow\frac{|\psi(f(x))|}{|x-a|}<\epsilon\frac{|\phi(x)|}{|x-a|}+\epsilon M
+\]
+\footnote{
+$\frac{|\phi(x)|}{|x-a|}$は(4)より十分小
+}よって
+\[
+\lim_{x\to a}\frac{|\psi(f(x))|}{|x-a|}=0
+\]
+\end{proof}
+
+\newpage
+
+\begin{framed}
+	\begin{thm}\
+		\begin{enumerate}
+			\item $f:\mathbb{R}^n\to\mathbb{R}^m:$定数値関数$\Rightarrow Df(a)=0\ (\forall a\in\mathbb{R}^n)$
+			\item $f:\mathbb{R}^n\to\mathbb{R}^m:$線形写像$\Rightarrow Df(a)=f\ (\forall a\in\mathbb{R}^n)$
+			\item $f:\mathbb{R}^n\to\mathbb{R}^m$が$a$で全微分可能$\Leftrightarrow$各成分関数$f^i$が$a$で全微分可能$(\forall i=1,2,\cdots,m)$\\
+			このとき$Df(a)={}^{t}(Df^1(a),Df^2(a),\cdots,Df^m(a))$
+		\end{enumerate}
+	\end{thm}
+\end{framed}
+
+\begin{proof}\
+	\begin{enumerate}
+		\item $f(x)=b$（$=$Const.）とすると
+		\[
+		\lim_{h\to 0}\frac{|f(a+h)-f(a)|}{|h|}=\lim_{h\to 0}\frac{|b-b-0|}{h}=0
+		\]
+		\item $f$がlinearのとき
+		\[
+		\lim_{h\to0}\frac{|f(a+h)-f(a)-f(h)|}{|h|}=\lim_{h\to0}\frac{|f(a)+f(h)-f(a)-f(h)|}{|h|}=0
+		\]
+		\item 各$f'$が$a$で全微分可能のとき，$\lambda:={}^{t}(Df^1(a),Df^2(a),\cdots,Df^m(a))$とおく。\footnote{こうすることで$m\times n$行列をつくる。}
+		\[
+		\begin{split}
+		& f(a+h)-f(a)-\lambda(h)\\
+		& = {}^{t}\left(f^1(a+h)-f^1(a)-Df^1(a)(h),\cdots,f^m(a+h)-f^m(a)-Df^m(a)(h)\right)
+		\end{split}
+		\]
+		したがって
+		\[
+		\begin{split}
+		\lim_{h\to0}\frac{|f(a+h)-f(a)-\lambda(h)|}{|h|} &\leq \lim_{h\to0}\sum_{i=1}^m\frac{|f^i(a+h)-f^i(a)-Df^i(a)(h)|}{|h|}\\
+		&=0\footnotemark
+		\end{split}
+		\]
+		\footnotetext{一般に$z\in\mathbb{R}^m$に対して$\sqrt{\sum_{i=1}^m|z^i|^2}=|z|_m\leq\sum_{i=1}^m|z_i|$}
+	\end{enumerate}
+\end{proof}
+逆に$f$が$a$で全微分可能のとき(2)と定理$\ref{th2.2}$より$f^i=\pi^i\circ f$も$a$で全微分可能。\\
+ただし，$\pi$は$\pi^i:\mathbb{R}^m\to\mathbb{R}:$$x=(x^1,x^2\cdots,x^m)$に対して$\pi^i(x)=x^i$という線形写像（座標関数という）。
+
+\begin{framed}
+	\begin{cor}
+		$f,g:\mathbb{R}^n\to\mathbb{R}$が$a$で全微分可能ならば，$f+g$と$fg$も$a$で全微分可能で
+		\[
+		\begin{cases}
+			D(f+g)(a) &= Df(a)+Dg(a)\\
+			D(fg)(a) &= g(a)Df(a)+f(a)Dg(a)
+		\end{cases}
+		\]
+	\end{cor}
+\end{framed}
+
+
+\end{document}
