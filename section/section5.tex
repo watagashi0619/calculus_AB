@@ -1,0 +1,170 @@
+\section{合成関数の微分と積の微分}
+
+\begin{framed}
+	\begin{thm}\label{th2.2}
+		$f:\mathbb{R}^n\to\mathbb{R}^m$が$a\in\mathbb{R}^n$で全微分可能，$g:\mathbb{R}^m\to\mathbb{R}^l$が$f(a)$で全微分可能ならば，$g\circ f:\mathbb{R}^n\to\mathbb{R}^l$は$a\in\mathbb{R}^n$で全微分可能で
+		\[
+		D(g\circ f)(a)=Dg(f(a))\circ Df(a)
+		\]
+		（これは$(g\circ f)'(a)=g'(f(a))\cdot f'(a)$と行列の積の形でもかける。）（$f(a)=b$とすれば$Dg(b)\circ Df(a)$）
+	\end{thm}
+\end{framed}
+
+\begin{proof}
+	$b:=f(a)$，$\lambda=Df(a)$，$\mu:=Dg(f(a))$とおき，
+	\begin{equation}
+	\phi(x):=f(x)-f(a)-\lambda(x-a)
+	\end{equation}
+	\begin{equation}
+		\psi(x):=g(y)-g(b)-\mu(y-b)
+	\end{equation}
+	\begin{equation}
+		\rho(x):=g\circ f(x)-g\circ f(a)-\mu\circ\lambda(x-a)
+	\end{equation}
+	とおく。
+	$f$と$g$は全微分可能より
+	\begin{equation}
+		\lim_{x\to a}\frac{|\phi(x)|}{|x-a|}=0
+	\end{equation}
+	\footnote{
+	$
+	\displaystyle\lim_{x\to a}\frac{|f(x)-f(a)-\lambda(x-a)|}{|x-a|}=0
+	$
+	}
+	\begin{equation}
+		\lim_{y\to b}\frac{|\psi(x)|}{|y-b|}=0
+	\end{equation}
+	\footnote{
+	$
+	\displaystyle\lim_{y\to b}\frac{|g(y)-g(b)-\mu(y-b)|}{|y-b|}=0
+	$
+	}
+	このとき$\displaystyle\lim_{x\to a}\frac{|\rho(x)|}{|x-a|}=0$を示せばよい。
+	\footnote{
+	$
+	\displaystyle\lim_{x\to a}\frac{|g\circ f(x)-g\circ f(a)-\mu\circ\lambda(x-a)|}{|x-a|}=0
+	$
+	}
+	\[
+	\begin{split}
+	\rho(x) &= g(f(x))-g(b)-\mu(\lambda(x-a))\\
+	&= g(f(x))-g(b)-\mu(f(x)-f(a)-\phi(x))\\
+	&=\{g(f(x))-g(b)-\mu(f(x)-f(a))\}+\mu(\phi(x))\footnotemark\\
+	&=\psi (f(x))+\mu (\phi(x))
+	\end{split}
+	\]
+	\footnotetext{$\because$(2)}
+	となるので，次の2つが示されればよい。
+	\begin{equation}\label{th2.2*}
+		\lim_{x\to a}\frac{|\phi(f(x))|}{|x-a|}=0
+	\end{equation}
+	\begin{equation}\label{th2.2**}
+		\lim_{x\to a}\frac{|\mu(\phi(x))|}{|x-a|}=0
+	\end{equation}
+	(\ref{th2.2**})は(4)と演習問題1の1\footnotemark より明らか。
+
+\footnotetext{
+{\bf 演習問題1の1}\ \
+$T$を$\mathbb{R}^m$から$\mathbb{R}^n$への線形写像とする。このとき，ある数$M>0$が存在して，任意の$h\in\mathbb{R}^m$に対して$|T(h)|_n\leq M|h|_m$が成立することを示せ。
+\begin{proof}[演習問題1の1の証明]
+    線形写像$T$の表現行列を$(a_{ij})$とし，$A:=\max_{1\leq i\leq n,1\leq j\leq m}|a_{ij}|$とおく。一般に次の不等式
+    \[
+        \left(\sum_{j=1}^m x_j\right)^2\leq m\sum_{j=1}^m x_j^2
+    \]
+    が成り立つ。なぜならば
+    \[
+        m\sum_{j=1}^m x_j^2-\left(\sum_{j=1}^m x^j\right)^2=\frac{1}{2}\sum_{j,k=1}^m(x_j-x_k)^2\geq0
+    \]
+    これを用いて
+    \[
+        |T(h)|_n^2=\sum_{i=1}^n\left(\sum_{j=1}^m a_{ij}h_j\right)^2\leq\sum_{i=1}^n A^2\left(\sum_{j=1}^m|h_j|\right)^2\leq mA^2\sum_{i=1}^n\sum_{j=1}^m|h_j|^2=mA^2\sum_{i=1}^n|h|_m^2=mA^2n|h|_m^2
+    \]
+    以上から$M:=A\sqrt{mn}$とすればよい。
+\end{proof}
+}
+
+$\mu:$linearならば$\mu(h)\leq\exists M|h|$が成立する。
+\[
+\frac{|\mu(\phi(x))|}{|x-a|}\leq\frac{\exists M|\phi(x)|}{|x-a|}\to0\ (x\to a)
+\]
+(\ref{th2.2*})については，$\forall\epsilon>0$と，(5)によって$\exists\delta>0$を選んで
+\[
+|f(x)-b|<\delta\Rightarrow|\psi(f(x))|<\epsilon|f(x)-b|
+\]
+さらに$f:$全微分可能より，$f$は連続なので$\exists\delta_1>0$ s.t. $|x-a|<\delta_1\Rightarrow|f(x)-b|<\delta$とできる。\\
+よって
+\[
+\begin{split}
+|\psi(f(x))| &< \epsilon|f(x)-b|\\
+&= \epsilon|\phi(x)+\lambda(x-a)|\footnotemark\\
+&\leq \epsilon|\phi(x)|+\epsilon M|x-a|\footnotemark
+\end{split}
+\]
+\footnotetext{$\because$(1)}
+\footnotetext{$|\lambda(x-a)|\leq\exists M|x-a|$（演習問題1の1より）}
+ゆえに
+\[
+|x-a|<\delta_1\Rightarrow\frac{|\psi(f(x))|}{|x-a|}<\epsilon\frac{|\phi(x)|}{|x-a|}+\epsilon M
+\]
+\footnote{
+$\frac{|\phi(x)|}{|x-a|}$は(4)より十分小
+}よって
+\[
+\lim_{x\to a}\frac{|\psi(f(x))|}{|x-a|}=0
+\]
+\end{proof}
+
+\newpage
+
+\begin{framed}
+	\begin{thm}\label{th2.3}\
+		\begin{enumerate}
+			\item $f:\mathbb{R}^n\to\mathbb{R}^m:$定数値関数$\Rightarrow Df(a)=0\ (\forall a\in\mathbb{R}^n)$
+			\item $f:\mathbb{R}^n\to\mathbb{R}^m:$線形写像$\Rightarrow Df(a)=f\ (\forall a\in\mathbb{R}^n)$
+			\item $f:\mathbb{R}^n\to\mathbb{R}^m$が$a$で全微分可能$\Leftrightarrow$各成分関数$f^i$が$a$で全微分可能$(\forall i=1,2,\cdots,m)$\\
+			このとき$Df(a)={}^{t}(Df^1(a),Df^2(a),\cdots,Df^m(a))$
+		\end{enumerate}
+	\end{thm}
+\end{framed}
+
+\begin{proof}\
+	\begin{enumerate}
+		\item $f(x)=b$（$=$Const.）とすると
+		\[
+		\lim_{h\to 0}\frac{|f(a+h)-f(a)|}{|h|}=\lim_{h\to 0}\frac{|b-b|}{h}=0
+		\]
+		\item $f$がlinearのとき
+		\[
+		\lim_{h\to0}\frac{|f(a+h)-f(a)-f(h)|}{|h|}=\lim_{h\to0}\frac{|f(a)+f(h)-f(a)-f(h)|}{|h|}=0
+		\]
+		\item 各$f'$が$a$で全微分可能のとき，$\lambda:={}^{t}(Df^1(a),Df^2(a),\cdots,Df^m(a))$とおく。\footnote{こうすることで$m\times n$行列をつくる。}
+		\[
+		\begin{split}
+		& f(a+h)-f(a)-\lambda(h)\\
+		& = {}^{t}\left(f^1(a+h)-f^1(a)-Df^1(a)(h),\cdots,f^m(a+h)-f^m(a)-Df^m(a)(h)\right)
+		\end{split}
+		\]
+		したがって
+		\[
+		\begin{split}
+		\lim_{h\to0}\frac{|f(a+h)-f(a)-\lambda(h)|}{|h|} &\leq \lim_{h\to0}\sum_{i=1}^m\frac{|f^i(a+h)-f^i(a)-Df^i(a)(h)|}{|h|}\\
+		&=0\footnotemark
+		\end{split}
+		\]
+		\footnotetext{一般に$z\in\mathbb{R}^m$に対して$\sqrt{\sum_{i=1}^m|z^i|^2}=|z|_m\leq\sum_{i=1}^m|z_i|$}
+	\end{enumerate}
+\end{proof}
+逆に$f$が$a$で全微分可能のとき(2)と定理$\ref{th2.2}$より$f^i=\pi^i\circ f$も$a$で全微分可能。\\
+ただし，$\pi$は$\pi^i:\mathbb{R}^m\to\mathbb{R}:$$x=(x^1,x^2\cdots,x^m)$に対して$\pi^i(x)=x^i$という線形写像（座標関数という）。
+
+\begin{framed}
+	\begin{cor}
+		$f,g:\mathbb{R}^n\to\mathbb{R}$が$a$で全微分可能ならば，$f+g$と$fg$も$a$で全微分可能で
+		\[
+		\begin{cases}
+			D(f+g)(a) &= Df(a)+Dg(a)\\
+			D(fg)(a) &= g(a)Df(a)+f(a)Dg(a)
+		\end{cases}
+		\]
+	\end{cor}
+\end{framed}

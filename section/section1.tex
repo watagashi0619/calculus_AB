@@ -1,0 +1,172 @@
+\part{$n$次元ユークリッド空間$\mathbb{R}^n$}
+
+\section{$\mathbb{R}^n$のノルムと内積}
+\[\mathbb{R}^n:=\{x=(x^1,x^2,\cdots,x^k):x^k\in\mathbb{R}(\forall k=1,\cdots,n)\}\footnotemark\]
+\footnotetext{
+次元の$x^k$は$x^{(k)}$等と書くこともある。
+}
+$\mathbb{R}^n$は$n$次元実線形空間である（ベクトル空間）。\\
+$V$が線形空間であるとは，スカラー倍と和が定義された空間のことである。
+\begin{example}
+$\forall x,\forall y\in V,\alpha,\beta\in\mathbb{R}$とするとき$\alpha x\in V,x+y\in V,\alpha x+\beta y\in V$
+\end{example}
+\paragraph{ノルム - norm}
+ベクトル$x=(x^1,\cdots,x^n)$の長さの概念
+\[|x|_n=|x|:=\sqrt{(x^1)^2+(x^2)^2+\cdots+(x^n)^2}\footnotemark\]
+\footnotetext{
+$l_2$normといい，$||x||_2$とも書く。なお$l_1$normは$\sum_{k=1}^n|x^k|$。
+}
+\begin{framed}
+\begin{thm}
+$x,y\in\mathbb{R}^n,a\in\mathbb{R}$に対し
+\begin{enumerate}
+	\item $|x|\geq0$であり$|x|=0$となるのは$x=0$\footnote{この$0$は$(0,0,\cdot,0)\in\mathbb{R}^n$のこと。}のみ。
+	\item $\displaystyle \left|\sum_{i=1}^n x^iy^i\right|\leq|x||y|$が成り立つ。等号成立は$x$と$y$が線形従属のときのみ。\footnotemark
+	\item $|x+y|_n\leq|x|_n+|y|_n$
+	\item $|ax|_n=|a||x|_n$
+\end{enumerate}
+\footnotetext{
+論文等では$||y||_1\leq\sqrt{n}||y||_2$といった使い方をよくする。
+}
+\end{thm}
+\end{framed}
+\begin{proof}　
+\begin{enumerate}
+	\item 明らか。
+	\item $x$と$y$が線形従属ならば$x=\lambda y$\ $(\lambda\neq0)$とする。
+	\[
+	\begin{split}
+	\sum_{i=1}^n x^iy^i &= \sum_{i=1}^n(\lambda y^i)y^i\\
+	&=\lambda\sum_{i=1}^n(y^i)^2\\
+	&=\lambda|y|^2
+	\end{split}
+	\]
+	\[
+	\begin{split}
+	|x|&=|\lambda y|\\
+	&=\sqrt{\sum_{i=1}^n(\lambda y^i)^2}\\
+	&=|\lambda|\sqrt{\sum_{i=1}^n(y^i)^2}\\
+	&=|\lambda||y|
+	\end{split}
+	\]
+	\[
+	\begin{split}
+	\left|\sum_{i=1}^nx^iy^i\right|&=|\lambda||y|^2\\
+	&=|\lambda||y|\cdot|y|\\
+	&=|x||y|
+	\end{split}
+	\]
+	$x$と$y$が線形従属でないとき，$\forall\lambda\in\mathbb{R}$に対して$\lambda x-y\neq0$だから
+	\[
+	\begin{split}
+		0&<|\lambda y-x|^2\\
+		&\sum_{i=1}^n(\lambda y^i-x^i)^2\\
+		&=\lambda^2\sum_{i=1}^n(y^i)^2-2\lambda\sum_{i=1}^nx^iy^i+\sum_{i=1}^n(x^i)^2
+	\end{split}
+	\]
+	となる。右辺の$\lambda$の2次方程式は実解を持たないので，判別式は負。
+	\[
+	4\left(\sum_{i=1}^nx^iy^i\right)^2-4 \sum_{i=1}^n(x^i)^2 \sum_{i=1}^n(y^i)^2<0
+	\]
+	\item
+	\[
+	\begin{split}
+	|x+y|^2&=\sum_{i=1}^n(x^i+y^i)^2\\
+	&=\sum_{i=1}^n(x^i)^2+\sum_{i=1}^n(y^i)^2+2\sum_{i=1}^nx^iy^i\\
+	&\leq|x|^2+|y|^2+2|x||y|\\
+	&=(|x|+|y|)^2
+    \end{split}
+	\]
+	\item 2.の途中で示した。
+\end{enumerate}
+\end{proof}
+
+\newpage
+
+\paragraph{内積 - inner product}
+$x,y\in\mathbb{R}^n$に対して$\displaystyle\braket{x,y}:=\sum_{i=1}^nx^iy^i$を$x$と$y$の内積という。
+\begin{framed}
+\begin{thm}\
+\begin{enumerate}
+	\item 対称性：$\braket{x,y}=\braket{y,x}$
+	\item 双線形性：
+	$\braket{ax,y}=\braket{x,ay}=a\braket{x,y}$
+	$\braket{x_1+x_2,y}=\braket{x_1,y}+\braket{x_2,y}$
+	$\braket{x,y_1+y_2}=\braket{x,y_1}+\braket{x,y_2}$
+	\item $\braket{x,x}\geq0$であり，$\braket{x,x}=0$となるのは$x=0$のときのみ
+	\item $|x|=\sqrt{\braket{x,x}}$
+	\item 偏極等式：$\displaystyle\braket{x,y}=\frac{|x+y|^2-|x-y|^2}{4}$\footnotemark
+	\end{enumerate}
+\end{thm}
+\end{framed}
+\footnotetext{内積の方が厳しい。ノルム空間の方がゆるい。たまたま内積から作られたノルムであれば内積を作り直すようなものが作れる。}
+\begin{proof}　
+\begin{enumerate}
+	\item \[\braket{x,y}=\sum_{i=1}^nx^iy^i= \sum_{i=1}^ny^ix^i=\braket{y,x}\]
+	\item \[\braket{ax,y}= \sum_{i=1}^n(ax^i)y^i=a \sum_{i=1}^nx^iy^i=a\braket{x,y}\]
+	\[\braket{x_1+x_2,y}= \sum_{i=1}^n(x_1^i+x_2^i)y^i= \sum_{i=1}^nx_1^iy^i+ \sum_{i=1}^nx_2^iy^i=\braket{x_1,y}+\braket{x_2,y}\]
+	\item 明らか
+	\item 明らか
+	\item
+	\[
+	\begin{split}
+	\frac{|x+y|^2-|x-y|^2}{4}&=\frac{1}{4}\left(\braket{x+y,x+y}-\braket{x-y,x-y}\right)\\
+	&=\frac{1}{4}\left\{\braket{x,x}+2\braket{x,y}+\braket{y,y}-(\braket{x,x}-2\braket{x,y}+\braket{y,y})\right\}\\
+	&=\braket{x,y}
+	\end{split}
+	\]
+\end{enumerate}
+
+\end{proof}
+
+\newpage
+
+\begin{note}　
+	\begin{itemize}
+		\item 零ベクトル$(0,0,\cdots,0)\in\mathbb{R}^n$を$0$と表記する。
+		\item $i$番目成分のみが1で他が0であるベクトル$e_i=(0,\cdots,1,\cdots,0)$とすると，$e_1,e_2,\cdots,e_n$は$\mathbb{R}^n$の基底（base）となる。
+		\begin{dfn*}
+		ベクトル空間$V$に対し，$\{v_1,v_2,\cdots,v_n\}$が基底であるとは，
+		\begin{itemize}
+			\item $v_1,v_2,\cdots,v_n$は線形独立
+			\item $\forall x\in V$に対して$\exists\alpha_1,\alpha_2,\cdots,\alpha_n\in\mathbb{R}$\ s.t.\ $x=\sum_{i=1}^n\alpha_iv_i$
+		\end{itemize}
+    \end{dfn*}
+	\item $T:\mathbb{R}^n\to\mathbb{R}^n$：線形写像\\
+	$\forall x,y\in\mathbb{R}$に対して
+	$\begin{cases}
+		T(x+y)=T(x)+T(y)\\
+		T(\alpha x)=\alpha T(x)
+	\end{cases}$\footnote{つまり$T(\alpha x+\beta y)=\alpha T(x)+\beta T(y)$}\\
+	ある1つの行列$A=(a_{ij})$（$m\times n$行列）\footnote{$T$の表現行列という。}が存在して
+	\[T(x)=Ax\]
+	と書ける。
+	\[
+	T(b_i)=\sum_{i=1}^n a_{ji}e_j
+	\]
+	ベクトル$T(b_i)$は行列$A$の第$i$列になっている。\\
+	$S:\mathbb{R}^m\to\mathbb{R}^l$：線形写像の表現行列を$B$（$l\times n$行列）とすると，合成写像$S\circ T(x)=S(T(x))$の表現行列は$BA$となる。
+	\item $x\in\mathbb{R}^n,y\in\mathbb{R}^m$に対して$(x,y)\in\mathbb{R}^{n+m}$で$(x^1,x^2,\cdots,x^n,y^1,y^2,\cdots,y^n)\in\mathbb{R}^{n+m}$と表すものとする。
+	\end{itemize}
+
+\end{note}
+\paragraph{点列の極限について}
+$\{x_m\}_{m=1}^\infty\subset\mathbb{R}^n$を$\mathbb{R}^n$の点列とする。
+\begin{itemize}
+	\item $\displaystyle\{x_m\}_{m=1}^\infty $が$x\in\mathbb{R}^n$に収束する$\displaystyle\overset{def}{\Leftrightarrow}\lim_{m\to\infty}|x_m-x|_n=0$
+	\begin{note}
+	$\displaystyle \lim_{m\to\infty}|x_m-x|=0\Leftrightarrow\lim_{m\to\infty}\sqrt{\sum_{i=1}^n(x_m^i-x^i)^2}=0\Leftrightarrow\lim_{m\to\infty}|x_m^i-x^i|=0 (\forall i)$
+	\end{note}
+	\item $\displaystyle\{x_m\}_{m=1}^\infty $がCauchy列$\displaystyle\overset{def}{\Leftrightarrow}\lim_{m,l\to\infty}|x_m-x_l|_n=0\Leftrightarrow\forall\epsilon>0,\exists M\in\mathbb{N}\ $s.t.\ $\forall m,\forall l>M \Rightarrow |x_m-x_l|<\epsilon$
+	\item $\{x_m\}_{m=1}^\infty\subset\mathbb{R}^n$が収束列であることとCauchy列であることは同値。
+	\begin{proof}
+	上の注意を用いれば1次元$\mathbb{R}$のときと同じなのでOK（前期Th3.8）
+	\end{proof}
+	\item $\{x_m\}_{m=1}^\infty\subset\mathbb{R}^n$が有界$\overset{def}{\Leftrightarrow} \exists M>0\ s.t.\ |x_m|<M\ (\forall n)$
+	\item Bolzano-Weierstrassの定理\\
+	$\{x_m\}\subset\mathbb{R}^n$が有界ならば$\{x_m\}_{m=1}^\infty$は収束する部分列が選べる。\\
+	（i.e.\ $\exists\{x_{m_k}\}_{k=1}^\infty\subset\{x_m\}\ $s.t.\ $x_{m_k}\to\exists x\ (k\to\infty)$）
+	\begin{proof}
+	$\{x_m\}$は有界列なので各成分$\{x_m^i\}_{m=1}^\infty\subset\mathbb{R}$は$\mathbb{R}$の有界列となる。第1成分$\{x^1_m\}_{m=1}^\infty\subset\mathbb{R}$から$\mathbb{R}$で収束する部分列がとれる。その部分列から第2成分$\{x_m^2\}$が$\mathbb{R}$で収束する部分列が同様にとれる。これを繰り返す。
+	\end{proof}
+\end{itemize}

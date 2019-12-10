@@ -1,0 +1,91 @@
+\section{測度0集合}
+\begin{dfn*}[測度0]
+	$A\subset\mathbb{R}^n$とする。
+	\[
+		\forall\epsilon>0,\exists 可算個の閉方体\{c_1,c_2,\cdots\}\ {\rm s.t. }\ A\subset\bigcup_{i=1}^\infty c_i,\sum_{i=1}^\infty|c_i|<\epsilon
+	\]
+	このとき$A$は（$n$次元）測度$0$であるという。
+\end{dfn*}
+\begin{note}\
+	\begin{itemize}
+		\item $A$が測度$0$で$B\subset A$ならば$B$も測度$0$
+		\item 測度$0$の定義は被覆を開方体に変えても同じ。
+	\end{itemize}
+\end{note}
+\begin{example}\
+	\begin{itemize}
+		\item 有限個の点からなる集合は測度$0$。
+		\item 可算個の点からなる集合$\{a_1,a_2,\cdots\}$は測度$0$
+			\begin{proof}
+				$\forall\epsilon>0$に対し点$a_i$を含む閉方体$c_i$として$|c_i|<\frac{\epsilon}{2^i}$となるものをとれば
+				\[
+					\sum_{i=1}^\infty|c_i|<\sum_{i=1}^\infty\frac{\epsilon}{2^i}=\epsilon
+				\]
+				となる。
+			\end{proof}
+	\end{itemize}
+\end{example}
+\begin{example}[加算集合の例]
+区間$[0,1]$の有理数全体。
+\[
+X:加算集合\Leftrightarrow\exists f:X\to\mathbb{N}:全単射
+\]
+\end{example}
+\begin{framed}
+	\begin{thm}\label{th3.4}
+		$A=A_1\cup A_2\cup A_3\cup\cdots$（可算個の合併）で各$A_i$が測度$0$ならば，$A$は測度$0$
+	\end{thm}
+\end{framed}
+
+\begin{proof}
+	$\forall\epsilon>0$を固定，各$A_i$は測度$0$より閉方体の可算個の被覆$\{c_{i1},c_{i2},\cdots\}$\ {\rm s.t.}\ $\displaystyle\sum_{j=1}^\infty|c_{ij}|<\frac{\epsilon}{2^i}$となるものがある。集合族$\{c_{ij}:i,j=1,2,\cdots\}$は$A$の被覆になっている。$\displaystyle k=\frac{1}{2}(i+j-2)(i+j-1)+j$として$D_k=c_{ij}$とすれば
+	\[
+		\sum_{i=1}^\infty|D_i|<\sum_{i=1}^\infty\frac{\epsilon}{2^i}=\epsilon
+	\]
+	となる。
+\end{proof}
+
+\begin{dfn*}[容積0]
+	$A\subset\mathbb{R}$とする。$\forall\epsilon>0,\exists$有限個の閉方体（開方体）$\{c_1,c_2,\cdots,c_k\}$\ s.t.\ $A\displaystyle\subset\bigcap_{i=1}^kc_i$，$\displaystyle\sum_{i=1}^k|c_i|<\epsilon$とできるとき，$A$は容積$0$であるという。
+\end{dfn*}
+
+\begin{note}
+	$A$が容積$0\Rightarrow A$は測度$0$
+\end{note}
+
+\begin{framed}
+	\begin{thm}\label{th3.5}
+		$a<b$ならば閉区間$[a,b]\subset\mathbb{R}$は容積$0$ではない。さらに，$[a,b]$の被覆として，任意の有限個の閉区間$\{c_1,c_2,\cdots,c_k\}$をとれば$\sum_{i=1}^k c_i\geq b-a$
+	\end{thm}
+\end{framed}
+
+\begin{proof}
+	$c_i\subset [a,b]$としても一般性を失わない。閉区間$c_i$のすべての両端点を大きさ順に並べたものを
+	\[
+		a=t_0<t_1<\cdots<t_l=b
+	\]
+	とする。このとき，$|c_i|$はいくつかの$t_j-t_{j-1}$の和であり，各$[t_{j-1},t_j]$は少なくとも一つの$c_i$に含まれるから，
+	\[
+		\sum_{i=1}^k|c_i|\geq \sum_{j=1}^l|t_j-t_{j-1}|=b-a
+	\]
+	となる。実際，$a<b$ならば$[a,b]$は測度$0$ではない。
+\end{proof}
+
+\begin{framed}
+	\begin{thm}\label{th3.6}
+		compact集合$A$が測度$0$ならば，容積$0$である。
+	\end{thm}
+\end{framed}
+
+\begin{proof}
+	$\forall\epsilon>0$を固定。$A$は測度$0$だから開方体による$A$の可算被覆$\{U_1,U_2,\cdots\}$で$\displaystyle\sum_{i=1}^\infty|U_i|<\epsilon$となるものがある。$A$はcompactだから$\{U_i\}_{i=1}^\infty$の中で有限個$U_1,U_2,\cdots,U_k$が既に$A$を覆う。このとき
+	\[
+		\sum_{i=1}^k|U_i|\leq\sum_{i=1}^\infty|U_i|<\epsilon
+	\]
+	となる。
+\end{proof}
+
+\begin{note}
+	$A$がcompactでないとこの定理は使えない。反例としては$A=[0,1]\cup\mathbb{Q}$が挙げられる。この$A$は測度$0$。一方で有限個の閉区間による$A$の被覆$\{[a_1,b_1],\cdots,[a_k,b_k]\}$があるとする。
+	$A$は閉集合$\tilde{A}:=[a_1,b_1]\cup[a_2,b_2]\cup\cdots\cup[a_k,b_k]$に含まれる。$\tilde{A}\subset\mathbb{R}$を閉集合とし$[0,1]$の中の有理数はすべて$\tilde{A}$に含まれるとする。このとき$[0,1]\subset\tilde{A}$。これより$[0,1]\subset[a_1,b_1]\cup\cdots\cup[a_k,b_k]$となる。定理\ref{th3.5}より$\displaystyle\sum_{i=1}^k(b_i-a_i)\geq 1$となり，$A$は容積$0$ではない。
+\end{note}

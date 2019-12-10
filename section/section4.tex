@@ -1,0 +1,197 @@
+\part{多変数関数の微分}
+
+\section{微分（全微分可能性）}
+
+\paragraph{一変数の微分}
+
+$f:\mathbb{R}\to\mathbb{R}$の微分
+\[
+\lim_{h\to 0}\frac{f(a+h)-f(a)}{h}=f'(a)
+\]
+（言い換え）$a\in\mathbb{R}$で微分可能とは，\\
+\[
+\exists\lambda:\mathbb{R}\to\mathbb{R}:線形写像\ {\rm s.t.}\ \lim_{h\to 0}\frac{f(a+h)-f(a)-\lambda(h)}{h}=0
+\]
+\footnote{線形写像なら$\lambda(h)=f'(a)h$。$y=px$みたいな。$\lambda(h)$と書いてるけど関数$\lambda$に$h$を代入しているわけではないことに注意。$\lambda h$と書いてもいい気がする。（行列$(\lambda_1,\lambda_2,\cdots,\lambda_m)$と${}^t(h_1,h_2,\cdots,h_m)$の積なので。）}
+
+\begin{thm}[全微分]
+関数$f:\mathbb{R}^n\to\mathbb{R}^m$が点$a\in\mathbb{R}^n$で微分可能（全微分可能）とは，
+\[
+\exists\lambda:\mathbb{R}^n\to\mathbb{R}^m:線形写像\ {\rm s.t.}\ \lim_{h\to 0}\frac{|f(a+h)-f(a)-\lambda(h)|}{|h|}=0
+\]
+分母は$\mathbb{R}^n$のnorm，分子は$\mathbb{R}^m$のnormであることに注意。$\lambda$は一次元での微分係数の一般化。この$\lambda$を$Df(a)$と書く。
+\end{thm}
+
+\newpage
+
+\begin{framed}
+	\begin{thm}
+		$f:\mathbb{R}^n\to\mathbb{R}^m$が$a\in\mathbb{R}^n$で全微分可能のとき，$\mathbb{R}^n$から$\mathbb{R}^m$の線形写像$\lambda$で$\displaystyle \lim_{h\to 0}\frac{|f(a+h)-f(a)-\lambda(h)|}{|h|}=0 $を満たすものは1つしかない。
+	\end{thm}
+\end{framed}
+
+\footnote{一意性の証明は2つ持ってきて矛盾させる。}
+
+\begin{proof}
+	線形写像$\mu:\mathbb{R}^n\to\mathbb{R}^m$も$\displaystyle \lim_{h\to 0}\frac{|f(a+h)-f(a)-\lambda(h)|}{|h|}=0$を満たすとする。
+	\[
+	\begin{split}
+	\lim_{h\to 0}\frac{|\lambda(h)-\mu(h)|}{|h|}
+	&= \lim_{h\to0}\frac{|\lambda(h)-\{f(a+h)-f(a)\}+\{f(a+h)-f(a)\}-\mu(h)|}{|h|}\\
+	&\leq\lim_{h\to0}\frac{|f(a+h)-f(a)-\lambda(h)|}{|h|}+\lim_{h\to0}\frac{|f(a+h)-f(a)-\mu(h)|}{|h|}\footnotemark\\
+	&= 0\footnotemark
+	\end{split}
+	\]
+	\footnotetext{normの三角不等式。}
+	\footnotetext{微分の定義と仮定から。}
+	よって
+	\[
+	\lim_{h\to0}\frac{|\lambda(h)-\mu(h)|}{|h|}=0
+	\]
+	よって，$\forall x\in\mathbb{R}^n$に対し$t\to0$のとき$tx\to0$となるので，$\forall x\neq0$に対し上式より（$h=tx$として）
+	\[
+	\begin{split}
+	0 &=\lim_{t\to0}\frac{|\lambda(tx)-\mu(tx)|}{tx}\\
+	&= \lim_{t\to0}\frac{|\lambda(x)-\mu(x)|}{|x|}\footnotemark\\
+	&= \frac{|\lambda(x)-\mu(x)|}{|x|}
+	\end{split}
+	\]
+	よって$\lambda(x)=\mu(x)$$(\forall x\in\mathbb{R}^n)$となる。
+	\footnotetext{
+	線形写像$\lambda(h)=Ah$は$\lambda(tx)=t\lambda(x),\lambda(0)=0$
+	}
+\end{proof}
+
+\footnote{$\lambda:\mathbb{R}^n\to\mathbb{R}^m\Leftrightarrow A:m\times n$行列$\lambda(x)=Ax$}
+
+\newpage
+
+\paragraph{$Df(a):\mathbb{R}^n\to\mathbb{R}^m$について}
+これは$\mathbb{R}^n$から$\mathbb{R}^m$への線形写像なので$\mathbb{R}^n$と$\mathbb{R}^m$の標準基底に関する表現行列（$m\times n$行列）を用いると具体的に表せる。この$m\times n$行列を$f$の$a$でのヤコビ行列といい，$f'(a)$とかく。
+
+$f:\mathbb{R}^n\to\mathbb{R}^m$，$x=(x^1,x^2,\cdots,x^n)$$f={}^{t}(f^1,f^2,\cdots,f^m)$
+\[
+Df(a)=f'(a)=
+\begin{pmatrix}
+u_{11} & u_{12} & \cdots & \cdots & \cdots & u_{1n}\\
+u_{21} & u_{22} &        &        &        & u_{2n} \\
+\vdots &        & \ddots &        &        & \vdots \\
+\vdots &        &        & u_{ij} &        & \vdots \\
+\vdots &        &        &        & \ddots & \vdots \\
+u_{m1} & u_{m2} & \cdots & \cdots & \cdots & u_{mn}
+\end{pmatrix}
+\]
+ただし$\displaystyle u_{ij}=\frac{\partial f^i}{\partial x^j}(a)$である。
+
+\begin{note}\
+	\begin{itemize}
+		\item 関数$f$が$\mathbb{R}^n$の点$a$を含むある開集合上だけで定義されている場合でも$Df(a)$は定義できる。（$Df(a):\mathbb{R}^n\to\mathbb{R}^m$:linear）
+		\item 関数$f:A\to\mathbb{R}^m$が$A$だけでしか定義されていない場合は$f$が$A$を含むある開集合上の可微分関数に拡張できる時，$f$は$A$上微分可能という。
+		\item 全微分可能ならば連続である。
+	\end{itemize}
+\end{note}
+
+\begin{example}
+$f(x,y)={}^{t}(f^1(x,y),f^2(x,y))={}^{t}(xy,x+y)$\\
+これを	$(x,y)=(a,b)$で微分$(a,b)\to(a+h,b+k)$
+\[
+\begin{split}
+\lim_{
+\tiny
+\begin{pmatrix}
+h \\
+k \\
+\end{pmatrix}
+\to
+\begin{pmatrix}
+0 \\
+0 \\
+\end{pmatrix}}
+\frac{
+\left|
+\begin{pmatrix}
+(a+h)(b+k) \\
+(a+h)+(b+k) \\
+\end{pmatrix}
+-
+\begin{pmatrix}
+ab \\
+a+b \\
+\end{pmatrix}
+-
+\begin{pmatrix}
+b & a \\
+1 & 1\\
+\end{pmatrix}
+\begin{pmatrix}
+h \\
+k \\
+\end{pmatrix}
+\right|
+}
+{\left|\begin{pmatrix}
+h \\
+k \\
+\end{pmatrix}\right|}
+&=
+\lim_{
+\tiny
+\begin{pmatrix}
+h \\
+k \\
+\end{pmatrix}
+\to
+\begin{pmatrix}
+0 \\
+0 \\
+\end{pmatrix}}
+\frac{\left|
+\begin{pmatrix}
+hk \\
+0 \\
+\end{pmatrix}
+\right|}{\left|
+\begin{pmatrix}
+h \\
+k \\
+\end{pmatrix}
+\right|}
+\\
+&=
+\lim_{
+\tiny
+\begin{pmatrix}
+h \\
+k \\
+\end{pmatrix}
+\to
+\begin{pmatrix}
+0 \\
+0 \\
+\end{pmatrix}}
+\frac{|hk|}{\sqrt{h^2+k^2}}\to0
+\end{split}
+\]
+\end{example}
+\footnote{
+$
+\begin{pmatrix}
+ak+bh+hk \\
+h+k \\
+\end{pmatrix}
+=
+\begin{pmatrix}
+b & a \\
+1 & 1\\
+\end{pmatrix}
+\begin{pmatrix}
+h \\
+k \\
+\end{pmatrix}
++
+\begin{pmatrix}
+h,kの\\
+二次以上 \\
+\end{pmatrix}
+$
+}

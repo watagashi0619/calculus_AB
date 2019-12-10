@@ -1,0 +1,64 @@
+\section{変数変換}
+\paragraph{1次元}
+$f:\mathbb{R}\to\mathbb{R}:$連続関数に対して，変換$g:[a,b]\to\mathbb{R}:C^1$級関数\\
+このとき
+\[
+	\int_{g(a)}^{g(b)}f = \int_a^b(f\circ g)\cdot g'
+\]
+（変数変換）が成立する。$g$が1対1ならば
+\[
+	\int_{g([a,b])}f=\int_{[a,b]}(f\circ g)\cdot|g'|
+\]
+とかける。
+
+\paragraph{多次元での変数変換}\
+
+\begin{framed}
+	\begin{thm} \label{th3.11}
+		$A$を$\mathbb{R}^n$の開集合，$g:A\to\mathbb{R}^n$を1対1で$C^1$級関数，すべての$x\in A$で$\det g'(x)\neq 0$となるものとする。$f:g(A)\to\mathbb{R}$が可積分であれば
+		\[
+			\int_{g(A)}f=\int_A(f\circ g)\cdot|\det g'|
+		\]
+		が成立する。
+	\end{thm}
+\end{framed}
+
+\begin{proof}
+	は別途†闇のpdf†にて。また，これに関するレポート課題を（上位者救済措置として？）出す。
+\end{proof}
+
+\begin{example}[極座標変換:$x_1=r\cos\theta,x_2=r\sin\theta$]
+これは$\mathbb{R}^2\leftrightarrow [0,\infty)\times[0,2\pi]$の対応で，境界を除き1対1，$g(r,\theta)={}^t(r\cos\theta,r\sin\theta)=(x_1,x_2)$とすると
+\[
+	g'=
+	\begin{pmatrix}
+	\cos\theta & -r\sin\theta \\
+	\sin\theta & r\cos\theta
+	\end{pmatrix}
+\]
+より，$|\det g'|=r$は$r=0$を除いて$0$でない。この変換で$g(A)$と$A$が対応しているとき
+\[
+	\int_{g(A)}f(x,y)dxdy=\int_A f(r\cos\theta,r\sin\theta)rdrd\theta
+\]
+となる。
+\begin{ex}
+	3次元球の体積$\displaystyle V=2\int_{x^2+y^2\leq a^2}\sqrt{a^2-x^2-y^2}dxdy$
+\end{ex}
+円$x^2+y^2\leq a^2$は極座標変換により，$0\leq r\leq a,0\leq \theta\leq 2\pi$に対応するので，
+\[
+\begin{split}
+	V&=2\int_{\theta=0}^{\theta=\pi}\left(\int_{r=0}^{r=a}\sqrt{a^2-r^2}rdr\right)d\theta\\
+	&=4\pi\int_0^a r\sqrt{a^2-r^2}dr\\
+	&=\frac{4}{3}\pi a^3
+\end{split}
+\]
+
+\begin{framed}
+	\begin{thm}[Sardの定理]
+		$A$が$\mathbb{R}^n$の開集合，$g:A\to\mathbb{R}^n$が$C^1$級のとき$B:=\{x\in A:\det g'(x)=0\}$とおくと，$g(B)$は（$n$次元）測度$0$である。\footnotemark
+	\end{thm}
+\end{framed}
+\footnotetext{
+この定理によって定理\ref{th3.11}における$\det g'(x)\neq 0$という仮定はなくてもよいことがわかる。
+}
+\end{example}
