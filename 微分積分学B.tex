@@ -45,6 +45,7 @@
 \newtheorem{note}{注意}
 \newtheorem{lem*}{補題}
 
+
 \makeatletter
 \renewenvironment{proof}[1][\proofname]{\par
   \pushQED{\qed}%
@@ -55,11 +56,16 @@
   \popQED\endtrivlist\@endpefalse
 }
 \renewcommand\proofname{証明}
-\renewcommand{\qedsymbol}{$\blacksquare$}
+\renewcommand{\qedsymbol}{\ensuremath{\blacksquare}}
 \makeatother
+
 \renewcommand{\thepart}{\arabic{part}}
 \renewcommand{\thenote}{}
 \renewcommand{\thelem}{}
+
+\makeatletter
+\@addtoreset{section}{part}
+\makeatother
 
 \title{微分積分学B}
 %\author{KUinfoB1 Twitter:\_2pt}
@@ -96,23 +102,2089 @@
 
 %part1.n次元ユークリッド空間R^n
 
-\include{section/section1}
-\include{section/section2}
-\include{section/section3}
+%\include{section/section1}
+%\include{section/section2}
+%\include{section/section3}
 
 %part2.多変数関数の微分
 
-\include{section/section4}
-\include{section/section5}
-\include{section/section6}
-\include{section/section7}
+%\include{section/section4}
+%\include{section/section5}
+%\include{section/section6}
+%\include{section/section7}
 
 %part3.積分
 
-\include{section/section8}
-\include{section/section9}
-\include{section/section10}
-\include{section/section11}
-\include{section/section12}
+%\include{section/section8}
+%\include{section/section9}
+%\include{section/section10}
+%\include{section/section11}
+%\include{section/section12}
+
+\newpage
+
+\part{$n$次元ユークリッド空間$\mathbb{R}^n$}
+
+\section{$\mathbb{R}^n$のノルムと内積}
+\[\mathbb{R}^n:=\{x=(x^1,x^2,\cdots,x^k):x^k\in\mathbb{R}(\forall k=1,\cdots,n)\}\footnotemark\]
+\footnotetext{
+次元の$x^k$は$x^{(k)}$等と書くこともある。
+}
+$\mathbb{R}^n$は$n$次元実線形空間である（ベクトル空間）。\\
+$V$が線形空間であるとは，スカラー倍と和が定義された空間のことである。
+\begin{example}
+$\forall x,\forall y\in V,\alpha,\beta\in\mathbb{R}$とするとき$\alpha x\in V,x+y\in V,\alpha x+\beta y\in V$
+\end{example}
+\paragraph{ノルム - norm}
+ベクトル$x=(x^1,\cdots,x^n)$の長さの概念
+\[|x|_n=|x|:=\sqrt{(x^1)^2+(x^2)^2+\cdots+(x^n)^2}\footnotemark\]
+\footnotetext{
+$l_2$normといい，$||x||_2$とも書く。なお$l_1$normは$\sum_{k=1}^n|x^k|$。
+}
+\begin{framed}
+\begin{thm}
+$x,y\in\mathbb{R}^n,a\in\mathbb{R}$に対し
+\begin{enumerate}
+	\item $|x|\geq0$であり$|x|=0$となるのは$x=0$\footnote{この$0$は$(0,0,\cdot,0)\in\mathbb{R}^n$のこと。}のみ。
+	\item $\displaystyle \left|\sum_{i=1}^n x^iy^i\right|\leq|x||y|$が成り立つ。等号成立は$x$と$y$が線形従属のときのみ。\footnotemark
+	\item $|x+y|_n\leq|x|_n+|y|_n$
+	\item $|ax|_n=|a||x|_n$
+\end{enumerate}
+\footnotetext{
+論文等では$||y||_1\leq\sqrt{n}||y||_2$といった使い方をよくする。
+}
+\end{thm}
+\end{framed}
+\begin{proof}　
+\begin{enumerate}
+	\item 明らか。
+	\item $x$と$y$が線形従属ならば$x=\lambda y$\ $(\lambda\neq0)$とする。
+	\[
+	\begin{split}
+	\sum_{i=1}^n x^iy^i &= \sum_{i=1}^n(\lambda y^i)y^i\\
+	&=\lambda\sum_{i=1}^n(y^i)^2\\
+	&=\lambda|y|^2
+	\end{split}
+	\]
+	\[
+	\begin{split}
+	|x|&=|\lambda y|\\
+	&=\sqrt{\sum_{i=1}^n(\lambda y^i)^2}\\
+	&=|\lambda|\sqrt{\sum_{i=1}^n(y^i)^2}\\
+	&=|\lambda||y|
+	\end{split}
+	\]
+	\[
+	\begin{split}
+	\left|\sum_{i=1}^nx^iy^i\right|&=|\lambda||y|^2\\
+	&=|\lambda||y|\cdot|y|\\
+	&=|x||y|
+	\end{split}
+	\]
+	$x$と$y$が線形従属でないとき，$\forall\lambda\in\mathbb{R}$に対して$\lambda x-y\neq0$だから
+	\[
+	\begin{split}
+		0&<|\lambda y-x|^2\\
+		&\sum_{i=1}^n(\lambda y^i-x^i)^2\\
+		&=\lambda^2\sum_{i=1}^n(y^i)^2-2\lambda\sum_{i=1}^nx^iy^i+\sum_{i=1}^n(x^i)^2
+	\end{split}
+	\]
+	となる。右辺の$\lambda$の2次方程式は実解を持たないので，判別式は負。
+	\[
+	4\left(\sum_{i=1}^nx^iy^i\right)^2-4 \sum_{i=1}^n(x^i)^2 \sum_{i=1}^n(y^i)^2<0
+	\]
+	\item
+	\[
+	\begin{split}
+	|x+y|^2&=\sum_{i=1}^n(x^i+y^i)^2\\
+	&=\sum_{i=1}^n(x^i)^2+\sum_{i=1}^n(y^i)^2+2\sum_{i=1}^nx^iy^i\\
+	&\leq|x|^2+|y|^2+2|x||y|\\
+	&=(|x|+|y|)^2
+    \end{split}
+	\]
+	\item 2.の途中で示した。
+\end{enumerate}
+\end{proof}
+
+\newpage
+
+\paragraph{内積 - inner product}
+$x,y\in\mathbb{R}^n$に対して$\displaystyle\braket{x,y}:=\sum_{i=1}^nx^iy^i$を$x$と$y$の内積という。
+\begin{framed}
+\begin{thm}\
+\begin{enumerate}
+	\item 対称性：$\braket{x,y}=\braket{y,x}$
+	\item 双線形性：
+	$\braket{ax,y}=\braket{x,ay}=a\braket{x,y}$
+	$\braket{x_1+x_2,y}=\braket{x_1,y}+\braket{x_2,y}$
+	$\braket{x,y_1+y_2}=\braket{x,y_1}+\braket{x,y_2}$
+	\item $\braket{x,x}\geq0$であり，$\braket{x,x}=0$となるのは$x=0$のときのみ
+	\item $|x|=\sqrt{\braket{x,x}}$
+	\item 偏極等式：$\displaystyle\braket{x,y}=\frac{|x+y|^2-|x-y|^2}{4}$\footnotemark
+	\end{enumerate}
+\end{thm}
+\end{framed}
+\footnotetext{内積の方が厳しい。ノルム空間の方がゆるい。たまたま内積から作られたノルムであれば内積を作り直すようなものが作れる。}
+\begin{proof}　
+\begin{enumerate}
+	\item \[\braket{x,y}=\sum_{i=1}^nx^iy^i= \sum_{i=1}^ny^ix^i=\braket{y,x}\]
+	\item \[\braket{ax,y}= \sum_{i=1}^n(ax^i)y^i=a \sum_{i=1}^nx^iy^i=a\braket{x,y}\]
+	\[\braket{x_1+x_2,y}= \sum_{i=1}^n(x_1^i+x_2^i)y^i= \sum_{i=1}^nx_1^iy^i+ \sum_{i=1}^nx_2^iy^i=\braket{x_1,y}+\braket{x_2,y}\]
+	\item 明らか
+	\item 明らか
+	\item
+	\[
+	\begin{split}
+	\frac{|x+y|^2-|x-y|^2}{4}&=\frac{1}{4}\left(\braket{x+y,x+y}-\braket{x-y,x-y}\right)\\
+	&=\frac{1}{4}\left\{\braket{x,x}+2\braket{x,y}+\braket{y,y}-(\braket{x,x}-2\braket{x,y}+\braket{y,y})\right\}\\
+	&=\braket{x,y}
+	\end{split}
+	\]
+\end{enumerate}
+
+\end{proof}
+
+\newpage
+
+\begin{note}　
+	\begin{itemize}
+		\item 零ベクトル$(0,0,\cdots,0)\in\mathbb{R}^n$を$0$と表記する。
+		\item $i$番目成分のみが1で他が0であるベクトル$e_i=(0,\cdots,1,\cdots,0)$とすると，$e_1,e_2,\cdots,e_n$は$\mathbb{R}^n$の基底（base）となる。
+		\begin{dfn*}
+		ベクトル空間$V$に対し，$\{v_1,v_2,\cdots,v_n\}$が基底であるとは，
+		\begin{itemize}
+			\item $v_1,v_2,\cdots,v_n$は線形独立
+			\item $\forall x\in V$に対して$\exists\alpha_1,\alpha_2,\cdots,\alpha_n\in\mathbb{R}$\ s.t.\ $x=\sum_{i=1}^n\alpha_iv_i$
+		\end{itemize}
+    \end{dfn*}
+	\item $T:\mathbb{R}^n\to\mathbb{R}^n$：線形写像\\
+	$\forall x,y\in\mathbb{R}$に対して
+	$\begin{cases}
+		T(x+y)=T(x)+T(y)\\
+		T(\alpha x)=\alpha T(x)
+	\end{cases}$\footnote{つまり$T(\alpha x+\beta y)=\alpha T(x)+\beta T(y)$}\\
+	ある1つの行列$A=(a_{ij})$（$m\times n$行列）\footnote{$T$の表現行列という。}が存在して
+	\[T(x)=Ax\]
+	と書ける。
+	\[
+	T(b_i)=\sum_{i=1}^n a_{ji}e_j
+	\]
+	ベクトル$T(b_i)$は行列$A$の第$i$列になっている。\\
+	$S:\mathbb{R}^m\to\mathbb{R}^l$：線形写像の表現行列を$B$（$l\times n$行列）とすると，合成写像$S\circ T(x)=S(T(x))$の表現行列は$BA$となる。
+	\item $x\in\mathbb{R}^n,y\in\mathbb{R}^m$に対して$(x,y)\in\mathbb{R}^{n+m}$で$(x^1,x^2,\cdots,x^n,y^1,y^2,\cdots,y^n)\in\mathbb{R}^{n+m}$と表すものとする。
+	\end{itemize}
+
+\end{note}
+\paragraph{点列の極限について}
+$\{x_m\}_{m=1}^\infty\subset\mathbb{R}^n$を$\mathbb{R}^n$の点列とする。
+\begin{itemize}
+	\item $\displaystyle\{x_m\}_{m=1}^\infty $が$x\in\mathbb{R}^n$に収束する$\displaystyle\overset{def}{\Leftrightarrow}\lim_{m\to\infty}|x_m-x|_n=0$
+	\begin{note}
+	$\displaystyle \lim_{m\to\infty}|x_m-x|=0\Leftrightarrow\lim_{m\to\infty}\sqrt{\sum_{i=1}^n(x_m^i-x^i)^2}=0\Leftrightarrow\lim_{m\to\infty}|x_m^i-x^i|=0 (\forall i)$
+	\end{note}
+	\item $\displaystyle\{x_m\}_{m=1}^\infty $がCauchy列$\displaystyle\overset{def}{\Leftrightarrow}\lim_{m,l\to\infty}|x_m-x_l|_n=0\Leftrightarrow\forall\epsilon>0,\exists M\in\mathbb{N}\ $s.t.\ $\forall m,\forall l>M \Rightarrow |x_m-x_l|<\epsilon$
+	\item $\{x_m\}_{m=1}^\infty\subset\mathbb{R}^n$が収束列であることとCauchy列であることは同値。
+	\begin{proof}
+	上の注意を用いれば1次元$\mathbb{R}$のときと同じなのでOK（前期Th3.8）
+	\end{proof}
+	\item $\{x_m\}_{m=1}^\infty\subset\mathbb{R}^n$が有界$\overset{def}{\Leftrightarrow} \exists M>0\ s.t.\ |x_m|<M\ (\forall n)$
+	\item Bolzano-Weierstrassの定理\\
+	$\{x_m\}\subset\mathbb{R}^n$が有界ならば$\{x_m\}_{m=1}^\infty$は収束する部分列が選べる。\\
+	（i.e.\ $\exists\{x_{m_k}\}_{k=1}^\infty\subset\{x_m\}\ $s.t.\ $x_{m_k}\to\exists x\ (k\to\infty)$）
+	\begin{proof}
+	$\{x_m\}$は有界列なので各成分$\{x_m^i\}_{m=1}^\infty\subset\mathbb{R}$は$\mathbb{R}$の有界列となる。第1成分$\{x^1_m\}_{m=1}^\infty\subset\mathbb{R}$から$\mathbb{R}$で収束する部分列がとれる。その部分列から第2成分$\{x_m^2\}$が$\mathbb{R}$で収束する部分列が同様にとれる。これを繰り返す。
+	\end{proof}
+\end{itemize}
+
+
+\newpage
+
+
+
+\section{$\mathbb{R}^n$の開集合・閉集合・コンパクト集合}
+\begin{note}
+本格的に勉強がしたければ，集合と位相の本をやるとよい。
+\footnote{松坂位相とか内田位相とか。松坂位相の第4章，第5章にここに書いてあるような内容が載ってたりする。}
+\end{note}
+$A_m\subset\mathbb{R}^n\ (m=1,2,\cdots)$とする。
+\begin{itemize}
+\item 和集合（合併）
+	\[
+	\bigcup_{m=1}^\infty A_m:=\{x\in\mathbb{R}^n:\exists m\in\mathbb{N}\ {\rm s.t.}\ x\in A_m\}
+	\]
+\item 共通部分
+	\[
+	\bigcap_{m=1}^\infty A_m:=\{x\in\mathbb{R}^n:\forall m\in\mathbb{N}, x\in A_m\}
+	\]
+\end{itemize}
+集合$A\subset\mathbb{R}^m$と$B\subset\mathbb{R}^n$に対し，
+\[
+A\times B:=\{(x,y)\in\mathbb{R}^{m+n}:x\in A,y\in B\}
+\]
+\begin{example}\
+\begin{itemize}
+	\item $\mathbb{R}^{m+n}=\mathbb{R}^m\times\mathbb{R}^n$
+	\item $[a,b]\times [c,d]=\{(x,y)\in\mathbb{R}^2:x\in[a,b],y\in[c,d]\}$\\
+\end{itemize}
+\end{example}
+
+\begin{note}
+一般に
+\begin{itemize}
+    \item $[a_1,b_1]\times[a_2,b_2]\times\cdots\times[a_n,b_n]\subset\mathbb{R}^n$の形の集合を$\mathbb{R}^n$の閉方体という
+    \item $(a_1,b_1)\times(a_2,b_2)\times\cdots\times(a_n,b_n)\subset\mathbb{R}^n$の形の集合を$\mathbb{R}^n$の開方体という
+\end{itemize}
+\end{note}
+
+\begin{framed}
+\begin{dfn*}[開集合\footnotemark]
+集合$U\subset\mathbb{R}^n$が開集合$\overset{def}{\Leftrightarrow}$$\forall x\in U$に対して$x$を含み，かつ，$U$に含まれる開方体\footnotemark が存在する。
+\end{dfn*}
+\end{framed}
+
+\footnotetext{本やネットで調べてみると開集合を開方体で定義しているものは（編集者が探した感じでは）見つからなかったが，このように定義しておくことで後でリーマン積分を定義するときにやりやすくなるんだそうです（とtwitterでプロに教えてもらいました）。}
+\footnotetext{この開方体は$x$に依存する。}
+
+\begin{example}　
+\begin{itemize}
+	\item 開方体は開集合
+	\item $\{|x|<1\}$：ballは開集合（一般に集合$\{x\in\mathbb{R}^n:|x-a|<r\}$は開集合）
+	\item $\mathbb{R}^n$全体は開集合
+\end{itemize}
+
+\end{example}
+\begin{framed}
+\begin{dfn*}[閉集合]
+$C\subset\mathbb{R}^n$が閉集合$\overset{def}{\Leftrightarrow}$$\mathbb{R}^n-C:=\{x\in\mathbb{R}^n:x\notin C\}$が開集合
+\end{dfn*}
+\end{framed}
+集合$A\subset\mathbb{R}^n$と点$x\in\mathbb{R}^n$の関係は次の3つのいずれかとなる。
+\begin{enumerate}
+	\item $x\in B\subset A$となる開方体$B$が存在する。
+	\item $x\in B\subset \mathbb{R}^n-A$となる開方体$B$が存在する。
+	\item $x\in B$となる開方体は$A$の点と$\mathbb{R}^n-A$の点を少なくとも1つずつ含む。
+\end{enumerate}
+集合$A$に対し，
+\begin{enumerate}
+\item を満たす点全体を$A$の内部という。
+\item を満たす点全体を$A$の外部という。
+\item を満たす点全体を$A$の境界という。
+\end{enumerate}
+\begin{note}
+$A$の内部は開集合，$A$の外部は開集合となる。よってその残りである$A$の境界は閉集合となる。開集合の和集合は開集合である。
+\end{note}
+$\mathscr{O}$を開集合の族とする。（i.e. $\mathscr{O}=\{U_{\lambda}\subset\mathbb{R}^n:U_\lambda$はopen,$\lambda\in\Lambda\}$）
+\begin{dfn*}[開被覆 over covering]
+    $\mathscr{O}$が$A\subset\mathbb{R}^n$の開被覆（open covering）であるとは，任意の$x\in A$に対して$\mathscr{O}$の中の開集合$U_\lambda$があって$x\in U_\lambda$であることである。
+\end{dfn*}
+\begin{dfn*}[コンパクト compact]
+集合$A\subset\mathbb{R}^n$がコンパクト（compact）であるとは，$A$の任意の開被覆$\mathscr{O}$に対して$\mathscr{O}$の中の有限個の開集合をうまく選べば，それだけで$A$を覆うことができることである。
+\end{dfn*}
+\begin{example}\
+	\begin{itemize}
+		\item 有限個の点の集合はコンパクト
+		\item $\displaystyle\left\{0と\frac{1}{n}の全部（nは自然数）\right\}$は$\mathbb{R}$のコンパクト集合
+		\item $\displaystyle\left\{\frac{1}{n}の全部（nは自然数）\right\}$は$\mathbb{R}$のコンパクト集合でない
+	\end{itemize}
+\end{example}
+
+\begin{itemize}
+\item 集合$A\subset\mathbb{R}^n$が有界である$\Leftrightarrow$$\exists M>0\ \rm{s.t.}\ A\subset\{x\in\mathbb{R}^n:|x|<M\}$
+\end{itemize}
+
+\newpage
+
+\begin{framed}
+\begin{thm}[Heine-Borel]
+    閉区間はcompactである。
+\end{thm}
+\end{framed}
+
+\begin{proof}
+$\mathscr{O}$を閉区間$[a,b]$の開被覆とする。$x\in[a,b]$で$[a,x]$が$\mathscr{O}$の中の有限個だけで覆われるものの全体を$A$とする（$A:=\{x\in[a,b]:[a,x]が\mathscr{O}の中の有限個で覆われる\}$）。明らかに$a\in A$であり，$A$は上に有界である（例えば$b$が一つの上界）。compactの定義より$b\in A$を示せばよい。そこで，$A$の上限を$\alpha$とし，
+\begin{enumerate}
+\item $\alpha\in A$
+\item $b=\alpha$
+\end{enumerate}
+を示せばよい。
+\begin{enumerate}
+\item $\mathscr{O}$は$[a,b]$の開被覆であり，$a\leq b$だから$a\in U$となる開集合$U\in\mathscr{O}$が存在する。\\
+$\alpha$は$A$の上限なので，$\alpha$の十分近くに$\exists x\in A$\ \rm{s.t.}\ $x\in U$となるものがある。$x\in A$より$[a,x]$は$\mathscr{O}$の中の有限個で覆われている。また$[x,\alpha]$は1個の開集合$U\in\mathscr{O}$で覆われている。よって$[a,\alpha]=[a,x]\cup[x,\alpha]$は$\mathscr{O}$の有限個で覆われる。したがって$\alpha\in A$
+
+\item $\alpha<b$と仮定する。このとき$\alpha<x'<b$となる$x'$で$U$に属するものが存在する。$\alpha\in A$だから$[a,\alpha]$は$\mathscr{O}$の有限個で覆われている。$[\alpha,x']$も1個の開集合$U\in\mathscr{O}$で覆われている。よって$x'\in A$となり，$\alpha$が$A$の上限であることに矛盾。したがって$\alpha=b$。
+\end{enumerate}
+
+\end{proof}
+
+\begin{itemize}
+\item $B\subset\mathbb{R}^m$がcompactで$x\in\mathbb{R}^n$ならば$\{x\}\times B\subset\mathbb{R}^{n+m}$もcompact。
+\end{itemize}
+
+\begin{framed}
+\begin{thm}\label{th1.4}
+$B\subset\mathbb{R}^m$はcompact，点$x\in\mathbb{R}^n$に対して$\mathscr{O}$を$\{x\}\times B\subset\mathbb{R}^{n+m}$の開被覆とする。このとき，ある開集合$U\subset\mathbb{R}^n$であって$x\in U$かつ$U\times B$は$\mathscr{O}$の中の有限個で覆われるようなものが存在する。
+\end{thm}
+\end{framed}
+
+\begin{proof}
+    $\{x\}\times B$がcompactより，有限個の開被覆（$\mathscr{O}'$とする）を$\mathscr{O}$から選んで$\{x\}\times B$がそれ（$\mathscr{O}'$）で覆える。よって$U\times B$が$\mathscr{O}'$で覆われるような開集合$U$を見つければよい。
+    $\forall y\in B$に対して$\exists W\in\mathscr{O}'$\ s.t.\ $(x,y)\in W$（$\because (x,y)\in\{x\}\times B$）。$W$はopenより$\exists U_y\times V_y:$開方体 s.t. $(x,y)\in U_y\times V_y\subset W$。ここで$\{V_y\}_{y\in B}$は$B$の開被覆で$B$はcompactより有限個の$V_y$で$B$を覆うことができる。
+    \[
+        B\subset V_{y_1}\cup V_{y_2}\cup\cdots\cup V_{y_k}
+    \]
+    そこで$U:=U_{y_1}\cap U_{y_2}\cap\cdots\cap U_{y_k}$とおくと，$U$は開方体で，$\forall (x',y')\in U\times B$に対して$y'$はある$i$に対して$y'\in V_{y_i}$であり，かつ$x'\in U_{y_i}$となる。よって$(x',y')\in U_{y_i}\times V_{y_i}$となり，$U_{y_i}\times V_{y_i}$はある$W\in\mathscr{O}'$に含まれる。
+\end{proof}
+
+\begin{framed}
+\begin{cor}
+$A\subset\mathbb{R}^n,B\subset\mathbb{R}^m$が共にcompactならば$A\times B\subset\mathbb{R}^{m+n}$もcompact。
+\end{cor}
+\end{framed}
+
+\begin{proof}
+    $\mathscr{O}$を$A\times B$の開被覆とすると，$\forall x\in A$に対し$\mathscr{O}$は$\{x\}\times B$を覆う。定理\ref{th1.4}より$\exists U_x\subset\mathbb{R}^n:$open s.t. $x\in U_x$かつ$U_x\times B$は$\mathscr{O}$の有限個で覆われる。$A$はcompactで$\{U_x\}_{x\in A}$は$A$の開被覆だから，その中の有限個$U_{x_1},U_{x_2},\cdots,U_{x_k}$がすでに$A$を覆う。各$U_{x_i}\times B$は$\mathscr{O}$の中の有限個で覆われるので，$A\times B$全体が$\mathscr{O}$の中の有限個で覆われる。（$A\subset U_{x_1}\cup U_{x_2}\cup \cdots \cup U_{x_k}$）
+\end{proof}
+
+\begin{framed}
+    \begin{cor}\label{cor1.6}
+        各$A_i$がcompactならば$A_1\times A_2\times \cdots \times A_k$もcompactである。特に$\mathbb{R}^k$の閉方体はcompactである。
+    \end{cor}
+\end{framed}
+
+\begin{framed}
+    \begin{cor}
+        $\mathbb{R}^n$の有界閉集合はcompact（逆も成立）
+    \end{cor}
+\end{framed}
+
+\begin{proof}
+    $A\subset\mathbb{R}^n$が有界閉集合ならば$A$を含む閉方体$B$が存在する。$\mathscr{O}$をAの開被覆とすると，$\mathscr{O}$に$\mathbb{R}^n-A$（これはopen）を合わせたものは$B$を覆う。系\ref{cor1.6}より$B$はcompactであるのでその中の有限個$U_1,U_2,\cdots,U_k,\mathbb{R}^n-A$がすでに$B$を覆う。したがって$U_1,U_2,\cdots,U_k$は$A$を覆う。
+\end{proof}
+
+
+\newpage
+
+
+\section{$\mathbb{R}^n$上の関数と連続性}
+\begin{itemize}
+    \item $f:\mathbb{R}^n\to\mathbb{R}^m$と書いた時，$f$は$\mathbb{R}^n$から$\mathbb{R}^m$への関数という。
+    \item $A\subset\mathbb{R}^n$に対して$f$が定義され，$f(x)$の値は$B\subset\mathbb{R}^m$に入る時，$f:A\to B$と書く。
+    \item $A$を$f$の定義域（domain）という。
+    \item $f(A):=\{f(x)\in\mathbb{R}^m:x\in A\}$を値域（range）という。
+    \item $c\subset\mathbb{R}^m$に対して$f^{-1}(c):=\{x\in A:f(x)\in c\}$
+    \begin{note}
+        $f^{-1}$は逆写像を用いて定めていない。逆関数の存在もいえない。
+    \end{note}
+    \item $f:A\to B$が単射である，もしくは1対1である$\overset{def}{\Leftrightarrow}$$[x,y\in A,x\neq y \Rightarrow f(x)\neq f(y)]$
+    \item $f:A\to B$が全射である，もしくは上への写像である$\overset{def}{\Leftrightarrow}$$[\forall z\in B,\exists x\in A$\ s.t.\ $f(x)=z]$
+    \item $A\subset\mathbb{R}^n$とする。\\
+    $f:A\to\mathbb{R}^m:$単射\ に対し，逆関数$f^{-1}$は$f(A)\to\mathbb{R}^n$が$z\in f(A)$に対して$f(x)=z$となるただ1つの点$x\in A$を$f^{-1}(z)$と定めることで定義される。\\
+    $f(x)=z$となるただ1つの点を定められないと仮定，すなわち$\exists x'\in A$でも$f(x')=z$とすると，$x\neq x'$のとき，$f$は単射であるので$f(x)\neq f(x')$。このとき$z=f(x)\neq f(x')=z$となり矛盾する。
+    \begin{note}
+        単射かつ全射，すなわち全単射のときは$f$は必ず逆関数をもつ。\\（i.e.$f:A\to B:$全単射$\Rightarrow$$\exists f^{-1}:B\to A$）
+    \end{note}
+    \item 関数の成分表示\\
+    $f:A\to\mathbb{R}^n$に対し
+    \[
+    f(x)=(f^1(x),f^2(x),\cdots,f^m(x))
+    \]
+    と書くことで$m$個の成分表示
+    \[
+    f^1,f^2,\cdots,f^m:A\to\mathbb{R}
+    \]
+    が決まる。
+    \item 関数の極限\\
+    $f:A\to\mathbb{R}^m\ (A\subset\mathbb{R}^n)$に対して
+    \[
+    \lim_{x\to a}f(x)=b \overset{def}{\Leftrightarrow} \forall\epsilon>0,\exists\delta>0\ s.t.\ |x-a|<\delta(x\in A)\Rightarrow|f(x)-b|<\epsilon
+    \]
+    \item 連続性
+    \begin{itemize}
+        \item $f:A\to\mathbb{R}^m$が$a\in A$で連続である$\overset{def}{\Leftrightarrow}$$\displaystyle\lim_{x\to a}f(x)=f(a)$
+        \item $f$が$A$上連続である$\overset{def}{\Leftrightarrow}$$\forall a\in A$で$f$が連続である
+    \end{itemize}
+\end{itemize}
+
+\newpage
+
+\begin{framed}
+    \begin{thm}
+        $f:A\to\mathbb{R}^m\ (A\subset\mathbb{R}^n)$が連続$\Leftrightarrow$$\forall U\subset \mathbb{R}^m:$openに対して$\exists V\subset\mathbb{R}^n:$open\ s.t.\ $f^{-1}(U)=V\cap A$\footnotemark
+    \end{thm}
+\end{framed}
+
+\footnotetext{
+$f:$連続$\Leftrightarrow$open setの逆像がopen set。\\
+ある写像が連続であることとその映った先の開集合の引き戻しが開集合であることは同値である。
+}
+
+\begin{proof}　\\
+    （$\Rightarrow$について）\\
+    $f:$連続とする。$a\in f^{-1}(U)$ならば$f(a)\in U$。$U$はopenより，$\exists B_a:$openb lock(開方体) s.t.\ $f(a)\in B_a\subset U$とできる。$f:$連続ゆえ$a$を含む十分小さいopen block $C_a$をとると，$x\in C_a\cap A$ならば$f(x)\in B_a$となる（これにより$a\in f^{-1}(U)\to C_a$が定まった）。$\displaystyle V:=\bigcup_{a\in f^{-1}(U)}C_a=\{x\in\mathbb{R}^n:\exists a\in f^{-1}(U)$\ s.t.\ $x\in C_a\}$とすると，$V:$openで$f^{-1}(U)=V\cap A$となる。
+    \footnote{
+    $f^{-1}(U)\subset V\cap A$は定義より明らか。$V\cap A\subset f^{-1}(U)$について，$\forall x\in V\cap A$に対して$\exists a\in f^{-1}(U)$\ s.t.\ $x\in C_a\cap A$。このとき$f(x)\in B_a\subset U$より$x\in f^{-1}(U)$。
+    }
+    \\
+    （$\Leftarrow$について）\\
+    $\forall\epsilon>0$に対して$U:=\{y\in\mathbb{R}^m:|y-f(a)| <\epsilon\}$とする。このとき$U$はopen setなので$\exists V\subset\mathbb{R}^n:$open set s.t. $f^{-1}(U)=V\cap A$とできる。$V$は$\mathbb{R}^n$のopen setであり，$a\in V\cap A$であるから$\exists\delta>0$ s.t. $\{x\in A:|x-a|<\delta\}\subset V\cap A$。ゆえに，$f(\{x\in A:|x-a|<\delta\})\subset U$となり\footnote{
+    $\therefore\{x\in A:|x-a|<\delta\}\subset V\cap A=f^{-1}(U)$
+    }，
+    $f$は$A$で連続である。
+    \footnote{
+    $f(\{x\in A:|x-a|<\delta\})\subset\{y\in\mathbb{R}^m:|y-f(a)|<\epsilon\}$より，$\forall\epsilon>0,\exists\delta>0$ s.t. $x\in A,|x-a|<\delta\Rightarrow|f(x)-f(a)|<\epsilon$
+    }
+\end{proof}
+
+\begin{framed}
+    \begin{thm}\label{th1.9}
+        $f:A\to\mathbb{R}^m(A\subset\mathbb{R}^n)$が連続で$A$がcompactならば$f(A)\subset\mathbb{R}^m$はcompactである。
+    \end{thm}
+\end{framed}
+
+\begin{proof}
+    $\mathscr{O}$を$f(A)$の開被覆とする。$\mathscr{O}$中の各開集合$U$に対し$\mathbb{R}^n$の開集合$V_U$で$f^{-1}(U)=V_U\cap A$となるものが存在する。$\mathscr{O}':=\{V_U\subset\mathbb{R}^n:U\in\mathscr{O}\}$とすると$\mathscr{O}'$は$A$の開被覆。$A$はcompactより$\mathscr{O}'$中の有限個$V_{U_1},V_{U_2},\cdots,V_{U_k}$がすでに覆っている，よって$f(A)$は$U_1,U_2,\cdots,U_k$で覆われる。
+\end{proof}
+
+
+\newpage
+
+
+\part{多変数関数の微分}
+
+\section{微分（全微分可能性）}
+
+\paragraph{一変数の微分}
+
+$f:\mathbb{R}\to\mathbb{R}$の微分
+\[
+\lim_{h\to 0}\frac{f(a+h)-f(a)}{h}=f'(a)
+\]
+（言い換え）$a\in\mathbb{R}$で微分可能とは，\\
+\[
+\exists\lambda:\mathbb{R}\to\mathbb{R}:線形写像\ {\rm s.t.}\ \lim_{h\to 0}\frac{f(a+h)-f(a)-\lambda(h)}{h}=0
+\]
+\footnote{線形写像なら$\lambda(h)=f'(a)h$。$y=px$みたいな。$\lambda(h)$と書いてるけど関数$\lambda$に$h$を代入しているわけではないことに注意。$\lambda h$と書いてもいい気がする。（行列$(\lambda_1,\lambda_2,\cdots,\lambda_m)$と${}^t(h_1,h_2,\cdots,h_m)$の積なので。）}
+
+\begin{thm}[全微分]
+関数$f:\mathbb{R}^n\to\mathbb{R}^m$が点$a\in\mathbb{R}^n$で微分可能（全微分可能）とは，
+\[
+\exists\lambda:\mathbb{R}^n\to\mathbb{R}^m:線形写像\ {\rm s.t.}\ \lim_{h\to 0}\frac{|f(a+h)-f(a)-\lambda(h)|}{|h|}=0
+\]
+分母は$\mathbb{R}^n$のnorm，分子は$\mathbb{R}^m$のnormであることに注意。$\lambda$は一次元での微分係数の一般化。この$\lambda$を$Df(a)$と書く。
+\end{thm}
+
+\newpage
+
+\begin{framed}
+	\begin{thm}
+		$f:\mathbb{R}^n\to\mathbb{R}^m$が$a\in\mathbb{R}^n$で全微分可能のとき，$\mathbb{R}^n$から$\mathbb{R}^m$の線形写像$\lambda$で$\displaystyle \lim_{h\to 0}\frac{|f(a+h)-f(a)-\lambda(h)|}{|h|}=0 $を満たすものは1つしかない。
+	\end{thm}
+\end{framed}
+
+\footnote{一意性の証明は2つ持ってきて矛盾させる。}
+
+\begin{proof}
+	線形写像$\mu:\mathbb{R}^n\to\mathbb{R}^m$も$\displaystyle \lim_{h\to 0}\frac{|f(a+h)-f(a)-\lambda(h)|}{|h|}=0$を満たすとする。
+	\[
+	\begin{split}
+	\lim_{h\to 0}\frac{|\lambda(h)-\mu(h)|}{|h|}
+	&= \lim_{h\to0}\frac{|\lambda(h)-\{f(a+h)-f(a)\}+\{f(a+h)-f(a)\}-\mu(h)|}{|h|}\\
+	&\leq\lim_{h\to0}\frac{|f(a+h)-f(a)-\lambda(h)|}{|h|}+\lim_{h\to0}\frac{|f(a+h)-f(a)-\mu(h)|}{|h|}\footnotemark\\
+	&= 0\footnotemark
+	\end{split}
+	\]
+	\footnotetext{normの三角不等式。}
+	\footnotetext{微分の定義と仮定から。}
+	よって
+	\[
+	\lim_{h\to0}\frac{|\lambda(h)-\mu(h)|}{|h|}=0
+	\]
+	よって，$\forall x\in\mathbb{R}^n$に対し$t\to0$のとき$tx\to0$となるので，$\forall x\neq0$に対し上式より（$h=tx$として）
+	\[
+	\begin{split}
+	0 &=\lim_{t\to0}\frac{|\lambda(tx)-\mu(tx)|}{tx}\\
+	&= \lim_{t\to0}\frac{|\lambda(x)-\mu(x)|}{|x|}\footnotemark\\
+	&= \frac{|\lambda(x)-\mu(x)|}{|x|}
+	\end{split}
+	\]
+	よって$\lambda(x)=\mu(x)$$(\forall x\in\mathbb{R}^n)$となる。
+	\footnotetext{
+	線形写像$\lambda(h)=Ah$は$\lambda(tx)=t\lambda(x),\lambda(0)=0$
+	}
+\end{proof}
+
+\footnote{$\lambda:\mathbb{R}^n\to\mathbb{R}^m\Leftrightarrow A:m\times n$行列$\lambda(x)=Ax$}
+
+\newpage
+
+\paragraph{$Df(a):\mathbb{R}^n\to\mathbb{R}^m$について}
+これは$\mathbb{R}^n$から$\mathbb{R}^m$への線形写像なので$\mathbb{R}^n$と$\mathbb{R}^m$の標準基底に関する表現行列（$m\times n$行列）を用いると具体的に表せる。この$m\times n$行列を$f$の$a$でのヤコビ行列といい，$f'(a)$とかく。
+
+$f:\mathbb{R}^n\to\mathbb{R}^m$，$x=(x^1,x^2,\cdots,x^n)$$f={}^{t}(f^1,f^2,\cdots,f^m)$
+\[
+Df(a)=f'(a)=
+\begin{pmatrix}
+u_{11} & u_{12} & \cdots & \cdots & \cdots & u_{1n}\\
+u_{21} & u_{22} &        &        &        & u_{2n} \\
+\vdots &        & \ddots &        &        & \vdots \\
+\vdots &        &        & u_{ij} &        & \vdots \\
+\vdots &        &        &        & \ddots & \vdots \\
+u_{m1} & u_{m2} & \cdots & \cdots & \cdots & u_{mn}
+\end{pmatrix}
+\]
+ただし$\displaystyle u_{ij}=\frac{\partial f^i}{\partial x^j}(a)$である。
+
+\begin{note}\
+	\begin{itemize}
+		\item 関数$f$が$\mathbb{R}^n$の点$a$を含むある開集合上だけで定義されている場合でも$Df(a)$は定義できる。（$Df(a):\mathbb{R}^n\to\mathbb{R}^m$:linear）
+		\item 関数$f:A\to\mathbb{R}^m$が$A$だけでしか定義されていない場合は$f$が$A$を含むある開集合上の可微分関数に拡張できる時，$f$は$A$上微分可能という。
+		\item 全微分可能ならば連続である。
+	\end{itemize}
+\end{note}
+
+\begin{example}
+$f(x,y)={}^{t}(f^1(x,y),f^2(x,y))={}^{t}(xy,x+y)$\\
+これを	$(x,y)=(a,b)$で微分$(a,b)\to(a+h,b+k)$
+\[
+\begin{split}
+\lim_{
+\tiny
+\begin{pmatrix}
+h \\
+k \\
+\end{pmatrix}
+\to
+\begin{pmatrix}
+0 \\
+0 \\
+\end{pmatrix}}
+\frac{
+\left|
+\begin{pmatrix}
+(a+h)(b+k) \\
+(a+h)+(b+k) \\
+\end{pmatrix}
+-
+\begin{pmatrix}
+ab \\
+a+b \\
+\end{pmatrix}
+-
+\begin{pmatrix}
+b & a \\
+1 & 1\\
+\end{pmatrix}
+\begin{pmatrix}
+h \\
+k \\
+\end{pmatrix}
+\right|
+}
+{\left|\begin{pmatrix}
+h \\
+k \\
+\end{pmatrix}\right|}
+&=
+\lim_{
+\tiny
+\begin{pmatrix}
+h \\
+k \\
+\end{pmatrix}
+\to
+\begin{pmatrix}
+0 \\
+0 \\
+\end{pmatrix}}
+\frac{\left|
+\begin{pmatrix}
+hk \\
+0 \\
+\end{pmatrix}
+\right|}{\left|
+\begin{pmatrix}
+h \\
+k \\
+\end{pmatrix}
+\right|}
+\\
+&=
+\lim_{
+\tiny
+\begin{pmatrix}
+h \\
+k \\
+\end{pmatrix}
+\to
+\begin{pmatrix}
+0 \\
+0 \\
+\end{pmatrix}}
+\frac{|hk|}{\sqrt{h^2+k^2}}\to0
+\end{split}
+\]
+\end{example}
+\footnote{
+$
+\begin{pmatrix}
+ak+bh+hk \\
+h+k \\
+\end{pmatrix}
+=
+\begin{pmatrix}
+b & a \\
+1 & 1\\
+\end{pmatrix}
+\begin{pmatrix}
+h \\
+k \\
+\end{pmatrix}
++
+\begin{pmatrix}
+h,kの\\
+二次以上 \\
+\end{pmatrix}
+$
+}
+
+
+
+\newpage
+
+
+\section{合成関数の微分と積の微分}
+
+\begin{framed}
+	\begin{thm}\label{th2.2}
+		$f:\mathbb{R}^n\to\mathbb{R}^m$が$a\in\mathbb{R}^n$で全微分可能，$g:\mathbb{R}^m\to\mathbb{R}^l$が$f(a)$で全微分可能ならば，$g\circ f:\mathbb{R}^n\to\mathbb{R}^l$は$a\in\mathbb{R}^n$で全微分可能で
+		\[
+		D(g\circ f)(a)=Dg(f(a))\circ Df(a)
+		\]
+		（これは$(g\circ f)'(a)=g'(f(a))\cdot f'(a)$と行列の積の形でもかける。）（$f(a)=b$とすれば$Dg(b)\circ Df(a)$）
+	\end{thm}
+\end{framed}
+
+\begin{proof}
+	$b:=f(a)$，$\lambda=Df(a)$，$\mu:=Dg(f(a))$とおき，
+	\begin{equation}
+	\phi(x):=f(x)-f(a)-\lambda(x-a)
+	\end{equation}
+	\begin{equation}
+		\psi(x):=g(y)-g(b)-\mu(y-b)
+	\end{equation}
+	\begin{equation}
+		\rho(x):=g\circ f(x)-g\circ f(a)-\mu\circ\lambda(x-a)
+	\end{equation}
+	とおく。
+	$f$と$g$は全微分可能より
+	\begin{equation}
+		\lim_{x\to a}\frac{|\phi(x)|}{|x-a|}=0
+	\end{equation}
+	\footnote{
+	$
+	\displaystyle\lim_{x\to a}\frac{|f(x)-f(a)-\lambda(x-a)|}{|x-a|}=0
+	$
+	}
+	\begin{equation}
+		\lim_{y\to b}\frac{|\psi(x)|}{|y-b|}=0
+	\end{equation}
+	\footnote{
+	$
+	\displaystyle\lim_{y\to b}\frac{|g(y)-g(b)-\mu(y-b)|}{|y-b|}=0
+	$
+	}
+	このとき$\displaystyle\lim_{x\to a}\frac{|\rho(x)|}{|x-a|}=0$を示せばよい。
+	\footnote{
+	$
+	\displaystyle\lim_{x\to a}\frac{|g\circ f(x)-g\circ f(a)-\mu\circ\lambda(x-a)|}{|x-a|}=0
+	$
+	}
+	\[
+	\begin{split}
+	\rho(x) &= g(f(x))-g(b)-\mu(\lambda(x-a))\\
+	&= g(f(x))-g(b)-\mu(f(x)-f(a)-\phi(x))\\
+	&=\{g(f(x))-g(b)-\mu(f(x)-f(a))\}+\mu(\phi(x))\footnotemark\\
+	&=\psi (f(x))+\mu (\phi(x))
+	\end{split}
+	\]
+	\footnotetext{$\because$(2)}
+	となるので，次の2つが示されればよい。
+	\begin{equation}\label{th2.2*}
+		\lim_{x\to a}\frac{|\phi(f(x))|}{|x-a|}=0
+	\end{equation}
+	\begin{equation}\label{th2.2**}
+		\lim_{x\to a}\frac{|\mu(\phi(x))|}{|x-a|}=0
+	\end{equation}
+	(\ref{th2.2**})は(4)と演習問題1の1\footnotemark より明らか。
+
+\footnotetext{
+{\bf 演習問題1の1}\ \
+$T$を$\mathbb{R}^m$から$\mathbb{R}^n$への線形写像とする。このとき，ある数$M>0$が存在して，任意の$h\in\mathbb{R}^m$に対して$|T(h)|_n\leq M|h|_m$が成立することを示せ。
+\begin{proof}[演習問題1の1の証明]
+    線形写像$T$の表現行列を$(a_{ij})$とし，$A:=\max_{1\leq i\leq n,1\leq j\leq m}|a_{ij}|$とおく。一般に次の不等式
+    \[
+        \left(\sum_{j=1}^m x_j\right)^2\leq m\sum_{j=1}^m x_j^2
+    \]
+    が成り立つ。なぜならば
+    \[
+        m\sum_{j=1}^m x_j^2-\left(\sum_{j=1}^m x^j\right)^2=\frac{1}{2}\sum_{j,k=1}^m(x_j-x_k)^2\geq0
+    \]
+    これを用いて
+    \[
+        |T(h)|_n^2=\sum_{i=1}^n\left(\sum_{j=1}^m a_{ij}h_j\right)^2\leq\sum_{i=1}^n A^2\left(\sum_{j=1}^m|h_j|\right)^2\leq mA^2\sum_{i=1}^n\sum_{j=1}^m|h_j|^2=mA^2\sum_{i=1}^n|h|_m^2=mA^2n|h|_m^2
+    \]
+    以上から$M:=A\sqrt{mn}$とすればよい。
+\end{proof}
+}
+
+$\mu:$linearならば$\mu(h)\leq\exists M|h|$が成立する。
+\[
+\frac{|\mu(\phi(x))|}{|x-a|}\leq\frac{\exists M|\phi(x)|}{|x-a|}\to0\ (x\to a)
+\]
+(\ref{th2.2*})については，$\forall\epsilon>0$と，(5)によって$\exists\delta>0$を選んで
+\[
+|f(x)-b|<\delta\Rightarrow|\psi(f(x))|<\epsilon|f(x)-b|
+\]
+さらに$f:$全微分可能より，$f$は連続なので$\exists\delta_1>0$ s.t. $|x-a|<\delta_1\Rightarrow|f(x)-b|<\delta$とできる。\\
+よって
+\[
+\begin{split}
+|\psi(f(x))| &< \epsilon|f(x)-b|\\
+&= \epsilon|\phi(x)+\lambda(x-a)|\footnotemark\\
+&\leq \epsilon|\phi(x)|+\epsilon M|x-a|\footnotemark
+\end{split}
+\]
+\footnotetext{$\because$(1)}
+\footnotetext{$|\lambda(x-a)|\leq\exists M|x-a|$（演習問題1の1より）}
+ゆえに
+\[
+|x-a|<\delta_1\Rightarrow\frac{|\psi(f(x))|}{|x-a|}<\epsilon\frac{|\phi(x)|}{|x-a|}+\epsilon M
+\]
+\footnote{
+$\frac{|\phi(x)|}{|x-a|}$は(4)より十分小
+}よって
+\[
+\lim_{x\to a}\frac{|\psi(f(x))|}{|x-a|}=0
+\]
+\end{proof}
+
+\newpage
+
+\begin{framed}
+	\begin{thm}\label{th2.3}\
+		\begin{enumerate}
+			\item $f:\mathbb{R}^n\to\mathbb{R}^m:$定数値関数$\Rightarrow Df(a)=0\ (\forall a\in\mathbb{R}^n)$
+			\item $f:\mathbb{R}^n\to\mathbb{R}^m:$線形写像$\Rightarrow Df(a)=f\ (\forall a\in\mathbb{R}^n)$
+			\item $f:\mathbb{R}^n\to\mathbb{R}^m$が$a$で全微分可能$\Leftrightarrow$各成分関数$f^i$が$a$で全微分可能$(\forall i=1,2,\cdots,m)$\\
+			このとき$Df(a)={}^{t}(Df^1(a),Df^2(a),\cdots,Df^m(a))$
+		\end{enumerate}
+	\end{thm}
+\end{framed}
+
+\begin{proof}\
+	\begin{enumerate}
+		\item $f(x)=b$（$=$Const.）とすると
+		\[
+		\lim_{h\to 0}\frac{|f(a+h)-f(a)|}{|h|}=\lim_{h\to 0}\frac{|b-b|}{h}=0
+		\]
+		\item $f$がlinearのとき
+		\[
+		\lim_{h\to0}\frac{|f(a+h)-f(a)-f(h)|}{|h|}=\lim_{h\to0}\frac{|f(a)+f(h)-f(a)-f(h)|}{|h|}=0
+		\]
+		\item 各$f'$が$a$で全微分可能のとき，$\lambda:={}^{t}(Df^1(a),Df^2(a),\cdots,Df^m(a))$とおく。\footnote{こうすることで$m\times n$行列をつくる。}
+		\[
+		\begin{split}
+		& f(a+h)-f(a)-\lambda(h)\\
+		& = {}^{t}\left(f^1(a+h)-f^1(a)-Df^1(a)(h),\cdots,f^m(a+h)-f^m(a)-Df^m(a)(h)\right)
+		\end{split}
+		\]
+		したがって
+		\[
+		\begin{split}
+		\lim_{h\to0}\frac{|f(a+h)-f(a)-\lambda(h)|}{|h|} &\leq \lim_{h\to0}\sum_{i=1}^m\frac{|f^i(a+h)-f^i(a)-Df^i(a)(h)|}{|h|}\\
+		&=0\footnotemark
+		\end{split}
+		\]
+		\footnotetext{一般に$z\in\mathbb{R}^m$に対して$\sqrt{\sum_{i=1}^m|z^i|^2}=|z|_m\leq\sum_{i=1}^m|z_i|$}
+	\end{enumerate}
+\end{proof}
+逆に$f$が$a$で全微分可能のとき(2)と定理$\ref{th2.2}$より$f^i=\pi^i\circ f$も$a$で全微分可能。\\
+ただし，$\pi$は$\pi^i:\mathbb{R}^m\to\mathbb{R}:$$x=(x^1,x^2\cdots,x^m)$に対して$\pi^i(x)=x^i$という線形写像（座標関数という）。
+
+\begin{framed}
+	\begin{cor}
+		$f,g:\mathbb{R}^n\to\mathbb{R}$が$a$で全微分可能ならば，$f+g$と$fg$も$a$で全微分可能で
+		\[
+		\begin{cases}
+			D(f+g)(a) &= Df(a)+Dg(a)\\
+			D(fg)(a) &= g(a)Df(a)+f(a)Dg(a)
+		\end{cases}
+		\]
+	\end{cor}
+\end{framed}
+
+
+\newpage
+
+
+\section{偏導関数}
+$f:\mathbb{R}^n\to\mathbb{R}$と$a\in\mathbb{R}^n$に対して
+\[
+\lim_{h\to0}\frac{f(a^1,\cdots,a^i+h,\cdots,a^n)-f(a^1,\cdots,a^i,\cdots,a^n)}{h}
+\]
+が存在するとき，$f$は$a$において，$x^i$について偏微分可能といい，極限値を偏微分係数といって$D_if(a)$とかく。
+\footnote{
+$g(x):=f(a^1,\cdots,a^{i-1},x^i,a^{i+1},\cdots,a^n)$\\
+$g'(a^i)=\lim_{h\to0}\frac{g(a^i+h)-g(a^i)}{h}$
+}
+$f$が$A$上のすべての点で$x^i$について偏微分可能のとき，関数$D_if:A\to\mathbb{R}$を$f$の$x^i$に関する偏導関数という。
+\paragraph{$x^i$に関する偏導関数の表し方}
+\[
+D_if(x),D_{x_i}f(x),f_{x_i}(x),\frac{\partial}{\partial x^i}f(x)
+\]
+など。
+
+$D_if:\mathbb{R}^n\to\mathbb{R}$の$x^j$に関する偏導関数$D_j(D_if)(x)$のことを
+\[
+D_{i,j}f(x),D_{x^i,x^j}f(x),f_{x^i,x^j}(x),\frac{\partial^2}{\partial x^j \partial x^i}f(x)
+など。
+\]
+
+次は$D_{j,i}=D_{i,j}$を保証する定理である。
+\begin{framed}
+	\begin{thm}\label{th2.5}
+		点$a$を含むある$U$:open set上で$D_{i,j}f$と$D_{j,i}f$がともに連続ならば$D_{i,j}f(x)=D_{j,i}f(x)\ (x\ in\ U)$
+	\end{thm}
+\end{framed}
+\begin{note}
+証明は積分を用いて行う方が遥かに楽に示せるため後に回す。
+\end{note}
+
+\begin{framed}
+	\begin{thm}\label{th2.6}
+		$A\subset\mathbb{R}^n,f:A\to\mathbb{R}$が$A$の内部の点$a$で最大or最小となり，$D_if(a)$が存在するならば，$D_if(a)=0$
+	\end{thm}
+\end{framed}
+
+\begin{proof}
+	$g_i(x):=f(a_1,\cdots,x,\cdots,a^n)$とおくと，$g_i$は$a^i$で最大or最小となり，しかも$g_i$は$a^i$を含むある開区間で定義されている。$0=g'_i(a)=D_if(a)$となる。	（最後の等号は偏微分の定義による。）
+\end{proof}
+
+\begin{framed}
+	\begin{thm}
+		$f:\mathbb{R}^n\to\mathbb{R}^m$が点$a$で全微分可能ならば，偏微分$D_jf^i(a)$ $(1\leq i \leq m,1\leq j \leq n)$が存在し，ヤコビ行列$Df(a)$は$m\times n$行列$(D_jf^i(a))_{ij}$に等しい。
+	\end{thm}
+\end{framed}
+
+\begin{proof}
+	\subparagraph{$m=1$の場合}
+	$f:\mathbb{R}^n\to\mathbb{R}$となる。関数$h:\mathbb{R}\to\mathbb{R}^n$を$h(x):=(a^1,\cdots,x,\cdots,a^n)$と定める（ただし$x$は$j$番目成分である）。このとき，$D_if(a)=(f\circ h)'(a^j)$であり，定理\ref{th2.2}により
+	\[
+	\begin{split}
+	(f\circ h)'(a^j)&=f'(a)\cdot h'(a^j)\\
+	&=f'(a)\cdot\begin{pmatrix} 0 \\ \vdots \\ 1 \\ \vdots \\ 0\end{pmatrix}
+	\end{split}
+	\]
+	となる（ただし$1$となっているのは第$j$番目成分）。
+	これは$D_if(a)$が存在し，それが$1\times n$行列$f'(a)$の第$j$成分であることを示している。\footnotemark
+	\subparagraph{一般の$m$に対する場合}
+	定理\ref{th2.3}より，$f^i$は全微分可能で$(f^i)'(a)$\footnotemark は$f'(a)$の第$i$行になっているので，OK
+\end{proof}
+\footnotetext{
+$m=1$のとき$f'(a)=(D_1f(a),D_2f(a),\cdots,D_nf(a))$
+}
+\footnotetext{
+$f^i=\pi^i\circ f,\pi^i:\mathbb{R}^m\to\mathbb{R}(\pi^i(x)=x^i)$\\
+これより$(f^i)'(a)=\pi^i\circ f'(a)$
+}
+
+\begin{framed}
+	\begin{thm}\label{th2.8}
+		$f:\mathbb{R}^n\to\mathbb{R}^m$に対し，偏導関数$D_jf^i(x)$がすべて存在し，それらがすべて点$a\in\mathbb{R}^n$で連続ならば，全微分$Df(a)$が存在する。
+	\end{thm}
+\end{framed}
+
+\begin{proof}
+	$m=1$の場合を考えれば十分\footnotemark。$f:\mathbb{R}^n\to\mathbb{R}$とする。
+	\[
+	\begin{split}
+	f(a+h)-f(a)&=f(a^1+h^1,a^2,\cdots,a^n)-f(a^1,\cdots,a^n)\\
+	&\ \ \ \ +f(a^1+h^1,a^2+h^2,a^3,\cdots,a^n)-f(a^1+h^1,a^2,\cdots,a^n)\\
+	&\ \ \ \ +\ \ \cdots \\
+	&\ \ \ \ +f(a^1+h^1,\cdots,a^{n-1}+h^{n-1},a^n+h^n)-f(a^1+h^1,\cdots,a^{n-1}+h^{n-1},a^n)
+	\end{split}
+	\]
+	$D_1f$が関数$g(x)=f(x,a^2,\cdots,a^n)$の導関数であることから，$g$に平均値の定理を使うと，$f(a^1+h^1,a^2,\cdots,a^n)-f(a^1,\cdots,a^n)=h^1\cdot D_1f(c_1,a^2,\cdots,a^n)$となるような$c_1$が$a^1$と$a^1+h^1$の間に存在する。同様に，はじめの式の右辺第$i$項目について，$f(a^1+h^1,\cdots,a^i+h^i,a^{i+1},\cdots,a^n)-f(a^1+h^1,\cdots,a^{i-1}+h^{i-1},a^i,\cdots,a^n)=h^i\cdot D_if(a^1+h^1,\cdots,a^{i-1}+h^{i-1},c_i,a^{i+1},\cdots,a^n)$となる$c_i$が$a^i$と$a^i+h^i$の間に存在する。（ここで$D_if(c_i):= D_if(a^1+h^1,\cdots,a^{i-1}+h^{i-1},c_i,a^{i+1},\cdots,a^n)$とおく。）ゆえに
+	\[
+	\begin{split}
+		\lim_{h\to0}\frac{\left|f(a+h)-f(a)-\sum_{i=1}^nD_if(a)h^i\right|}{|h|}
+		&=\lim_{h\to0}\frac{\left|\sum_{i=1}^n\left\{D_if(c_i)-D_if(a)\right\}h^i\right|}{|h|}\\
+		&\leq\lim_{h\to0}\sum_{i=1}^n\left\{D_if(c_i)-D_if(a)\right\}\frac{|h^i|}{|h|}\\
+		&\leq\lim_{h\to0}\sum_{i=1}^n|D_if(c_i)-D_if(a)|\\
+		&=0\footnotemark
+	\end{split}
+	\]
+\end{proof}
+
+	\footnotetext{この証明が可能であると仮定すれば、2.3から各成分関数が全微分可能とできるため。}
+	\footnotetext{
+	$f'(a)=(D_1f(a),\cdots,D_nf(a)$\\
+	三角不等式を用いている。また，最後の等号は$D_if$は$a$で連続より，$h\to0$のとき$c_i\to h^i$となることによる。
+	}
+
+\paragraph{$C^k$級関数}
+$f:\mathbb{R}^n\to\mathbb{R}^m$について，すべての偏導関数$D_jf^i(x)$が存在し，$a\in\mathbb{R}^n$でそれらがすべて連続なとき$f$は$a$で$C^1$級という。同様に，$k$階までの　偏導関数$D_{i_1,\cdots,i_k}f(x)$が存在し，それらがすべて$a\in\mathbb{R}^n$で連続なとき，$f$は$a$で$C^k$級という。定理\ref{th2.5}より，$C^k$級関数は微分の順序には偏導関数は依存しない。
+
+\begin{framed}
+	\begin{thm}\label{th2.9}
+		$g_1,\cdots,g_m:\mathbb{R}^n\to\mathbb{R}$が点$a\in\mathbb{R}^n$で$C^1$級，$f:\mathbb{R}^m\to\mathbb{R}$が点$(g_1(a),\cdots,g_m(a))$で全微分可能とする。
+		関数$F:\mathbb{R}^n\to\mathbb{R}$を$F(x):=f(g_1(x),\cdots,g_m(x))$で定めると
+		\[
+		D_iF(a)=\sum_{j=1}^mD_jf(g_1(a),\cdots,g_m(a))\cdot D_ig_j(a)
+		\]
+	\end{thm}
+\end{framed}
+
+\begin{proof}
+	$g:=(g_1,\cdots,g_m)$とすれば，$F=f\circ g$と書ける。各$g_i$は$a$で$C^1$級より，定理\ref{th2.8}から$g$は$a$で全微分可能。定理$\ref{th2.2}$により
+
+	\[
+	\begin{split}
+	F'(a)&=f'(g(a))\cdot g'(a)\\
+	&=(D_1f(g(a)),\cdots,D_mf(g(a)))\cdot
+	\begin{pmatrix}
+		D_1g_1(a) & \cdots & D_ng_1(a)\\
+		\vdots & \ddots & \vdots \\
+		D_1g_m(a) & \cdots & D_ng_m(a)
+	\end{pmatrix}
+	\end{split}
+	\]
+
+この左辺の第$i$成分は$D_iF(a)$であり，右辺の第$i$成分は$\displaystyle\sum_{j=1}^m D_jf(g_1(a),\cdots,g_m(a))\cdot D_ig_j(a)$となりOK。
+\end{proof}
+
+\begin{framed}
+	\begin{lem}[リプシッツ連続\footnotemark]\label{lem2.10}
+		$A\subset\mathbb{R}^n:$閉方体，$f:A\to\mathbb{R}^n:C^1$級，$\exists M>0$\\ s.t. $|D_jf^i(x)|\leq M(\forall x\in A) \Rightarrow |f(x)-f(y)|\leq n^2 M|x-y|\ (\forall x,y\in A)$
+	\end{lem}
+\end{framed}
+\footnotetext{
+リプシッツ連続という概念は，例えばディープラーニングで使われる活性化関数ReLUなどで用いられる。
+}
+\begin{proof}
+	$f=(f^1,\cdots,f^n)$に対して
+	\[
+	f^i(y)-f^i(x)=\sum_{j=1}^n\left\{f^i(y^1,\cdots,y^j,x^{j+1},\cdots,x^n)-f^i(y^1,\cdots,y^{j-1},x^j,\cdots,x^n)\right\}
+	\]
+	ここで，平均値の定理より
+	\[
+	\exists z_{ij}\in A\ {\rm s.t.}\ f^i(y^1,\cdots,y^j,x^{j+1},\cdots,x^n)-f^i(y^1,\cdots,y^{j-1},x^j,\cdots,x^n)=(y^j-x^j)D_jf^i(z_{ij})
+	\]
+	よって
+	\[
+	|f^i(y)-f^i(x)|\leq\sum_{j=1}^n|y^i-x^i|M\leq nM|y-x|\footnotemark
+	\]
+	したがって
+	\[
+	|f(y)-f(x)|\leq\footnotemark\sum_{i=1}^n|f^i(y)-f^i(x)|\leq n^2M|y-x|
+	\]
+\end{proof}
+
+\footnotetext{
+$\because |y^i-x^i|\leq|y-x|$
+}
+\footnotetext{
+$\sqrt{a_1^2+\cdots+a_n^2}\leq|a_1|+\cdots+|a_n|$
+}
+
+\begin{framed}
+	\begin{thm}[逆関数の定理]\label{th2.11}
+$f:\mathbb{R}^n\to\mathbb{R}^n$は点$a\in\mathbb{R}^n$を含む開集合で$C^1$級かつ$\det f'(a)\neq 0$\footnotemark であるとする。このとき，
+
+		$\exists V:a$を含む開集合，$\exists W:f(a)$を含む開集合s.t.$f:V\to W$が連続な逆関数$f^{-1}:W\to V$をもつ。\\
+		この$f^{-1}$は$C^1$級であり，$(f^{-1})'(y)=(f'(f^{-1}(y)))^{-1}(\forall y\in W)$が成立する。\\
+		特に$f$が$C^\infty$級ならば$f^{-1}$も$C^\infty$級である。
+	\end{thm}
+\end{framed}
+
+\footnotetext{$\det f'(a)$をヤコビアンという。}
+
+\begin{proof}（Step1.〜Step.7）
+	\begin{enumerate}\renewcommand{\labelenumi}{Step\arabic{enumi}.}
+	\item 線形写像$Df(a)$を$\lambda$とかくと，$\det f'(a)\neq0$より$\lambda$は正則である。
+	\[
+	\begin{split}
+	D(\lambda^{-1}\circ f)(a)
+	&=D(\lambda^{-1})(f(a))\circ Df(a) \\
+	&=\footnotemark\lambda^{-1}\circ Df(a) \\
+	&=\lambda^{-1}\circ\lambda \\
+	&=id\footnotemark
+	\end{split}
+	\]
+	\footnotetext{
+	この定理が成立すると仮定したときに，$(f^{-1})(y)=(f'(f^{-1}(y)))^{-1}$が成り立つので，これの$y=f(a)$とすれば，$D(\lambda^{-1})(f(a))=Df^{-1}(f(a))=(f^{-1})'(f(a))=(f'(f^{-1}(f(a))))^{-1}=(f'(a))^{-1}=\lambda^{-1}$
+	}
+	\footnotetext{$id$は恒等写像（identity mapping）の意。}
+	これは恒等写像である。
+	$\lambda^{-1}\circ f$に対して定理が成立すれば$f$に対しても成立する。よって，$\lambda$が恒等写像であると仮定しても一般性を失わない。
+	\item もし$f(a+h)=f(a)$とすると
+	\[
+	\begin{split}
+	\frac{|f(a+h)-f(a)-\lambda(h)|}{|h|}&=\frac{|\lambda(h)|}{|h|}\\
+	&=\frac{|h|}{|h|}\\
+	&=1
+	\end{split}
+	\]
+	となるが，$f(a)$は$a$で微分可能より
+	\[
+	\lim_{h\to0}\frac{|f(a+h)-f(a)-\lambda(h)|}{|h|}=0
+	\]
+	よって$a$に十分近く，$a$自身ではない点$x$に対しては$f(x)=f(a)$はならない。したがって，$a$をその内部に含む\footnote{内部であって境界でない。}閉方体$U$で次の条件(1)をみたすものがとれる。　
+	\setcounter{equation}{0}
+	\begin{equation}
+		x\in U,x\neq a\Rightarrow f(x)\neq f(a)
+	\end{equation}
+	さらに，$f$は$a$を含むある開集合で$C^1$級だから$U$として次の条件(2)(3)も満たすものが取れる。
+	\begin{equation}
+		x\in U\Rightarrow \det f'(x)\neq0
+	\end{equation}
+	\begin{equation}
+	x\in U\Rightarrow|D_jf^i(x)-D_jf^i(a)|\leq\frac{1}{2n^2}
+	\end{equation}
+	(3)により補題\ref{lem2.10}を関数$g(x):=f(x)-x$に適用でき，その結果
+	\[
+	|f(x_1)-x_1-(f(x_2)-x_2)|\leq\frac{1}{2}|x_1-x_2|\ (\forall x_1,x_2\in U)
+	\] \footnotemark
+	\[
+	\begin{split}
+		|x_1-x_2|-|f(x_1)-f(x_2)|&\leq|f(x_1)-x_1-(f(x_2)-x_2)|\\
+		&\leq\frac{1}{2}|x_1-x_2|
+	\end{split}
+	\]\footnotemark
+	よって
+	\begin{equation}
+		|x_1-x_2|\leq2|f(x_1)-f(x_2)|\ (\forall x_1,x_2\in U)
+	\end{equation}
+	\footnotetext{Lipschitz連続の逆
+	$f$は$Df(a)=\lambda=id$より$f'(a)=E$（$E$は単位行列）。$|D_if'(a)|_{x\in U}\leq 2$。$|g(x_1)-g(x_2)|\leq n^2M|x_1-x_2|$の$M=2$くらい。$|D_jg^i(x)|\leq M=\frac{1}{2n^2}$とする。$|D_jg^i(x)|=|D_jf^i(x)-D_jx^i|=|D_jf^i(x)-\delta_{ij}|=|D_jf^i(x)-D_jf^i(a)|$（$Df(a)=id$ゆえ$D_jf^i(a)=\delta_{ij}$）。
+	。逆関数がリプシッツ連続と言っている。
+	}
+	\footnotetext{三角不等式による。}
+	\item\footnote{逆関数をつくるステップ}
+	$U$の境界を$B$とかくと，定理\ref{th1.9}によって$f(B)$はコンパクト集合であり，性質(1)によって$f(B)$は$f(a)$を含まない。したがって$\exists d>0$\ s.t.\ $|f(a)-f(x)|\geq d\ (\forall x\in B)$そこで$\displaystyle W:=\left\{y:|y-f(a)|\leq\frac{d}{2}\right\}$とおくと
+	\begin{equation}
+		y\in W,x\in B\Rightarrow |y-f(a)|<|y-f(x)|
+	\end{equation}
+が成立する。
+
+	\item $\forall y\in W$に対して，$U$の内部$U-B$の点$x$で，$f(x)=y$となるものが唯一存在することを示す。
+	$g:U\to\mathbb{R}$を
+	\[
+	g(x):=|y-f(x)|^2=\sum_{i=1}^{n}(y^i-f^i(x))^2
+	\]
+	と定める。$g$は連続だから，コンパクト集合$U$の上で最小値を取る。ところが(5)により$x\in B$なら$g(a)<g(x)$だから最小値を取る点は$B$に属さない。最小値をとる点を$x_0$とすると，$x_0\in U-B$である。定理\ref{th2.6}より$\forall j=1,\cdots,n$に対して$D_jg(x_0)$すなわち
+	\[
+	\sum_{i=1}^n 2(y^i-f^i(x_0))\cdot D_jf^i(x_0)=0\ (1\leq j\leq n)
+	\]
+	性質(2)により$(D_jf^i(x_0))_{ij}$は正則であるから（$\det(D_jf^i(x_0))\neq0$）逆行列が存在する。\footnote{上の式に$(D_jf^i(x_0))_{ij} $の逆行列を作用させて残るのは$y^i-f^i(x_0)$の部分だけで，さらに左辺は0である。}よって$\forall i=1,\cdots,n$に対して$y^i-f^i(x_0)=0$となる、ゆえに$y=f(x_0)$となる。また，このような$x_0$が唯一つであることは(4)より明らか。
+
+	\item $V:=(U-B)\cap f^{-1}(W)$\footnote{$f$は$a$の近傍についてしか条件を考えていないため，それ以外のところから$W$に移す写像になっている可能性があるため，$a$近傍についてのみ議論するために，$f^{-1}(W)$に属しているだけでなく$U-B$に属するという条件も付加している。}
+	とおくと$V$は$a$を含む開集合で関数$f:V\to W$は逆関数$f^{-1}:W\to V$をもつことがわかる。性質(4)を書き換えると，$y_1:=f(x_1),f_2:=f(x_2)$とすると$y_1=f^{-1}(y_1),x_2=f^{-1}(y_2)$で
+	\begin{equation}
+	y_1,y_2\in W\Rightarrow |f^{-1}(y_1)-f^{-1}(y_2)|\leq 2|y_1-y_2|
+	\end{equation}
+	となり，これは$f^{-1}$が連続であることを示す。
+
+	\item\footnote{$C^1$を示す}
+	$f^{-1}$の微分可能性と導関数の表示を求める。
+	$x\in V$に対し，$\mu:=Df(x)$とおく。$f^{-1}$が$y=f(x)$で全微分可能でその値が$\mu^{-1}$であることを示す。定理\ref{th2.2}の証明と同様に，$x_1\in V$に対して
+	\begin{equation}\tag{*}
+		f(x_1)=f(x)+\mu(x_1-x)+\phi(x,x_1)
+	\end{equation}
+	\begin{equation}\tag{**}
+	\lim_{x_1\to x}\frac{|\phi(x,x_1)|}{|x_1-x|}=0\footnotemark
+	\end{equation}
+	が成り立つ。
+	\footnotetext{
+	$\displaystyle\lim_{x_1\to x}\frac{|f(x_1)-f(x)-\mu(x_1-x)|}{|x_1-x|}=0$
+	}
+	(*)の両辺に$\mu^{-1}$を作用させると
+	\[
+	\mu^{-1}(f(x_1)-f(x))=x_1-x+\mu^{-1}(\phi(x,x_1))
+	\]
+	となる。$y_1:=f(x_1)$，$y=f(x)$とおくと$x_1=f^{-1}(y_1)$，$x=f^{-1}(y)$より
+	\begin{equation}\tag{*'}
+		f^{-1}(y_1)=f^{-1}(y)+\mu^{-1}(y_1-y)-\mu^{-1}(\phi(f^{-1}(y),f^{-1}(y_1)))
+	\end{equation}
+	よって示すべきことは
+	\[
+	\lim_{y_1\to y}\frac{|\mu^{-1}(\phi(f^{-1}(y),f^{-1}(y_1)))|}{|y_1-y|}=0
+	\]
+	である。ここで，線形写像の有界性（$|\mu^{-1}(z)|\leq\exists M|z|$）より
+	\[
+	\lim_{y_1\to y}\frac{|\phi(f^{-1}(y),f^{-1}(y_1))|}{|y_1-y|}=0
+	\]
+	を示せばよい。このとき
+	\[
+		\frac{|\phi(f^{-1}(y),f^{-1}(y_1))|}{|y_1-y|}=\frac{|\phi(f^{-1}(y),f^{-1}(y_1))|}{|f^{-1}(y_1)-f^{-1}(y)|}\cdot\frac{|f^{-1}(y_1)-f^{-1}(y)|}{|y_1-y|}
+	\]
+	$f^{-1}$は連続だから$y_1\to y \Rightarrow f^{-1}(y_1)\to f^{-1}(y)$となる。よって，$\displaystyle \frac{|\phi(f^{-1}(y),f^{-1}(y_1))|}{|f^{-1}(y_1)-f^{-1}(y)|}$は(**)より$0$に近づく。$\displaystyle \frac{|f^{-1}(y_1)-f^{-1}(y)|}{|y_1-y|}$は(6)により定数$2$で抑えられるので，結局
+	\[
+	\lim_{y_1\to y}\frac{|\phi(f^{-1}(y),f^{-1}(y_1))|}{|y_1-y|}=0
+	\]
+	となる。
+
+	\item $f^{-1}$が$C^1$級であること，および$f$が$C^\infty$級ならば$f^{-1}$も$C^\infty$級を示す。\\
+	$f^{-1}$の全微分の行列$(f^{-1})'(x)$は$f$の全微分の行列$f'(x)$の逆行列であり，それはCramerの公式により，分母は$\det(D_jf^i(x))$，分子は$D_jf^i(x)\ (1\leq i,j\leq n)$の多項式である。よって$(f^{-1})'$は連続である\footnote{$f$は$C^1$級であることによる。}。また，$f$が$C^\infty$級なら$D_jf^i(x)$はすべて$C^\infty$級だから$(f^{-1})'$も$C^\infty$級である。
+	\end{enumerate}
+\end{proof}
+
+
+\newpage
+
+
+\section{陰関数}
+\begin{example}
+	$f(x,y)=x^2+y^2=1$で定まる$f:\mathbb{R}^2\to\mathbb{R}$を考える。$f(a,b)=0$となる点$(a,b)$を1つとり，$a\in A$，$b\in B$とする。このとき，$x\in A$に対して$f(x,y)=0$となる$y\in B$が唯一つ存在する。
+
+	したがって$g:A\to\mathbb{R}\ (x(\in A)\mapsto y(\in\mathbb{R}))$が定まり，$f(x,g(x))=0$が成立する。このとき$g$は$C^1$級になっている。
+
+	このような$g(x)$を$f(x,y)=0$で定まる陰関数という。
+\end{example}
+
+これを一般化して次の問題を考える。
+
+\begin{qes}
+	$f_i:\mathbb{R}^n\times\mathbb{R}^m\to\mathbb{R}\ (i=1,2,\cdots,m)$に対して，	$f_i(a^1,\cdots,a^n,b^1,\cdots,b^m)=0\ (i=1,\cdots,m)$となる点$(a,b)\in\mathbb{R}^n\times\mathbb{R}^m$を考える。$a=(a^1,\cdots,a^n)$の近傍の点$(x^1,\cdots,x^n)$に対し，$b=(b^1,\cdots,b^m)$の近傍の$(y^1,\cdots,y^m)$で
+	\[
+	f_i(x^1,\cdots,x^n,y^1,\cdots,y^m)=0\ (i=1,\cdots,m)
+	\]
+	となるものが唯一存在するか？
+\end{qes}
+
+\begin{framed}
+	\begin{thm}[陰関数の定理]
+		$f:\mathbb{R}^n\times\mathbb{R}^m\to\mathbb{R}^m$が点$(a,b)\in\mathbb{R}^n\times\mathbb{R}^m$を含むある開集合で，$C^1$級かつ$f(a,b)=0$とする。$m\times m$行列$M:=(D_{n+j}f^i(a,b))_{ij}\ (1\leq i,j\leq m)$と定め，$\det A\neq 0$とする。このとき，$\exists A:a$を含む開集合，$\exists B:b$を含む開集合 s.t. $\forall x\in A$に対し，$f(x,g(x))=0$となる$B$の点$g(x)$が唯一存在する。このとき$g:A\to\mathbb{R}^m$は$C^1$級。
+	\end{thm}
+\end{framed}
+
+\begin{proof}
+	$F:\mathbb{R}^n\times\mathbb{R}^m\to\mathbb{R}^n\times\mathbb{R}^m$を$F(x,y):=(x,f(x,y))$で定める。
+
+    \[DF(x,y)=
+    \left(
+    \begin{array}{ccc|ccc}
+        D_{x_1}F^1 & \cdots & D_{x_n}F^1 & D_{y_1}F^1 & \cdots & D_{y_m}F^1 \\
+        D_{x_1}F^2 & \cdots & D_{x_n}F^2 & D_{y_1}F^2 & \cdots & D_{y_m}F^2 \\
+        \vdots & \ddots & \vdots & \vdots & \ddots & \vdots \\
+        D_{x_1}F^n & \cdots & D_{x_n}F^n & D_{y_1}F^n & \cdots & D_{y_m}F^n \\ \cline{1-6}
+        D_{x_1}F^{n+1} & \cdots & D_{x_n}F^{n+1} & D_{y_1}F^{n+1} & \cdots & D_{y+m}F^{n+1} \\
+        \vdots & \ddots & \vdots & \vdots & \ddots & \vdots \\
+        D_{x_1}F^{n+m} & \cdots & D_{x_n}F^{n+m} & D_{y_1}F^{n+m} & \cdots & D_{y_m}F^{n+m} \\
+    \end{array}
+    \right)
+    \]
+    \[
+    \begin{split}
+        \det F'(a,b)&=\det
+        \left(\begin{array}{c|c}
+            E & 0 \\ \cline{1-2}
+            * & M \\
+        \end{array}\right) \\
+        &=\det M \\
+        &\neq 0
+    \end{split}
+    \]
+	定理\ref{th2.11}より，$(a,b)$を含む開集合$V$，$(a,0)$を含む開集合$W$があって，$F:V\to W$は$C^1$級の逆関数$F^{-1}:W\to V$をもつ。$F(x,y)=(x,f(x,y))$だから$F^{-1}(x,y)=(x,k(x,y))$とおける。ここで$\pi:\mathbb{R}^n\times\mathbb{R}^m\to\mathbb{R}^m$を$\pi(x,y):=y$で定めると，$k=\pi\circ F^{-1}$となる。関数$k:W\to\mathbb{R}^m$は$C^1$級である。$\pi\circ F=f$も成立している。$\forall (x,y)\in W$に対し
+	\begin{equation}\tag{*}
+		\begin{split}
+			f(x,k(x,y))&=f\circ F^{-1}(x,y)\\
+			&=(\pi\circ F)\circ F^{-1}(x,y)\\
+			&=\pi\circ(F\circ F^{-1})(x,y)\\
+			&=\pi(x,y)\\
+			&=y
+		\end{split}
+	\end{equation}
+	$a$を含む開集合$A'\subset\mathbb{R}^n$，$b$を含む開集合$B\subset\mathbb{R}^m$を十分小さくとれば
+	\[
+		A'\times B\subset V
+	\]
+	\[
+		A'\times\{0\}\subset W
+	\]
+	が成り立つ。そこで$x\in A'$ならば$(x,0)\in W$だから，$g(x):=k(x,0)$により関数$g:A'\to\mathbb{R}^m$が定義される。この$g$は作り方により$C^1$級で，$g(a)=b$である（$\because F(a,b)=(a,f(a,b))=(a,0)$より，$(a,b)=F^{-1}(a,0)=(a,k(a,0))=(a,g(a))$）。$a$を含む開集合$A\subset A'\subset \mathbb{R}^n$を十分小さくとれば，$g(A)\subset B$となる。$x\in A$に対し，(*)より$f(x,k(x,0))=0$となり，$f(x,g(x))=0$が成立する。
+
+	（一意性について）
+
+	もう一つの関数$y_1=g_1(x)(f(x,g_1(x))=0)$があれば
+	\[
+	\begin{split}
+		F(x,g_1(x))&=(x,f(x,g_1(x)))\\
+		&=(x,0)\\
+		&=F(x,g(x))
+	\end{split}
+	\]
+	となるが，$F$は一対一写像なので$g_1(x)=g(x)$となる。
+
+\end{proof}
+
+\paragraph{陰関数の導関数について}
+
+$f(x,g(x))=0$より$f^i(x,g(x))=0\ (1\leq i\leq m)$だから，両辺を$x_j$で偏微分すると（定理\ref{th2.9}などを用いて）
+\[
+0=D_jf^i(x,g(x))+\sum_{\alpha=1}^m D_{n+\alpha}f^i(x,g(x))\cdot D_jg^\alpha(x)\ (1\leq i\leq m,1\leq j\leq n)
+\]
+ここで$\det M\neq 0$だから，この連立方程式は$D_j g^\alpha(x)$に関して解ける。
+
+
+\newpage
+
+
+\part{積分}
+
+\section{閉方体上での積分}
+\begin{dfn*}[1次元の分割]
+	$[a,b]$の分割$\Delta_0$とは
+	\[
+		\Delta_0=\{x_i\}_{i=0,\cdots,k}\ (a=x_0<x_1<\cdots<x_k=b)
+	\]
+\end{dfn*}
+\begin{dfn*}[閉方体の分割]
+閉方体$[a_1,b_1]\times \cdots \times [a_n,b_n]$の分割$\Delta$を各区間$[a_i,b_i]$の分割$\Delta_i$の組$\Delta:=(\Delta_1,\cdots,\Delta_n)$と定義する。
+\end{dfn*}
+\begin{dfn*}[小方体]
+一般に，$\Delta_i$が$[a_i,b_i]$を$N_i$個に分割すれば，$\Delta=(\Delta_1,\cdots,\Delta_n)$は$[a_1,b_1]\times\cdots\times[a_n,b_n]$を$N=N_1N_2\cdots N_n$個の小閉方体に分割する。この小閉方体を小方体という。
+\end{dfn*}
+\begin{dfn*}[下限和・上限和]
+$A$を小方体，$f:A\to\mathbb{R}$を有界関数とする。$A$の分割$\Delta$と$\Delta$の小方体$B$に対して
+\[
+	m_B(f):=\inf\{f(x):x\in B\}
+\]
+\[
+	M_B(f):=\sup\{f(x):x\in B\}
+\]
+とおく。小方体$B$の体積を$|B|$とおく。閉方体$[a_1,b_1]\times\cdots\times[a_n,b_n]$の体積は$(b_1-a_1)(b_2-a_2)\cdots(b_n-a_n)$とする。ここで
+\[
+s(f,\Delta):=\sum_B m_B(f)|B|
+\]
+\[
+S(f,\Delta):=\sum_B M_B(f)|B|
+\]
+と定義し，$s(f,\Delta)$を$f$の分割$\Delta$に関する下限和，$S(f,\Delta)$を$f$の分割$\Delta$に関する上限和という。このとき，明らかに
+\[
+s(f,\Delta)\leq S(f,\Delta)
+\]
+が成り立つ。
+\end{dfn*}
+
+\begin{framed}
+	\begin{lem}\label{lem3.1}
+		分割$\Delta'$が分割$\Delta$の細分\footnotemark ならば，$s(f,\Delta)\leq s(f,\Delta')$，$S(f,\Delta')\leq S(f,\Delta)$
+	\end{lem}
+\end{framed}
+\footnotetext{$\Delta'$の小方体はすべて$\Delta$のある小方体の分割となる}
+
+\begin{proof}
+$\Delta$の各小方体$B$は何個かの$\Delta'$の小方体$B_1,\cdots,B_\alpha$に分割される。よって$|B|=|B_1|+|B_2|+\cdots+|B_\alpha|$。また，$B\supset B_i$だから$m_B(f)\leq M_B(f)$。したがって
+\[
+    \begin{split}
+    m_B(f)\cdot |B|&=m_B(f)\cdot|B_1|+\cdots+m_B(f)\cdot|B_\alpha|\\
+    &\leq m_{B_1}(f)\cdot|B_1|+\cdots+m_{B_\alpha}(f)\cdot|B_\alpha|\footnotemark
+    \end{split}
+\]
+\footnotetext{
+$\Delta'$の$B$上の下限和を表す。
+}
+すべての$B$に関する左辺の和が$s(f,\Delta)$，右辺の和が$s(f,\Delta')$だから，
+\[
+    s(f,\Delta)\leq s(f,\Delta')
+\]
+\end{proof}
+
+\begin{framed}
+    \begin{cor}
+        任意の分割$\Delta$，$\Delta'$に対して$s(f,\Delta)\leq s(f,\Delta')$
+    \end{cor}
+\end{framed}
+
+\begin{proof}
+    $\Delta''$を$\Delta$と$\Delta'$の両方の細分であるような分割とする。このとき
+    \[
+        s(f,\Delta)\leq s(f,\Delta'')\leq S(f,\Delta'')\leq S(f,\Delta')
+    \]
+    以上より
+    \[
+        \sup_{\Delta} s(f,\Delta)\leq \inf_{\Delta} S(f,\Delta)
+    \]
+    が\textbf{常に}成り立つ。
+\end{proof}
+\begin{dfn*}[リーマン可積分 Riemann Integrable]
+    \[
+        \sup_{\Delta} s(f,\Delta)= \inf_{\Delta} S(f,\Delta)
+    \]
+    のとき，有理関数$f$は閉方体$A$上で可積分（Riemann Integrable）であるという。
+\end{dfn*}
+
+\begin{framed}
+    \begin{thm}
+        有界関数$f:A\to\mathbb{R}$が可積分であるための必要十分条件は
+        \begin{equation}\tag{*}\forall\epsilon>0,\exists\Delta:Aの分割\ {\rm s.t. } S(f,\Delta)-s(f,\Delta)<\epsilon
+        \end{equation}
+    \end{thm}
+\end{framed}
+
+\begin{proof}\
+    \par\noindent\textbf{（(*)$\Rightarrow$$f$が$A$上可積分）}\\
+    定義から$s(f,\Delta)\leq\sup_{\Delta}s(f,\Delta)$，$\inf_{\Delta}S(f,\Delta)\leq S(f,\Delta)$。仮定から$\forall\epsilon>0$に対して$\inf_{\Delta}S(f,\Delta)-\sup_{\Delta}s(f,\Delta)\leq S(f,\Delta)-s(f,\Delta) <\epsilon $が成り立つので
+    \[
+    	\sup_{\Delta} s(f,\Delta)= \inf_{\Delta} S(f,\Delta)
+    \]
+    となり，$f$は可積分。\\
+    \textbf{（$f$が$A$上可積分 $\Rightarrow$(*)）}\\
+    $f$が可積分ならば，
+    \[
+    	\forall\epsilon>0,\exists\Delta,\Delta':Aの分割\ {\rm s.t.}\ S(f,\Delta)-s(f,\Delta')<\epsilon
+    \]
+    $\Delta$と$\Delta'$の細分を$\Delta''$とすると，補題\ref{lem3.1}より
+    \[
+    	S(f,\Delta'')-s(f,\Delta'')\leq S(f,\Delta')-s(f,\Delta')<\epsilon
+    \]
+\end{proof}
+
+
+\newpage
+
+
+\section{測度0集合}
+\begin{dfn*}[測度0]
+	$A\subset\mathbb{R}^n$とする。
+	\[
+		\forall\epsilon>0,\exists 可算個の閉方体\{c_1,c_2,\cdots\}\ {\rm s.t. }\ A\subset\bigcup_{i=1}^\infty c_i,\sum_{i=1}^\infty|c_i|<\epsilon
+	\]
+	このとき$A$は（$n$次元）測度$0$であるという。
+\end{dfn*}
+\begin{note}\
+	\begin{itemize}
+		\item $A$が測度$0$で$B\subset A$ならば$B$も測度$0$
+		\item 測度$0$の定義は被覆を開方体に変えても同じ。
+	\end{itemize}
+\end{note}
+\begin{example}\
+	\begin{itemize}
+		\item 有限個の点からなる集合は測度$0$。
+		\item 可算個の点からなる集合$\{a_1,a_2,\cdots\}$は測度$0$
+			\begin{proof}
+				$\forall\epsilon>0$に対し点$a_i$を含む閉方体$c_i$として$|c_i|<\frac{\epsilon}{2^i}$となるものをとれば
+				\[
+					\sum_{i=1}^\infty|c_i|<\sum_{i=1}^\infty\frac{\epsilon}{2^i}=\epsilon
+				\]
+				となる。
+			\end{proof}
+	\end{itemize}
+\end{example}
+\begin{example}[加算集合の例]
+区間$[0,1]$の有理数全体。
+\[
+X:加算集合\Leftrightarrow\exists f:X\to\mathbb{N}:全単射
+\]
+\end{example}
+\begin{framed}
+	\begin{thm}\label{th3.4}
+		$A=A_1\cup A_2\cup A_3\cup\cdots$（可算個の合併）で各$A_i$が測度$0$ならば，$A$は測度$0$
+	\end{thm}
+\end{framed}
+
+\begin{proof}
+	$\forall\epsilon>0$を固定，各$A_i$は測度$0$より閉方体の可算個の被覆$\{c_{i1},c_{i2},\cdots\}$\ {\rm s.t.}\ $\displaystyle\sum_{j=1}^\infty|c_{ij}|<\frac{\epsilon}{2^i}$となるものがある。集合族$\{c_{ij}:i,j=1,2,\cdots\}$は$A$の被覆になっている。$\displaystyle k=\frac{1}{2}(i+j-2)(i+j-1)+j$として$D_k=c_{ij}$とすれば
+	\[
+		\sum_{i=1}^\infty|D_i|<\sum_{i=1}^\infty\frac{\epsilon}{2^i}=\epsilon
+	\]
+	となる。
+\end{proof}
+
+\begin{dfn*}[容積0]
+	$A\subset\mathbb{R}$とする。$\forall\epsilon>0,\exists$有限個の閉方体（開方体）$\{c_1,c_2,\cdots,c_k\}$\ s.t.\ $A\displaystyle\subset\bigcap_{i=1}^kc_i$，$\displaystyle\sum_{i=1}^k|c_i|<\epsilon$とできるとき，$A$は容積$0$であるという。
+\end{dfn*}
+
+\begin{note}
+	$A$が容積$0\Rightarrow A$は測度$0$
+\end{note}
+
+\begin{framed}
+	\begin{thm}\label{th3.5}
+		$a<b$ならば閉区間$[a,b]\subset\mathbb{R}$は容積$0$ではない。さらに，$[a,b]$の被覆として，任意の有限個の閉区間$\{c_1,c_2,\cdots,c_k\}$をとれば$\sum_{i=1}^k c_i\geq b-a$
+	\end{thm}
+\end{framed}
+
+\begin{proof}
+	$c_i\subset [a,b]$としても一般性を失わない。閉区間$c_i$のすべての両端点を大きさ順に並べたものを
+	\[
+		a=t_0<t_1<\cdots<t_l=b
+	\]
+	とする。このとき，$|c_i|$はいくつかの$t_j-t_{j-1}$の和であり，各$[t_{j-1},t_j]$は少なくとも一つの$c_i$に含まれるから，
+	\[
+		\sum_{i=1}^k|c_i|\geq \sum_{j=1}^l|t_j-t_{j-1}|=b-a
+	\]
+	となる。実際，$a<b$ならば$[a,b]$は測度$0$ではない。
+\end{proof}
+
+\begin{framed}
+	\begin{thm}\label{th3.6}
+		compact集合$A$が測度$0$ならば，容積$0$である。
+	\end{thm}
+\end{framed}
+
+\begin{proof}
+	$\forall\epsilon>0$を固定。$A$は測度$0$だから開方体による$A$の可算被覆$\{U_1,U_2,\cdots\}$で$\displaystyle\sum_{i=1}^\infty|U_i|<\epsilon$となるものがある。$A$はcompactだから$\{U_i\}_{i=1}^\infty$の中で有限個$U_1,U_2,\cdots,U_k$が既に$A$を覆う。このとき
+	\[
+		\sum_{i=1}^k|U_i|\leq\sum_{i=1}^\infty|U_i|<\epsilon
+	\]
+	となる。
+\end{proof}
+
+\begin{note}
+	$A$がcompactでないとこの定理は使えない。反例としては$A=[0,1]\cup\mathbb{Q}$が挙げられる。この$A$は測度$0$。一方で有限個の閉区間による$A$の被覆$\{[a_1,b_1],\cdots,[a_k,b_k]\}$があるとする。
+	$A$は閉集合$\tilde{A}:=[a_1,b_1]\cup[a_2,b_2]\cup\cdots\cup[a_k,b_k]$に含まれる。$\tilde{A}\subset\mathbb{R}$を閉集合とし$[0,1]$の中の有理数はすべて$\tilde{A}$に含まれるとする。このとき$[0,1]\subset\tilde{A}$。これより$[0,1]\subset[a_1,b_1]\cup\cdots\cup[a_k,b_k]$となる。定理\ref{th3.5}より$\displaystyle\sum_{i=1}^k(b_i-a_i)\geq 1$となり，$A$は容積$0$ではない。
+\end{note}
+
+
+\newpage
+
+
+\section{可積分関数}
+\paragraph{準備：有界関数の不連続度}
+\begin{dfn*}[変動量]
+$A\subset \mathbb{R}^n$とする。$f:A\to\mathbb{R}^n$:有界関数，$a\in A$とする。$\forall\delta>0$に対して
+\[
+	M(a,f,\delta):=\sup\{f(x):x\in A,|x-a|<\delta\}
+\]
+\[
+	m(a,f,\delta):=\inf\{f(x):x\in A,|x-a|<\delta\}
+\]
+$\delta$を小さくすると$M(a,f,\delta)-m(a,f,\delta)(\geq 0)$も小さくなるので，$\displaystyle\lim_{\delta\to+0}\{M(a,f,\delta)-m(a,f,\delta)\}$が存在する。これを$f$の$a$での変動量といい，$\mathscr{O}(f,a)$とかく。
+\end{dfn*}
+\begin{thm*}
+有界関数$f$が$a$で連続$\Leftrightarrow$$\mathscr{O}(f,a)=0$
+\end{thm*}
+\begin{proof}\
+	\par\noindent\textbf{($\Rightarrow$)}\\
+	$f$が$a$で連続とすると$\forall\epsilon>0,\exists\delta>0$\ s.t.\ $x\in A,|x-a|<\delta\Rightarrow|f(x)-f(a)|<\epsilon$。よって，$\forall x,y\in A:|x-a|<\delta,|y-a|<\delta$に対して
+	\[
+	|f(x)-f(y)|\leq |f(x)-f(a)|+|f(y)-f(a)|< 2\epsilon
+	\]
+	したがって
+	\[
+	M(a,f,\delta)-m(a,f,\delta)\leq 2\epsilon \footnotemark
+	\]
+	となり，$\mathscr{O}(f,a)=0$\\
+	\par\noindent\textbf{($\Leftarrow$)}\\
+	$\mathscr{O}(f,a)=0$とすると，$\forall\epsilon>0,\exists\delta>0$\ s.t.\ $M(a,f,\delta)-m(a,f,\delta)<\epsilon$となる。よって$\forall x\in A,|x-a|<\delta$に対して
+	\[
+		|f(x)-f(a)|\leq M(a,f,\delta)-m(a,f,\delta)<\epsilon
+	\]
+	となり連続。
+\end{proof}
+\footnotetext{
+ここではsup-infのため等号が入る。
+}
+\begin{framed}
+	\begin{thm}\label{th3.7}
+		$A\subset\mathbb{R}^n$:閉集合，$f:A\to\mathbb{R}$:有界関数とする。このとき$\forall\epsilon>0$に対して，$B:=\{x\in A:\mathscr{O}(f,x)\geq \epsilon\}$は閉集合。
+	\end{thm}
+\end{framed}
+
+\begin{proof}
+	$\mathbb{R}^n-B(=B^c)$が開集合であることを示せばよい。
+	\[
+	x\in\mathbb{R}^n-B \Rightarrow
+	\begin{cases}
+ 		(1) & x\notin A \\
+ 		& {\rm or}\\
+ 		(2) & x\in A かつ \mathscr{O}(f,x)<\epsilon
+ 	\end{cases}
+	\]
+	となる。\\
+	(1)のとき，$A$は閉集合だから$x$を含む閉方体$C$が存在し，
+	\[
+		x\in C\subset \mathbb{R}^n-A\subset \mathbb{R}^n-B
+	\]
+	(2)のとき，十分小さい$\delta>0$を取ると$M(x,f,\delta)-m(x,f,\delta)<\epsilon$が成り立つ。そこで，$x$を含む開方体$C$を$y\in C$ならば$|x-y|<\delta$が成立するように小さくとる。このとき$\forall y\in C$に対し，十分小さい$\delta_1$をとって
+	\[
+		|z-y|<\delta_1 \Rightarrow |z-x|<\delta
+	\]
+	とできる。\footnotemark
+	よって
+	\[
+		M(y,f,\delta_1)-m(y,f,\delta_1)<\epsilon
+	\]
+	したがって$\mathscr{O}(f,y)<\epsilon$が成り立ち，$C\in\mathbb{R}^n-B$となる。
+\end{proof}
+\footnotetext{
+	中心$y$半径$\delta_1$の中に$z$があれば中心$x$半径$\delta$の中に$z$が含まれている。
+}
+
+\begin{framed}
+	\begin{thm}\label{th3.8}
+		$A\subset\mathbb{R}^n$:閉方体，$f:A\to\mathbb{R}$:有界関数，$f$の不連続点全体を$B$とする。このとき，$f:A$上可積分$\Leftrightarrow$$B$が測度$0$
+	\end{thm}
+\end{framed}
+
+\begin{proof}\
+	\par\noindent\textbf{($\Leftarrow$)}\\
+	$B$が測度$0$とする。$\forall\epsilon>0$，$\exists$可算個の閉方体$c_i$\ ($i=1,2,\cdots$)\ s.t.\ (1)$\sum_{i=1}^\infty|c_i|<\epsilon$，(2)$c_i$の内部を$\overset{\circ}{c_i}$とするとき$B\subset\bigcup_{i=1}^\infty \overset{\circ}{c_i}$となる。\\
+	一方$A-B$の各点$x$に対し，$x$を内部に含む閉方体$D_x$を十分小さくとると$M_{D_x}(f)-m_{D_x}(f)<\epsilon$が成り立つ。
+    \footnote{
+    $M_{D_x}(f)=\sup\{f(x):x\in D_x\}$\\
+    $m_{D_x}(f)=\inf\{f(x):x\in D_x\}$\\
+    Th3.7の前の内容
+    }
+	$\overset{\circ}{c_i}$および$\overset{\circ}{D_x}$の全体はコンパクト集合$A$の開被覆であるから，そのうちの有限個で$A$を覆うことができる。これに対して，$A$の分割$\Delta$を細かくとり，その小方体がすべて上記の有限個の開被覆の開方体のどれかに含まれるようにすることができる。\footnote{
+    被った場合はどちらかに適当に割り振る
+    }
+	その中（分割された小方体）で$\overset{\circ}{c_i}$に含まれる小方体全体を$\mathscr{S}_1$，$\overset{\circ}{D_{x}}$に含まれる小方体全体を$\mathscr{S}_2$とする。このとき$|f(x)|$の$A$上の上限を$M$とすると
+	\[
+		\sum_{S\in\mathscr{S}_1}\{M_S(f)-m_S(f)\}|S|\leq 2M\epsilon
+	\]
+	\[
+		\sum_{S\in\mathscr{S}_2}\{M_S(f)-m_S(f)\}|S|\leq \epsilon|A|
+	\]
+	が成立する。したがって，
+	\[
+	\begin{split}
+	S(f,\Delta)-s(f,\Delta)&=\sum_{S}\{M_S(f)-m_S(f)\}|S| \\
+	&\leq (2M+|A|)\epsilon
+	\end{split}
+	\]
+	となり，$f$は可積分。
+	\par\noindent\textbf{($\Rightarrow$)}\\
+	$f$が$A$上可積分とする。$\displaystyle B_m:=\{x\in A:\mathscr{O}(f,x)\leq\frac{1}{m}\}$とおく。
+    \footnote{
+    測度論では常套手段。不連続なものというのはオシレーションが0より大きい。オシレーションが0なら連続。可算個でやりたい。任意の$m$でこれが示せればすべて測度0とわかりこれ自体が測度0となる。
+    }
+	（定理\ref{th3.7}より$B_m$は閉集合であり）$\displaystyle B=\bigcup_{m=1}^\infty B_m$だから，各$B_m$が測度0であることを示せばよい。（by定理\ref{th3.4}）
+	$\forall\epsilon>0$に対し，$A$の分割$\Delta$を$\displaystyle S(f,\Delta)-s(f,\Delta)<\frac{\epsilon}{m}$となるようにとる。$\Delta$の小方体のうち，その内部が$B_m$と共通点をもつようなものの全体を$\mathscr{S}$とする。$\mathscr{S}$は$\overset{\circ}{B_m}$
+    \footnote{
+    $B_m$から分割$\Delta$の各小方体の境界はすべて除いて考える。
+    }
+    を有限個で被覆している。$S\in\mathscr{S}$に対しては$\displaystyle M_S(f)-m_S(f)\geq\frac{1}{m}$
+    \footnote{
+    $\forall x\in\overset{\circ}{B_m}$の点のまわりが存在しているので変動量の$\frac{1}{m}$がでる。
+    }
+    となる。
+	\[
+	\begin{split}
+		\frac{1}{m}\sum_{S\in\mathscr{S}}|S|
+		&\leq\sum_{S\in\mathscr{S}}\{M_S(f)-m_S(f)\}|S| \\
+		&\leq\sum_{S\in\Delta}\{M_S(f)-m_S(f)\}|S| \\
+		&= S(f,\Delta)-s(f,\Delta) \\
+		&\leq\frac{\epsilon}{m}
+	\end{split}
+	\]
+	となり，$\displaystyle\sum_{S\in\mathscr{S}}|S|\leq\epsilon$となる。\\
+	一方
+    \footnote{
+    境界に不連続点がたまたまあったとすると、差$M_S(f)-m_S(f)$が出ないため、内部のみを考えて、残りは後で考えている。
+    }
+    ，$\Delta$の小方体の境界全体は明らかに測度$0$である。つまり境界全体を覆う有限個の開方体$c_1,c_2,\cdots,c_l$で$\displaystyle \sum_{i=1}^l|c_i|<\epsilon$となるものが存在する
+    \footnote{開方体$c_i$は細くとればいくらでも小さなものはとれる
+    }
+    。$\mathscr{S}$に属する$S$と，$c_i$の全体は$B_m$を覆う。このとき
+	\[
+	\sum_{S\in\mathscr{S}}|S|+\sum_{i=1}^l|c_i|<2\epsilon
+	\]
+	だから，$B_m$は測度$0$となる。
+\end{proof}
+
+\paragraph{一般の有界集合上の積分}
+\begin{itemize}
+	\item $A\subset\mathbb{R}^n$:部分集合に対し，関数$\chi_A:\mathbb{R}^n\to\mathbb{R}$を
+	\[
+		\chi_A(x):=
+		\begin{cases}
+			1 & x\in A\\
+			0 & x\notin A
+		\end{cases}
+	\]
+	によって定義する。これを$A$の特性関数\footnote{確率論での特性関数は、フーリエ変換をした後の関数のことを意味する、とかもあるので、数学の分野による名前のそれに注意。}という。
+	\item $A$が有界ならば，$A$を含む閉方体$C$が存在する。関数$f:C\to\mathbb{R}$が有界で関数$f\cdot\chi_A$が$C$上可積分のとき，$f$は$A$上可積分といい，
+	\[
+		\int_A f := \int_C f\cdot\chi_A
+	\]
+	によって$f$の$A$上の積分を定める。\footnote{このcut offは画像処理などに応用されたりする。}特に$f$と$\chi_A$がともに$C$上可積分ならば$f\cdot\chi_A$も$C$上可積分であり，$f$は$A$上可積分となる。（可積分関数の積は可積分。）
+\end{itemize}
+
+\begin{note}
+	$\displaystyle \int_A f$は$C$の取り方によらない。
+\end{note}
+
+\begin{framed}
+	\begin{thm}
+		$A\subset\mathbb{R}^n$:有界集合，$A$を含む閉方体を$C$とする。このとき，関数$\chi_A:C\to\mathbb{R}$が可積分$\Leftrightarrow$$A$の境界が測度$0$。ここで$A$の境界は有界閉集合，つまりコンパクト集合だから，測度$0$の代わりに容積$0$としても成立する。（$\because$定理\ref{th3.6}による）
+	\end{thm}
+\end{framed}
+
+\begin{proof}
+	$A$の境界が関数$\chi_A$の不連続店の全体と一致することを示せば定理\ref{th3.8}よりOK。
+	\begin{itemize}
+		\item $x$が$A$の内部のとき$\exists U$:開方体 s.t. $x\in U\subset A$となる$U$が存在。$U$上で$\chi_A=1$より$\chi_A$は$x$で連続。
+		\item $x$が$A$の外部のとき$\exists U$:開方体 s.t. $x\in U\subset \mathbb{R}^n-A$とできる。$U$上で$\chi_A=0$より$\chi_A$は$x$で連続。
+		\item $x$が$A$の境界のとき$x$を含む任意の開方体$U$は$A$とも$\mathbb{R}^n-A$とも共通点をもつ。$y_1\in U\cap A$，$y_2\in U\cap(\mathbb{R}^n-A)$とすると，$\chi_A(y_1)=1$，$\chi_A(y_2)=0$より$\chi_A$は$x$では不連続。
+	\end{itemize}
+\end{proof}
+
+\begin{dfn*}[Jordan可測集合]
+	有界集合$A\subset\mathbb{R}^n$の境界が測度$0$のとき，$A$をJordan可測集合という。
+\end{dfn*}
+\begin{dfn*}[体積]
+	関数$1$の$A$上積分$\displaystyle \int_A 1$を$A$の（$n$次元）体積という。
+\end{dfn*}
+%\begin{note}
+%3.8 そくどぜろならりーまんせきぶんできる。けど、ディリクレ関数はりーまんせきぶんできない。有理数で1、無理数で0 不連続点はすべての点。定理3.9によれば積分できないことがわかる。
+%\end{note}
+
+
+\newpage
+
+
+\section{重積分}
+\begin{dfn*}[上積分・下積分]
+	$A:\mathbb{R}^n$の閉方体，$f:A\to\mathbb{R}:$有界関数\\
+このとき$\displaystyle\sup_{\Delta}s(f,\Delta)$と$\displaystyle\inf_{\Delta}S(f,\Delta)$は必ず存在する。これらを$\displaystyle\underline{\int_A} f$，$\displaystyle\overline{\int_A}f$で表し，前者を$f$の$A$上の下積分，後者を$f$の$A$上の上積分という。
+\end{dfn*}
+\begin{framed}
+	\begin{thm}[重積分]\label{th3.10}
+			$A\subset\mathbb{R}^n,B\subset\mathbb{R}^m:$閉方体，$f:A\times B\to\mathbb{R}:$可積分関数とする。$x\in A$に対し，$g_x:B\to\mathbb{R}$を$g_x(y):=f(x,y)$で定め，
+			\[
+				L(x):= \underline{\int_B}g_x= \underline{\int_B}f(x,y) dy
+			\]
+			\[
+				U(x):= \overline{\int_B}g_x= \overline{\int_B}f(x,y) dy
+			\]
+			とおくと，関数$L(x),U(x)$はともに$A$上可積分で
+			\[
+			\begin{split}
+			\int_{A\times B}f &= \int_A L\\
+			&= \int_A\left(\underline{\int_B}f(x,y)dy\right)dx
+			\end{split}
+			\]
+			\[
+			\begin{split}
+			\int_{A\times B}f &= \int_A U\\
+			&= \int_A\left(\overline{\int_B}f(x,y)dy\right)dx
+			\end{split}
+			\]
+			がともに成立する。この右辺の積分を重積分，あるいは累次積分という。
+	\end{thm}
+\end{framed}
+
+\begin{proof}
+	$\Delta_A,\Delta_B:A,B$の分割とすると，$\Delta=(\Delta_A,\Delta_B)$は$A\times B$の分割で$\Delta$の小方体は$C_A\times C_B$（$=C$とする）（$C_A,C_B$は$\Delta_A,\Delta_B$の小方体）の形となる。よって
+	\[
+	\begin{split}
+		s(f,\Delta)
+		&=\sum_C m_C(f)|C|\\
+		&=\sum_{C_A}\sum_{C_B}m_{C_A\times C_B}(f)|C_A\times C_B|\\
+		&=\sum_{C_A}\left(\sum_{C_B}m_{C_A\times C_B}(f)|C_B|\right)|C_A|
+	\end{split}
+	\]
+	$\forall x\in C_A$を固定する。$\inf$の計算から
+	\[
+	m_{C_A\times C_B}(f)\leq m_{C_B}(g_x)\footnotemark
+	\]
+	\footnotetext{$C_A\times C_B$と$\{x\}\times C_B$}
+	となるから
+	\[
+	\begin{split}
+		\sum{C_B}m_{C_A\times C_B}(f)|C_B|
+		&\leq \sum_{C_B}m_{C_B}(g_x)|C_B|\\
+		&\leq \underline{\int_B} g_x\\
+		&=L(x)
+	\end{split}
+	\]
+	が成り立つ。したがって，
+	\[
+	\begin{split}
+		\sum_{C_B}m_{C_A\times C_B}(f)|C_B|
+		&\leq m_{C_A}(L)\\
+		&=\inf\{L(x):x\in C_A\}
+	\end{split}
+	\]
+	よって
+	\[
+	\begin{split}
+	\sum_{C_A}\left(\sum_{C_B}m_{C_A\times C_B}(f)|C_B|\right)|C_A|
+		&\leq\sum_{C_A} m_{C_A}(L)|C_A|\\
+		&= s(L,\Delta_A)
+	\end{split}
+	\]
+	ゆえに
+	\begin{equation}\tag{1}
+		s(f,\Delta)\leq s(L,\Delta_A)
+	\end{equation}
+	同様にして
+	\begin{equation}\tag{2}
+		S(U,\Delta_A)\leq S(f,\Delta)
+	\end{equation}
+	以上から
+	\[
+		s(f,\Delta)\underset{(1)}{\leq} s(L,\Delta_A)\leq S(L,\Delta_A) \underset{\footnotemark}{\leq} S(U,\Delta_A) \underset{(2)}{\leq} S(f,\Delta)
+	\]
+	\footnotetext{$L(x)\leq U(x)\Rightarrow S(L,\Delta_A)\leq S(U,\Delta_A) $，注釈なしの不等号の前後で極限をとって考える。}
+	$f$は可積分だから
+	\[
+	\sup_{\Delta_A}s(L,\Delta_A)=\inf_{\Delta}S(f,\Delta)=\int_{A\times B}f
+	\]
+	が成立しているので
+	\[
+		\sup_{\Delta_A}s(L,\Delta_A)=\inf_{\Delta_A}S(L,\Delta_A)=\int_{A\times B}f
+	\]
+	が成立する。よって$L$は$A$上可積分であり，
+	\[
+	\int_{A\times B}f=\int_A L
+	\]
+	である。$U$に対しては同様にして次の不等式
+	\[
+		s(f,\Delta)\leq s(L,\Delta_A)\leq S(U,\Delta_A)\leq S(U,\Delta_A)\leq S(f,\Delta)
+	\]
+	を用いればよい。
+\end{proof}
+
+\newpage
+
+\begin{note}\
+	\begin{itemize}
+			\item 同様に，累次積分の順序を逆にした公式
+			\[
+			\int_{A\times B}f=\int_B\left(\underline{\int_A}f(x,y)dx\right)dy=\int_B\left(\overline{\int_A}f(x,y)dx\right)dy
+			\]
+			が成り立つ。
+			\item 各$g_x(y)=f(x,y)$が$\forall x\in A$で$y$に関して可積分な場合は
+			\[
+			\int_{A\times B}f=\int_A\left(\int_B f(x,y)dy\right)dx
+			\]
+			が成り立つ。特に$f$が連続ならば成立する。
+			\item $g_x$が可積分でない$x\in A$が高々有限個の場合，この有限個以外の$x$に対して$\displaystyle L(x)=\int_B f(x,y)dy$であり，関数$L(x)$の積分は有限個の点で関数の値を変えても変わらないので、結局この場合も
+			\[
+			\int_{A\times B}f=\int_A\left(\int_B f(x,y)dy\right)dx
+			\]
+			が成り立つ。ただし，上記の有限個の$x$に対しては$\displaystyle \int_B f(x,y)dy$は，たとえば$0$と決めていることとする。
+			\item $g_x$が可積分でない$x\in A$が有限個でない場合，定理\ref{th3.10}の形で使う必要がある。
+			\begin{example}
+				$f:[0,1]\times [0,1]\to\mathbb{R}$を
+				\[
+				f(x,y)=
+				\begin{cases}
+					1 & (x\in\mathbb{R}-\mathbb{Q})\\
+					1 & (x\in\mathbb{Q},y\in\mathbb{R}-\mathbb{Q})\\
+					1-\frac{1}{q} & (x,y\in\mathbb{Q},x=\frac{p}{q}:既約分数)
+				\end{cases}
+				\]
+				と定めると、$f$は可積分（演習問題で示した）で，$\displaystyle \int_{[0,1]\times[0,1]}f=1$。一方で$x$が無理数なら$\displaystyle \int_0^1 f(x,y)dy=1$。$x$が有理数なら$g_x$はすべての点で不連続なので可積分でない。よって，$\displaystyle h(x)=\int_0^1 f(x,y)dy$が存在しない時には$0$とおくと$h(x)$は可積分にならない。\footnote{この場合，$1$とおけばたまたまうまくいくが，一般論として考えれば定義に戻るのが賢明。}
+			\end{example}
+			\item $A=[a_1,b_1]\times\cdots\times[a_n,b_n]\subset\mathbb{R}^n$のとき，$f:A\to\mathbb{R}$が例えば連続関数ならば，定理\ref{th3.10}を繰り返し用いて
+			\[
+			\int_A f = \int_{a_n}^{b_n}\left(\cdots\left(\int_{a_1}^{b_1}f(x^1,\cdots,x^n)dx^1\right)\cdots\right)dx^n
+			\]
+	\end{itemize}
+\end{note}
+
+
+\newpage
+
+
+\section{変数変換}
+\paragraph{1次元}
+$f:\mathbb{R}\to\mathbb{R}:$連続関数に対して，変換$g:[a,b]\to\mathbb{R}:C^1$級関数\\
+このとき
+\[
+	\int_{g(a)}^{g(b)}f = \int_a^b(f\circ g)\cdot g'
+\]
+（変数変換）が成立する。$g$が1対1ならば
+\[
+	\int_{g([a,b])}f=\int_{[a,b]}(f\circ g)\cdot|g'|
+\]
+とかける。
+
+\paragraph{多次元での変数変換}\
+
+\begin{framed}
+	\begin{thm} \label{th3.11}
+		$A$を$\mathbb{R}^n$の開集合，$g:A\to\mathbb{R}^n$を1対1で$C^1$級関数，すべての$x\in A$で$\det g'(x)\neq 0$となるものとする。$f:g(A)\to\mathbb{R}$が可積分であれば
+		\[
+			\int_{g(A)}f=\int_A(f\circ g)\cdot|\det g'|
+		\]
+		が成立する。
+	\end{thm}
+\end{framed}
+
+\begin{proof}
+	は別途†闇のpdf†にて。また，これに関するレポート課題を（上位者救済措置として？）出す。
+\end{proof}
+
+\begin{example}[極座標変換:$x_1=r\cos\theta,x_2=r\sin\theta$]
+これは$\mathbb{R}^2\leftrightarrow [0,\infty)\times[0,2\pi]$の対応で，境界を除き1対1，$g(r,\theta)={}^t(r\cos\theta,r\sin\theta)=(x_1,x_2)$とすると
+\[
+	g'=
+	\begin{pmatrix}
+	\cos\theta & -r\sin\theta \\
+	\sin\theta & r\cos\theta
+	\end{pmatrix}
+\]
+より，$|\det g'|=r$は$r=0$を除いて$0$でない。この変換で$g(A)$と$A$が対応しているとき
+\[
+	\int_{g(A)}f(x,y)dxdy=\int_A f(r\cos\theta,r\sin\theta)rdrd\theta
+\]
+となる。
+\begin{ex}
+	3次元球の体積$\displaystyle V=2\int_{x^2+y^2\leq a^2}\sqrt{a^2-x^2-y^2}dxdy$
+\end{ex}
+
+\begin{ans}
+
+円$x^2+y^2\leq a^2$は極座標変換により，$0\leq r\leq a,0\leq \theta\leq 2\pi$に対応するので，
+\[
+\begin{split}
+	V&=2\int_{\theta=0}^{\theta=\pi}\left(\int_{r=0}^{r=a}\sqrt{a^2-r^2}rdr\right)d\theta\\
+	&=4\pi\int_0^a r\sqrt{a^2-r^2}dr\\
+	&=\frac{4}{3}\pi a^3
+\end{split}
+\]
+
+\end{ans}
+
+\end{example}
+
+\begin{framed}
+	\begin{thm}[Sardの定理]
+		$A$が$\mathbb{R}^n$の開集合，$g:A\to\mathbb{R}^n$が$C^1$級のとき$B:=\{x\in A:\det g'(x)=0\}$とおくと，$g(B)$は（$n$次元）測度$0$である。\footnotemark
+	\end{thm}
+\end{framed}
+\footnotetext{
+この定理によって定理\ref{th3.11}における$\det g'(x)\neq 0$という仮定はなくてもよいことがわかる。
+}
+
+\begin{example}[$n$次元極座標変換]
+
+\begin{empheq}[left=\empheqlbrace]{align*}
+	x_1 &= r\cos\theta_1 \\
+	x_2 &= r\sin\theta_1\cos\theta_2 \\
+	x_3 &= r\sin\theta_1\sin\theta_2\cos\theta_3 \\
+	 &\vdots \\
+	x_{n-1} &= r\sin\theta_1\sin\theta_2\cdots\sin\theta_{n-2}\cos\theta_{n-1} \\
+	x_{n} &= r\sin\theta_1\sin\theta_2\cdots\sin\theta_{n-2}\sin\theta_{n-1}
+\end{empheq}
+
+ここで，$0\leq r\leq +\infty$，$0\leq\theta_i\leq\pi\ (i=1,2,\cdots,n-2)$，$0\leq\theta_{n-1}\leq 2\pi$である。\\
+このとき，ヤコビアンは$r^{n-1}\sin^{n-2}\theta\sin^{n-3}\theta_2\cdots\sin\theta_{n-2}$となる。
+
+\subparagraph{3次元の場合}
+
+\begin{empheq}[left=\empheqlbrace]{align*}
+	x_1 &= r\cos\theta_1 \\
+	x_2 &= r\sin\theta_1\cos\theta_2 \\
+	x_3 &= r\sin\theta_1\sin\theta_2
+\end{empheq}
+
+この式で$\phi:[0,\infty)\times[0,\pi]\times[0,2\pi]\to\mathbb{R}^3$，$(r,\theta_1,\theta_2)\to(x_1,x_2,x_3)$と定める。つまり，
+$f^1(r,\theta_1,\theta_2)=r\cos\theta_1$，$f^2(r,\theta_1,\theta_2)= r\sin\theta_1\cos\theta_2 $，$f^3(r,\theta_1,\theta_2)= r\sin\theta_1\sin\theta_2$とおくと，$\phi={}^t(f^1,f^2,f^3)$であるから，全微分は
+\[
+    \begin{split}
+	\phi'&=
+	\begin{pmatrix}
+	\frac{\partial}{\partial r}f^1 & \frac{\partial}{\partial \theta_1}f^1 & \frac{\partial}{\partial \theta_2}f^1 \\
+	\frac{\partial}{\partial r}f^2 & \frac{\partial}{\partial \theta_1}f^2 & \frac{\partial}{\partial \theta_2}f^2 \\
+	\frac{\partial}{\partial r}f^3 & \frac{\partial}{\partial \theta_1}f^3 & \frac{\partial}{\partial \theta_2}f^3 \\
+	\end{pmatrix} \\
+&=
+\begin{pmatrix}
+\cos\theta_1 & -r\sin\theta_1 & 0 \\
+\sin\theta_1\cos\theta_2 & r\cos\theta_1 & -r\sin\theta_1\sin\theta_2 \\
+\sin\theta_1\sin\theta_2 & r\cos\theta_1\sin\theta_2 & r\sin\theta_1\cos\theta_2
+\end{pmatrix}
+    \end{split}
+\]
+
+\[
+\begin{split}
+\det \phi' &= \cos\theta_1
+\left|\begin{array}{cc}
+r\cos\theta_1\cos\theta_2 & -r\sin\theta_1\sin\theta_2 \\
+r\cos\theta_1\sin\theta_2 & r\sin\theta_1\cos\theta_2
+\end{array}\right|
++
+(-1)(-r\sin\theta_1)
+\left|\begin{array}{cc}
+\sin\theta_1\cos\theta_2 & -r\sin\theta_1\sin\theta_2 \\
+\sin\theta_1\sin\theta_2 & r\sin\theta_1\cos\theta_2
+\end{array}\right| \\
+&=\cdots \\
+&=r^2\sin\theta_1
+\end{split}
+\]
+
+以上から$0\leq\theta_1\leq\pi$より，$\sin\theta_1\geq 0$となるので，$dx_1dx_2dx_3=r^2\sin\theta_1drd\theta_1d\theta_2$
+
+\end{example}
+
+\begin{ex}
+	$\displaystyle \int_\Omega\sqrt{a^2-x^2-y^2-z^2}dxdydz$，$\Omega=\{(x,y,z):x^2+y^2+z^2\leq a^2$
+\end{ex}
+
+\begin{ans}
+$x=r\cos\theta_1,y=r\sin\theta_1\cos\theta_2,z=r\sin\theta_1\sin\theta_2$とおくと，
+\[
+	D=\{(r,\theta_1,\theta_2):0\leq r\leq a,0\leq\theta_1\leq\pi,0\leq\theta_2\leq2\pi\}
+\]
+$\Omega$と$D$が対応し，$(ヤコビアン)=r^2\sin\theta_1$
+
+\[
+	\begin{split}
+		\int_\Omega\sqrt{a^2-x^2-y^2-z^2}dxdydz
+		&=\int_D\sqrt{a^2-r^2}r^2\sin\theta_1drd\theta_1d\theta_2 \\
+		&=\int_0^a\left\{\int_0^\pi\left(\int_0^{2\pi}r^2\sqrt{a^2-r^2}\sin\theta_1d\theta_2\right)d\theta_1\right\}dr \\
+		&=\int_0^a\left(\int_0^\pi 2\pi r^2\sqrt{a^2-r^2}\sin\theta_1d\theta_1\right)dr \\
+		&=\int_0^a 4\pi r^2\sqrt{a^2-r^2}dr \\
+		&= 4\pi\int_0^{\frac{\pi}{2}}a^2\sin^2 t(a\cos t)(a\cos t)dt\\
+		&=4\pi a^4\times\frac{\pi}{16}\\
+		&=\frac{\pi^2}{4}a^4
+	\end{split}
+\]
+\end{ans}
+
+
+\newpage
+
+
+\section{広義積分}
+
+\paragraph{1.積分領域$\Omega$が有界でない場合}
+\
+\begin{framed}
+	\begin{dfn}\footnotemark
+		有界関数$f:\Omega\to\mathbb{R}$は$\Omega$内の任意のJordan可測\footnotemark かつ有界閉集合$K$に対して$K$上可積分であるとする。
+		\begin{enumerate}
+			\item $f(x)\leq 0$ならば$f$の$\Omega$上の広義積分を
+			\[
+				\int_\Omega f := \sup_{K\subset\Omega}\int_K f
+			\]
+			と定義する。右辺のsupは$\Omega$内のすべてのJordan可測で有界閉集合$K$についての上限である。\\
+			$\displaystyle\int_\Omega f<+\infty$となるとき，$f$は$\Omega$上広義積分可能という。
+			\item $f(x)$の符号が一定でない場合は
+			\[
+			f^+(x):=\max\{f(x),0\}=\frac{1}{2}\{|f(x)|+f(x)\}
+			\]
+			\[
+			f^-(x):=\max\{-f(x),0\}=\frac{1}{2}\{|f(x)|-f(x)\}
+			\]
+			$f^+,f^-\leq 0$であり，$f(x)=f^+(x)-f^-(x)$である。このとき，$\displaystyle\int_\Omega f^+,\int_\Omega f^- <+\infty$（つまり広義可積分のとき）
+			\[
+			\int_\Omega f := \int_\Omega f^+ - \int_\Omega f^-
+			\]
+			と定義する。
+		\end{enumerate}
+	\end{dfn}
+\end{framed}
+
+\footnotetext{この定義のままだとチェックが大変。つまり任意のJordan可測な集合についてsupを取らないといけない。なので言い換える（次のものはチェックの方法についての定理）}
+
+\footnotetext{
+Jordan可測$\Leftrightarrow$境界が測度0の集合$\Leftrightarrow$面積が求まる
+}
+
+\begin{framed}
+	\begin{thm}
+		$f(x):\Omega$上広義積分可能，$\Omega$内のJordan可測な有界閉集合の列$\{K_j\}_{j=1,2,\cdots}$が
+		\begin{enumerate}
+			\item $K_1\subset K_2\subset K_3\subset \cdots$
+			\item $\forall K\subset\Omega:$有界閉集合に対して$\exists j\in \mathbb{N}$ s.t. $K\subset K_j$
+		\end{enumerate}
+		ならば，
+		\[
+			\int_\Omega f = \lim_{j\to\infty}\int_{K_j} f
+		\]
+	\end{thm}
+\end{framed}
+
+\begin{proof}\footnote{ワンパターンな証明。不等式ではさむ。}
+	$f(x)\leq 0$について示せば十分。$\forall j$で
+	\[
+		\int_{K_j} f\leq \sup_{K\subset\Omega}\int_K f = \int_\Omega f
+	\]
+	となっている。$\displaystyle\int_{K_j} f$は$f\leq 0$より，$j$について単調減少列より，収束する。したがって，$\displaystyle\lim_{j\to\infty}\int_{K_j}f\leq\int_{\Omega} f$。一方で，上限の定義から
+	\[
+		\forall\epsilon>0,\exists K\subset\Omega:\textrm{Jordan可測有界閉集合\ s.t.\ }\int_\Omega f-\epsilon \leq \int_K f
+	\]
+	この$K$に対して2.より$\exists j_0\in\mathbb{N}$ s.t. $K\subset K_{j_0}$となる。したがって$\forall j\geq j_0$ならば$K\subset K_j$（$\because$1.より）となり，$\displaystyle\int_\Omega f-\epsilon < \int_{K_j} f\ (\forall j> j_0)$が成立する。よって$\displaystyle\int_\Omega f-\epsilon < \lim_{j\to\infty}\int_{K_j}f$，つまり
+	\[
+	\int_\Omega f\leq \lim_{j\to\infty}\int_{K_j}f
+	\]
+\end{proof}
+
+\begin{ex}
+広義積分を用いて$\displaystyle\int_0^\infty e^{-x^2}dx=\frac{\sqrt{\pi}}{2}$を示せ。
+\end{ex}
+
+\begin{ans}
+	広義積分$\displaystyle\int_\Omega e^{-(x_1^2+x_2^2)}dx_1dx_2$，$\Omega=\{(x_1,x_2):x_1\geq 0,x_2\geq 0\}$を考える。$\Omega$に対して$K_j:=\{(x_1,x_2):0\leq x_1\leq j,0\leq x_2\leq j\}$をとると
+	\[
+	\begin{split}
+		\int_\Omega e^{-(x_1^2+x_2^2)}dx_1dx_2
+		&= \lim_{j\to\infty}\int_{K_j} e^{-(x_1^2+x_2^2)}dx_1dx_2 \\
+		&= \lim_{j\to\infty}\int_0^j e^{-x_1^2}dx_1 \int_0^j e^{-x_2^2}dx_2 \footnotemark\\
+		&=\lim_{j\to\infty}\left(\int_0^j e^{-x^2}dx\right)^2 \\
+		&=\left(\int_0^\infty e^{-x^2} dx\right)^2
+	\end{split}
+	\]
+    \footnotetext{フビ二の定理を利用。}
+	一方，$\Omega$に対して$K_j'=\{(x_1,x_2):x_1^2+x_2^2\leq j^2,x_1\geq 0,x_2\geq 0\}$とすると
+	\[
+		\begin{split}
+		\int_\Omega e^{-(x_1^2+x_2^2)}dx_1dx_2
+		&=\lim_{j\to\infty}\int_{K_j'} e^{x_1^2+x_2^2}dx_1dx_2 \\
+		&=\lim_{j\to\infty}\int_{[0,j]\times[0,\frac{\pi}{2}]}e^{-r^2}rdrd\theta\footnotemark\\
+		&= \lim_{j\to\infty}\frac{\pi}{4}(1-e^{-j^2})\\
+		&=\frac{\pi}{4}
+		\end{split}
+	\]
+	\footnotetext{
+	極座標変換。ヤコビアン$r$を忘れないよう。
+	}
+	となる。したがって$\displaystyle\left(\int_0^\infty e^{-x^2} dx\right)^2= \frac{\pi}{4}$となり
+	\[
+		\int_0^\infty e^{-x^2}dx=\frac{\sqrt{\pi}}{2}
+	\]
+\end{ans}
+
+\begin{framed}
+	\begin{thm}
+		$\Omega\subset\mathbb{R}^n:$非有界領域，$f:\Omega\to\mathbb{R}^n:$有界関数とする。$\forall r>0$に対し$\Omega_r:=\{x\in\Omega:|x|\leq r\}$上では$f$は可積分とする。このとき，$\exists\alpha>0$\ s.t.\ $|f(x)|<c|x|^{-n-\alpha}\ (|x|:十分大)$ならば，$\Omega$上の広義積分$\displaystyle\int_\Omega f$は存在する。
+	\end{thm}
+\end{framed}
+
+\begin{proof}
+	仮定より，$\exists c'>0$と$\exists r_0>0$ s.t. $r\geq r_0$ならば（$r:=|x|$とすると）$|f(x)|\leq c' r^{-n-\alpha}$となる。したがって
+	\[
+		\int_\Omega |f|\leq c'\int_{\{x\in\Omega:|x|>r_0\}}\frac{1}{r^{n+\alpha}}+\int_{\Omega_{r_0}}|f|\footnotemark
+	\]
+	\footnotetext{
+		$\Omega_{r_0}^c=\{x\in\Omega:|x|>r_0\}$。右辺第2項は有界関数なので収束。
+	}
+	ここで，右辺第2項は有限値であり，右辺第1項は
+	\[
+	\begin{split}
+		\int_{\{r\geq r_0\}}\frac{1}{r^{n+\alpha}}
+		&=\int_{r=0}^{r=\infty}\int_{\theta_1=0}^{\theta_1=\pi}\cdots \int_{\theta_{n-2}=0}^{\theta_{n-2}=\pi} \int_{\theta_{n-1}=0}^{\theta_{n-1}=2\pi} \frac{1}{r^{n+\alpha}}|ヤコビアン|d\theta_{n-1}\cdots d\theta dr \footnotemark\\
+		&\leq \pi^{n-2}\cdot 2\pi\int_{r_0}^\infty\frac{r^{n-1}}{r^{n+\alpha}}dr\\
+		&=\frac{2\pi^{n-1}}{\alpha r_0^\alpha}\\
+		&<\infty
+	\end{split}
+	\]
+	\footnotetext{
+	$x\to(r,\theta_1,\theta_2,\cdots,\theta_{n-1})$の変換。
+	$|ヤコビアン|=|r^{n-1}\sin^{n-2}\theta_1\sin^{n-3}\theta_2\cdots\sin\theta_{n-2}|\leq r^{n-1}$
+	}
+\end{proof}
+
+%はんいここまで。れぽーと7まで。測度0がメイン
 
 \end{document}
