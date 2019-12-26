@@ -2187,4 +2187,117 @@ Jordan可測$\Leftrightarrow$境界が測度0の集合$\Leftrightarrow$面積が
 
 %はんいここまで。れぽーと7まで。測度0がメイン
 
+\newpage
+\part{小テストの問題と解答}
+
+\section{問題編}
+
+\subsection{小テスト1（2019年10月29日 4限 実施）}
+
+\begin{enumerate}
+    \item $\mathbb{R}^n$上の集合に対して，以下の各問にそれぞれ答えよ。
+        \begin{enumerate}\renewcommand{\labelenumii}{(\arabic{enumii})}
+            \item 任意無限個の開集合の合併（和集合）が開集合であることを示せ。
+            \item 関数$f:\mathbb{R}^n\to\mathbb{R}^m$は任意のcompact集合$K\subset\mathbb{R}^n$に対して像$f(K)$がcompact集合になるものとする。このとき$f$は$\mathbb{R}^n$上で連続であるか。連続であれば証明し，そうでないときは反例を示せ。
+        \end{enumerate}
+    \item 以下の各問にそれぞれ答えよ。
+        \begin{enumerate}\renewcommand{\labelenumii}{(\arabic{enumii})}
+            \item 関数$f:\mathbb{R}^n\to\mathbb{R}^m$について，$f$が$a\in\mathbb{R}^n$で全微分可能であることの定義をノルム$|\cdot|_n$と$|\cdot|_m$とを用いて正確に記述せよ。
+            \item 関数$f:\mathbb{R}^n\to\mathbb{R}^m$が$a\in\mathbb{R}^n$で全微分可能であれば$f$は$a$で連続であることを示せ。
+            \item 関数$g:\mathbb{R}^2\to\mathbb{R}^2$を$g(x,y)=(x^2+xy,y^2+2y)$と定める。このとき$g(x,y)$は点$(a,b)$で全微分可能であることを示し，全微分$Dg(a,b)$を求めよ。
+        \end{enumerate}
+    \item $\mathbb{R}^n$の集合列$\{K_i\}_{i=1}^\infty$が$K_i\supset K_{i+1}\ (\forall i\in\mathbb{N})$を満たすとき，以下の問に答えよ。
+        \begin{enumerate}\renewcommand{\labelenumii}{(\arabic{enumii})}
+            \item すべての$i\in\mathbb{N}$に対し$K_i$がcompact集合であれば$\displaystyle\bigcap_{i=1}^\infty K_i\neq0$であることを示せ。
+            \item すべての$i\in\mathbb{N}$に対し$K_i$がcompact集合でないとき$\displaystyle\bigcap_{i=1}^\infty K_i=0$となる例を1つ示せ。
+        \end{enumerate}
+\end{enumerate}
+
+\subsection{小テスト2（2019年11月26日 4限 実施）}
+
+\begin{enumerate}
+    \item 関数$f:\mathbb{R}^n\to\mathbb{R}$を
+        \[
+        f(x,y):=
+        \begin{cases}
+            \displaystyle\frac{xy(x^2-y^2)}{x^2+y^2} & (x,y)\neq(0,0) \\
+            0 & (x,y)=(0,0)
+        \end{cases}
+        \]
+        と定めるとき，以下の問にそれぞれ答えよ。
+        \begin{enumerate}\renewcommand{\labelenumii}{(\arabic{enumii})}
+            \item 偏微分$f_x(0,y),f_y(x,0)$をそれぞれ求めよ。
+            \item 偏微分$f_{xy}(0,0),f_{yx}(0,0)$をそれぞれ求めよ。
+        \end{enumerate}
+    \item 以下の問にそれぞれ答えよ。
+        \begin{enumerate}\renewcommand{\labelenumii}{(\arabic{enumii})}
+            \item 関数$g:\mathbb{R}^2\to\mathbb{R}^2$を$g(x,y)={}^t(x+\sin y,xy)$と定めるとき，点$P=(1,0)$の近傍において$g$が局所的に$C^1$級の逆関数をもつかどうかを判定し，逆関数を持つ場合は次の全微分$Dg^{-1}(g(P))$を求めよ。
+            \item $f(x,y,z)=(e^{y+z}-1)\cos x+z^2$，$g(x,y,z)=\sin x\cos y+\cos x\sin z$とおく。原点$(0,0,0)$の近傍で$f=g=0$に対する院関数$y=y(x)$，$z=z(x)$が存在することを示せ。このとき，$y'(0)$，$z'(0)$を求めよ。
+        \end{enumerate}
+    \item $C^1$級関数$f:\mathbb{R}^n\to\mathbb{R}^n$は全射でありかつ$\forall a\in\mathbb{R}^n$で$\det f'(a)>0$を満たすとする。このとき$f$は$\mathbb{R}^n$上で1対1か。1対1であれば証明し，そうでなければ反例をあげよ。
+\end{enumerate}
+
+\newpage
+
+\section{解答編}
+
+\subsection{小テスト1}
+
+\begin{enumerate}
+    \item
+        \begin{enumerate}\renewcommand{\labelenumii}{(\arabic{enumii})}
+            \item 任意無限個の開集合の族を$\{U_\lambda\}_{\lambda\in\Lambda}$とし，$\displaystyle U=\bigcup_{\lambda\in\Lambda}U_\lambda$とする。このとき，$x\in U$に対して$\exists\lambda_0$で$x\in U_{\lambda_0}$とできる。また，$U_{\lambda_0}$は開集合ゆえ，$\exists B_{\lambda_0}:$開方体 s.t. $x\in B_{\lambda_0}\subset U_{\lambda_0}$とできる。このとき，$U_{\lambda_0}\subset U$ゆえ，$x\in B_{\lambda_0}\subset U$となるので$U$は開集合である。
+            \item わかりません。
+        \end{enumerate}
+    \item
+        \begin{enumerate}\renewcommand{\labelenumii}{(\arabic{enumii})}
+            \item 関数$f:\mathbb{R}^n\to\mathbb{R}^m$が$a\in\mathbb{R}^n$で全微分可能である
+            \[
+                \overset{\textrm{def}}{\Leftrightarrow}\exists\lambda:\mathbb{R}^n\to\mathbb{R}^m:線形写像 \textrm{s.t.} \lim_{h\to0}\frac{|f(a+h)-f(a)-\lambda(h)|_m}{|h|_n}=0
+            \]
+            \item 関数$f:\mathbb{R}^n\to\mathbb{R}^m$が$a\in\mathbb{R}^n$で全微分可能であるので，
+            \[
+            \exists\lambda:\mathbb{R}^n\to\mathbb{R}^m:\textrm{linear}\ \textrm{s.t.}\ \forall\epsilon>0,\exists\delta_0>0\ \textrm{s.t.}\ |h|_n<\delta_0 \Rightarrow \frac{|f(a+h)-f(a)-\lambda(h)|_m}{|h|_n}<\epsilon
+            \]
+            このことと，線形写像の有界性から
+            \[
+            \exists M\ \textrm{s.t.}\ |\lambda(h)|<Mh
+            \]
+            であることを用いると
+            \[
+            \begin{split}
+            \frac{|f(a+h)-f(a)-\lambda(h)|_m}{|h|_n}
+            &=\frac{|f(a+h)-f(a)-\lambda(h)+\lambda(h)|_m}{|h|_n}\\
+            &\leq\frac{|f(a+h)-f(a)-\lambda(h)_m|}{|h|_n}+\frac{|\lambda(h)|_m}{|h|_n}\\
+            &<\epsilon+M
+            \end{split}
+            \]
+            よって，$\displaystyle\delta:=\min\{\delta_0,\frac{\epsilon}{\epsilon+M}\}$とすれば，
+            \[
+            |h|_n<\delta \Rightarrow |f(a+h)-f(a)|_m<\epsilon
+            \]
+            となるので$f$は$a$で連続となる。
+            \item $\lambda=\begin{pmatrix} 2a+b & a \\ 0 & 2b+2 \end{pmatrix}$とすれば，$h=\begin{pmatrix} h_1 \\ h_2 \end{pmatrix}$としたとき
+            \[
+            \begin{split}
+            \lim_{h\to0}&\frac{|g(a+h_1,b+h_2)-g(a,b)-\lambda(h)|}{|h|}\\
+            &=\lim_{h_1\to0,h_2\to0}\frac{\left|\begin{pmatrix} (a+h_1)^2+(a+h_1)(b+h_2) \\ (b+h_2)^2+2(b+h_2) \end{pmatrix}-\begin{pmatrix} a^2+ab \\ b^2+2b \end{pmatrix}-\begin{pmatrix} 2a+b & a \\ 0 & 2b+2 \end{pmatrix}\begin{pmatrix} h_1 \\ h_2 \end{pmatrix}\right|}{\left|\begin{pmatrix} h_1 \\ h_2 \end{pmatrix}\right|}\\
+            &=\lim_{h_1\to0,h_2\to0}\frac{\left|\begin{pmatrix}h_1^2+h_1h_2 \\ h_1^2\end{pmatrix}\right|}{\left|\begin{pmatrix} h_1 \\ h_2 \end{pmatrix}\right|}\\
+            &<\lim_{h_1\to0,h_2\to0}\frac{\sqrt{(h_1^2+h_1h_2)^2+(h_2)^2}}{\sqrt{h_1^2+h_2^2}}\\
+            &=\lim_{h_1\to0,h_2\to0}\frac{\sqrt{(h_1^2+h_2^2)^2+2h_1^3h_2}}{\sqrt{h_1^2+h_2^2}}\\
+            &=\lim_{h_1\to0,h_2\to0}\sqrt{h_1^2+h_2^2+\frac{2h_1^3h_2}{h_1^2+h_2^2}}\\
+            &<\lim_{h_1\to0,h_2\to0}\sqrt{h_1^2+h_2^2+2h_1^3h_2}\\
+            &=0
+            \end{split}
+            \]
+            となり$g(x,y)$は点$(a,b)$で全微分可能であり$Dg(a,b)=\begin{pmatrix} 2a+b & a \\ 0 & 2b+2 \end{pmatrix}$である。
+        \end{enumerate}
+    \item
+        \begin{enumerate}\renewcommand{\labelenumii}{(\arabic{enumii})}
+            \item 背理法により示す。すなわち，すべての$i\in\mathbb{N}$に対し$K_i$がcompact集合ならば$\displaystyle\bigcap_{i=1}^\infty K_i=0$であると仮定する。このとき，$\displaystyle K_1\subset \bigcup_{i=1}^\infty K_i^c$となるが，$K_1$はcompact故，ある$N\in\mathbb{N}$に対して$\displaystyle K_1\subset \bigcup_{i=1}^N K_i^c$とできる。これと$\displaystyle \bigcup_{i=1}^N K_i^c=K_N^c$であることから$K_N\subset K_1^c$となる。これと$K_N\subset K_1$をあわせると$K_N\subset K_1\cup K_1^c=\emptyset$となり$\displaystyle\bigcap_{i=1}^\infty K_i=0$に矛盾。
+            \item $\displaystyle K_i=\left(0,\frac{1}{i}\right)$
+        \end{enumerate}
+\end{enumerate}
+
+
 \end{document}
