@@ -2207,9 +2207,10 @@ Jordan可測$\Leftrightarrow$境界が測度0の集合$\Leftrightarrow$面積が
             \item 関数$g:\mathbb{R}^2\to\mathbb{R}^2$を$g(x,y)=(x^2+xy,y^2+2y)$と定める。このとき$g(x,y)$は点$(a,b)$で全微分可能であることを示し，全微分$Dg(a,b)$を求めよ。
         \end{enumerate}
     \item $\mathbb{R}^n$の集合列$\{K_i\}_{i=1}^\infty$が$K_i\supset K_{i+1}\ (\forall i\in\mathbb{N})$を満たすとき，以下の問に答えよ。
+    \footnote{杉浦解析などに同様の問題が載っていたが，$K_i\neq\emptyset$の条件が付けられていたため，勝手に$K_i\neq\emptyset$のもとで解答を作成した。}
         \begin{enumerate}\renewcommand{\labelenumii}{(\arabic{enumii})}
-            \item すべての$i\in\mathbb{N}$に対し$K_i$がcompact集合であれば$\displaystyle\bigcap_{i=1}^\infty K_i\neq0$であることを示せ。
-            \item すべての$i\in\mathbb{N}$に対し$K_i$がcompact集合でないとき$\displaystyle\bigcap_{i=1}^\infty K_i=0$となる例を1つ示せ。
+            \item すべての$i\in\mathbb{N}$に対し$K_i$がcompact集合であれば$\displaystyle\bigcap_{i=1}^\infty K_i\neq\emptyset$であることを示せ。
+            \item すべての$i\in\mathbb{N}$に対し$K_i$がcompact集合でないとき$\displaystyle\bigcap_{i=1}^\infty K_i=\emptyset$となる例を1つ示せ。
         \end{enumerate}
 \end{enumerate}
 
@@ -2294,9 +2295,31 @@ Jordan可測$\Leftrightarrow$境界が測度0の集合$\Leftrightarrow$面積が
         \end{enumerate}
     \item
         \begin{enumerate}\renewcommand{\labelenumii}{(\arabic{enumii})}
-            \item 背理法により示す。すなわち，すべての$i\in\mathbb{N}$に対し$K_i$がcompact集合ならば$\displaystyle\bigcap_{i=1}^\infty K_i=0$であると仮定する。このとき，$\displaystyle K_1\subset \bigcup_{i=1}^\infty K_i^c$となるが，$K_1$はcompact故，ある$N\in\mathbb{N}$に対して$\displaystyle K_1\subset \bigcup_{i=1}^N K_i^c$とできる。これと$\displaystyle \bigcup_{i=1}^N K_i^c=K_N^c$であることから$K_N\subset K_1^c$となる。これと$K_N\subset K_1$をあわせると$K_N\subset K_1\cup K_1^c=\emptyset$となり$\displaystyle\bigcap_{i=1}^\infty K_i=0$に矛盾。
+            \item 背理法により示す。すなわち，すべての$i\in\mathbb{N}$に対し$K_i$がcompact集合ならば$\displaystyle\bigcap_{i=1}^\infty K_i=\emptyset$であると仮定する。このとき，$\displaystyle K_1\subset \bigcup_{i=1}^\infty K_i^c$となるが，$K_1$はcompact故，ある$N\in\mathbb{N}$に対して$\displaystyle K_1\subset \bigcup_{i=1}^N K_i^c$とできる。これと$\displaystyle \bigcup_{i=1}^N K_i^c=K_N^c$であることから$K_N\subset K_1^c$となる。これと$K_N\subset K_1$をあわせると$K_N\subset K_1\cup K_1^c=\emptyset$となり$K_N\neq\emptyset$に矛盾。
             \item $\displaystyle K_i=\left(0,\frac{1}{i}\right)$
         \end{enumerate}
+\end{enumerate}
+
+\newpage
+
+\subsection{小テスト2}
+
+\begin{enumerate}
+    \item
+    \begin{enumerate}\renewcommand{\labelenumii}{(\arabic{enumii})}
+        \item
+        \[
+            f_x(x,y)=\frac{y(x^4+4x^2y^2-y^4)}{(x^2+y^2)^2}，f_y(x,y)=\frac{x(x^4-4x^2y^2-y^4)}{(x^2+y^2)^2}
+        \]
+        から
+        \[
+        f_x(0,y)=-y，f_y(x,0)=x
+        \]
+        を得る。
+        \item $f_x(0,y)=-y$より$f_{xy}(0,0)=-1$。$f_y(x,0)=x$より$f_{yx}(0,0)=1$。
+    \end{enumerate}
+    \item 解答作成準備中...
+    \item 解答作成準備中...
 \end{enumerate}
 
 
