@@ -1264,7 +1264,7 @@ $f:\mathbb{R}^n\to\mathbb{R}^n$は点$a\in\mathbb{R}^n$を含む開集合で$C^1
 
 \begin{framed}
 	\begin{thm}[陰関数の定理]
-		$f:\mathbb{R}^n\times\mathbb{R}^m\to\mathbb{R}^m$が点$(a,b)\in\mathbb{R}^n\times\mathbb{R}^m$を含むある開集合で，$C^1$級かつ$f(a,b)=0$とする。$m\times m$行列$M:=(D_{n+j}f^i(a,b))_{ij}\ (1\leq i,j\leq m)$と定め，$\det A\neq 0$とする。このとき，$\exists A:a$を含む開集合，$\exists B:b$を含む開集合 s.t. $\forall x\in A$に対し，$f(x,g(x))=0$となる$B$の点$g(x)$が唯一存在する。このとき$g:A\to\mathbb{R}^m$は$C^1$級。
+		$f:\mathbb{R}^n\times\mathbb{R}^m\to\mathbb{R}^m$が点$(a,b)\in\mathbb{R}^n\times\mathbb{R}^m$を含むある開集合で，$C^1$級かつ$f(a,b)=0$とする。$m\times m$行列$M:=(D_{n+j}f^i(a,b))_{ij}\ (1\leq i,j\leq m)$と定め，$\det M\neq 0$とする。このとき，$\exists A:a$を含む開集合，$\exists B:b$を含む開集合 s.t. $\forall x\in A$に対し，$f(x,g(x))=0$となる$B$の点$g(x)$が唯一存在する。このとき$g:A\to\mathbb{R}^m$は$C^1$級。
 	\end{thm}
 \end{framed}
 
@@ -2233,7 +2233,7 @@ Jordan可測$\Leftrightarrow$境界が測度0の集合$\Leftrightarrow$面積が
     \item 以下の問にそれぞれ答えよ。
         \begin{enumerate}\renewcommand{\labelenumii}{(\arabic{enumii})}
             \item 関数$g:\mathbb{R}^2\to\mathbb{R}^2$を$g(x,y)={}^t(x+\sin y,xy)$と定めるとき，点$P=(1,0)$の近傍において$g$が局所的に$C^1$級の逆関数をもつかどうかを判定し，逆関数を持つ場合は次の全微分$Dg^{-1}(g(P))$を求めよ。
-            \item $f(x,y,z)=(e^{y+z}-1)\cos x+z^2$，$g(x,y,z)=\sin x\cos y+\cos x\sin z$とおく。原点$(0,0,0)$の近傍で$f=g=0$に対する院関数$y=y(x)$，$z=z(x)$が存在することを示せ。このとき，$y'(0)$，$z'(0)$を求めよ。
+            \item $f(x,y,z)=(e^{y+z}-1)\cos x+z^2$，$g(x,y,z)=\sin x\cos y+\cos x\sin z$とおく。原点$(0,0,0)$の近傍で$f=g=0$に対する陰関数$y=y(x)$，$z=z(x)$が存在することを示せ。このとき，$y'(0)$，$z'(0)$を求めよ。
         \end{enumerate}
     \item $C^1$級関数$f:\mathbb{R}^n\to\mathbb{R}^n$は全射でありかつ$\forall a\in\mathbb{R}^n$で$\det f'(a)>0$を満たすとする。このとき$f$は$\mathbb{R}^n$上で1対1か。1対1であれば証明し，そうでなければ反例をあげよ。
 \end{enumerate}
@@ -2248,7 +2248,15 @@ Jordan可測$\Leftrightarrow$境界が測度0の集合$\Leftrightarrow$面積が
     \item
         \begin{enumerate}\renewcommand{\labelenumii}{(\arabic{enumii})}
             \item 任意無限個の開集合の族を$\{U_\lambda\}_{\lambda\in\Lambda}$とし，$\displaystyle U=\bigcup_{\lambda\in\Lambda}U_\lambda$とする。このとき，$x\in U$に対して$\exists\lambda_0$で$x\in U_{\lambda_0}$とできる。また，$U_{\lambda_0}$は開集合ゆえ，$\exists B_{\lambda_0}:$開方体 s.t. $x\in B_{\lambda_0}\subset U_{\lambda_0}$とできる。このとき，$U_{\lambda_0}\subset U$ゆえ，$x\in B_{\lambda_0}\subset U$となるので$U$は開集合である。
-            \item わかりません。
+            \item 連続とは限らない。$m=n=1$として
+            \[
+            f(x):=
+            \begin{cases}
+                0 & (x\neq0)\\
+                1 & (x=0)
+            \end{cases}
+            \]
+            を考える。このとき$K=[-1,1]$とすると$K$はcompactであり，$f(K)=\{0,1\}$でこれはcompactである。
         \end{enumerate}
     \item
         \begin{enumerate}\renewcommand{\labelenumii}{(\arabic{enumii})}
@@ -2258,7 +2266,7 @@ Jordan可測$\Leftrightarrow$境界が測度0の集合$\Leftrightarrow$面積が
             \]
             \item 関数$f:\mathbb{R}^n\to\mathbb{R}^m$が$a\in\mathbb{R}^n$で全微分可能であるので，
             \[
-            \exists\lambda:\mathbb{R}^n\to\mathbb{R}^m:\textrm{linear}\ \textrm{s.t.}\ \forall\epsilon>0,\exists\delta_0>0\ \textrm{s.t.}\ |h|_n<\delta_0 \Rightarrow \frac{|f(a+h)-f(a)-\lambda(h)|_m}{|h|_n}<\epsilon
+            \exists\lambda:\mathbb{R}^n\to\mathbb{R}^m:\textrm{linear}\ \textrm{s.t.}\ \left[\forall\epsilon>0,\exists\delta_0>0\ \textrm{s.t.}\ |h|_n<\delta_0 \Rightarrow \frac{|f(a+h)-f(a)-\lambda(h)|_m}{|h|_n}<\epsilon\right]
             \]
             このことと，線形写像の有界性から
             \[
@@ -2269,11 +2277,11 @@ Jordan可測$\Leftrightarrow$境界が測度0の集合$\Leftrightarrow$面積が
             \begin{split}
             \frac{|f(a+h)-f(a)-\lambda(h)|_m}{|h|_n}
             &=\frac{|f(a+h)-f(a)-\lambda(h)+\lambda(h)|_m}{|h|_n}\\
-            &\leq\frac{|f(a+h)-f(a)-\lambda(h)_m|}{|h|_n}+\frac{|\lambda(h)|_m}{|h|_n}\\
+            &\leq\frac{|f(a+h)-f(a)-\lambda(h)|_m}{|h|_n}+\frac{|\lambda(h)|_m}{|h|_n}\\
             &<\epsilon+M
             \end{split}
             \]
-            よって，$\displaystyle\delta:=\min\{\delta_0,\frac{\epsilon}{\epsilon+M}\}$とすれば，
+            よって，$\displaystyle\delta:=\min\left\{\delta_0,\frac{\epsilon}{\epsilon+M}\right\}$とすれば，
             \[
             |h|_n<\delta \Rightarrow |f(a+h)-f(a)|_m<\epsilon
             \]
@@ -2318,8 +2326,161 @@ Jordan可測$\Leftrightarrow$境界が測度0の集合$\Leftrightarrow$面積が
         を得る。
         \item $f_x(0,y)=-y$より$f_{xy}(0,0)=-1$。$f_y(x,0)=x$より$f_{yx}(0,0)=1$。
     \end{enumerate}
-    \item 解答作成準備中...
-    \item 解答作成準備中...
+    \item
+    \begin{enumerate}\renewcommand{\labelenumii}{(\arabic{enumii})}
+        \item
+        $
+        Dg(x,y)=
+        \begin{pmatrix}
+            1 & \cos y \\
+            y & x
+        \end{pmatrix}
+        $
+        より
+        $Dg(P)=
+        \begin{pmatrix}
+            1 & 1 \\
+            0 & 1
+        \end{pmatrix}
+        $。
+        ゆえに
+        $\det(Dg(P))=1\neq0$。$Dg(x,y)$の各成分は$P$の近傍で連続なので$g$は$P$の近傍で$C^1$級である。よって逆関数の定理により$g$は$P$の近傍で$C^1$級の逆関数をもつ。
+        このとき$g^{-1}\circ g=id$であるので$Dg^{-1}(g(x,y))\cdot Dg(x,y)=E$が成り立ち，$Dg^{-1}(g(x,y))=E(Dg(x,y))^{-1}=(Dg(x,y))^{-1}$である。したがって
+        \[
+        \begin{split}
+            Dg^{-1}(g(P))&=(Dg(P))^{-1}\\
+            &=
+            \begin{pmatrix}
+                1 & 1 \\
+                0 & 1
+            \end{pmatrix}^{-1}
+            \\
+            &=
+            \begin{pmatrix}
+                1 & -1 \\
+                0 & 1
+            \end{pmatrix}
+        \end{split}
+        \]
+        \item
+        原点近傍で$f=g=0$となる$y=y(x),z=z(x)$があることは
+        \begin{empheq}[left=\empheqlbrace]{align*}
+        	f(x,y,z) &= 0 \\
+            g(x,y,z) &= 0
+        \end{empheq}
+        すなわち
+        \begin{empheq}[left=\empheqlbrace]{align*}
+        	(e^{y+z}-1)\cos x+z^2 &=0 \\
+            \sin x\cos y+\cos x\sin z &=0
+        \end{empheq}
+        が$(y,z)$について解けるということを意味する。$x=0$のとき，これは明らかに$(y,z)=(0,0)$を解にもつ。ここで，$F(x,y,z)=(x,f(x,y,z),g(x,y,z))$と定めれば
+        \[
+        \begin{split}
+            DF(x,y,z)&=
+            \begin{pmatrix}
+                \frac{\partial}{\partial x}x & \frac{\partial}{\partial y}x & \frac{\partial}{\partial z}x \\
+                \frac{\partial}{\partial x}f & \frac{\partial}{\partial y}f & \frac{\partial}{\partial z}f \\
+                \frac{\partial}{\partial x}g & \frac{\partial}{\partial y}g & \frac{\partial}{\partial z}g
+            \end{pmatrix}\\
+            &=
+            \begin{pmatrix}
+                1 & 0 & 0 \\
+                -(e^{y+z}-1)\sin x & e^{y+z}\cos x & e^{y+z}\cos x+2z \\
+                \cos x\cos y-\sin x\sin y & -\sin x\sin y & \cos x\cos z
+            \end{pmatrix}
+        \end{split}
+        \]
+        であり，
+        \[
+        \begin{split}
+            \det (DF(0,0,0))&=
+            \det
+            \begin{pmatrix}
+                f_y(0,0,0) & f_z(0,0,0) \\
+                g_y(0,0,0) & g_z(0,0,0)
+            \end{pmatrix}
+            \\
+            &=
+            \det
+            \begin{pmatrix}
+                1 & 1 \\
+                0 & 1
+            \end{pmatrix}
+            \\
+            &=1\neq0
+        \end{split}
+        \]
+        となるので，陰関数の定理により，十分小さな正実数$r$を考えると，開区間$(-r,r)$で関数$y(x),z(x)$を定義することができ，これらについて
+        \[
+            f(x,y(x),z(x))=g(x,y(x),z(x))=0 \ (\forall x\in(-r,r))，y(0)=z(0)=0
+        \]
+        が成り立つ。これは，$f,g$が原点近傍で$(y,z)$について一意に解けてその解が$(y,z)=(y(x),z(x))$で与えられることを示している。したがって，原点近傍で$f=g=0$に対する陰関数$y=y(x),z=z(x)$が存在することが示された。次に，
+        \begin{empheq}[left=\empheqlbrace]{align*}
+        	f(x,y,z) &= 0 \\
+            g(x,y,z) &= 0
+        \end{empheq}
+        を$x$で微分したのちに$x=0$を代入すると
+        \begin{empheq}[left=\empheqlbrace]{align*}
+        	f_x(0,0,0) + f_y(0,0,0)y_x(0) + f_z(0,0,0)z_x(0) &= 0 \\
+            g_x(0,0,0) + g_y(0,0,0)y_x(0) + g_z(0,0,0)z_x(0)  &= 0
+        \end{empheq}
+        すなわち
+        \[
+        \begin{pmatrix}
+            f_y(0,0,0) & f_z(0,0,0)\\
+            g_y(0,0,0) & g_z(0,0,0)
+        \end{pmatrix}
+        \begin{pmatrix}
+            y_x(0) \\ z_x(0)
+        \end{pmatrix}
+        =
+        -\begin{pmatrix}
+            f_x(0,0,0) \\ g_x(0,0,0)
+        \end{pmatrix}
+        \]
+        よって
+        \[
+        \begin{split}
+        \begin{pmatrix}
+            y_x(0) \\ z_x(0)
+        \end{pmatrix}
+        &=
+        -
+        \begin{pmatrix}
+            f_y(0,0,0) & f_z(0,0,0)\\
+            g_y(0,0,0) & g_z(0,0,0)
+        \end{pmatrix}^{-1}
+        \begin{pmatrix}
+            f_x(0,0,0) \\ g_x(0,0,0)
+        \end{pmatrix}
+        \\
+        &=
+        -\begin{pmatrix}
+            1 & 1\\
+            0 & 1
+        \end{pmatrix}^{-1}
+        \begin{pmatrix}
+            0 \\ 1
+        \end{pmatrix}
+        \\
+        &=
+        -\begin{pmatrix}
+            1 & -1\\
+            0 & 1
+        \end{pmatrix}
+        \begin{pmatrix}
+            0 \\ 1
+        \end{pmatrix}
+        \\
+        &=
+        \begin{pmatrix}
+            1 \\ -1
+        \end{pmatrix}
+        \end{split}
+        \]
+        となり，$y'(0)=1,z'(0)=-1$を得る。
+    \end{enumerate}
+    \item 概略だけ。単射でないと仮定して，空間に線を引く。写像で写せば閉曲線ができるから，開集合で包めばコンパクト性がわかる。らしいです。
 \end{enumerate}
 
 
