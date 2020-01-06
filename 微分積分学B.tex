@@ -67,6 +67,10 @@
 \@addtoreset{section}{part}
 \makeatother
 
+\makeatletter
+\def\blfootnote{\xdef\@thefnmark{}\@footnotetext}
+\makeatother
+
 \title{微分積分学B}
 %\author{KUinfoB1 Twitter:\_2pt}
 \author{2019年度 1T23,24 担当：久保}
@@ -452,7 +456,7 @@ $A\subset\mathbb{R}^n,B\subset\mathbb{R}^m$が共にcompactならば$A\times B\s
 \end{framed}
 
 \begin{framed}
-    \begin{cor}
+    \begin{cor}[Heine-Borelの被覆定理]
         $\mathbb{R}^n$の有界閉集合はcompact（逆も成立）
     \end{cor}
 \end{framed}
@@ -565,13 +569,15 @@ $f:\mathbb{R}\to\mathbb{R}$の微分
 \]
 \footnote{線形写像なら$\lambda(h)=f'(a)h$。$y=px$みたいな。$\lambda(h)$と書いてるけど関数$\lambda$に$h$を代入しているわけではないことに注意。$\lambda h$と書いてもいい気がする。（行列$(\lambda_1,\lambda_2,\cdots,\lambda_m)$と${}^t(h_1,h_2,\cdots,h_m)$の積なので。）}
 
-\begin{thm}[全微分]
-関数$f:\mathbb{R}^n\to\mathbb{R}^m$が点$a\in\mathbb{R}^n$で微分可能（全微分可能）とは，
-\[
-\exists\lambda:\mathbb{R}^n\to\mathbb{R}^m:線形写像\ {\rm s.t.}\ \lim_{h\to 0}\frac{|f(a+h)-f(a)-\lambda(h)|}{|h|}=0
-\]
-分母は$\mathbb{R}^n$のnorm，分子は$\mathbb{R}^m$のnormであることに注意。$\lambda$は一次元での微分係数の一般化。この$\lambda$を$Df(a)$と書く。
-\end{thm}
+\begin{framed}
+    \begin{thm}[全微分]
+    関数$f:\mathbb{R}^n\to\mathbb{R}^m$が点$a\in\mathbb{R}^n$で微分可能（全微分可能）とは，
+    \[
+    \exists\lambda:\mathbb{R}^n\to\mathbb{R}^m:線形写像\ {\rm s.t.}\ \lim_{h\to 0}\frac{|f(a+h)-f(a)-\lambda(h)|}{|h|}=0
+    \]
+    分母は$\mathbb{R}^n$のnorm，分子は$\mathbb{R}^m$のnormであることに注意。$\lambda$は一次元での微分係数の一般化。この$\lambda$を$Df(a)$と書く。
+    \end{thm}
+\end{framed}
 
 \newpage
 
@@ -1385,7 +1391,7 @@ s(f,\Delta)\leq S(f,\Delta)
 \footnotetext{$\Delta'$の小方体はすべて$\Delta$のある小方体の分割となる}
 
 \begin{proof}
-$\Delta$の各小方体$B$は何個かの$\Delta'$の小方体$B_1,\cdots,B_\alpha$に分割される。よって$|B|=|B_1|+|B_2|+\cdots+|B_\alpha|$。また，$B\supset B_i$だから$m_B(f)\leq M_B(f)$。したがって
+$\Delta$の各小方体$B$は何個かの$\Delta'$の小方体$B_1,\cdots,B_\alpha$に分割される。よって$|B|=|B_1|+|B_2|+\cdots+|B_\alpha|$。また，$B\supset B_i$だから$m_B(f)\leq m_{B_i}(f)$。したがって
 \[
     \begin{split}
     m_B(f)\cdot |B|&=m_B(f)\cdot|B_1|+\cdots+m_B(f)\cdot|B_\alpha|\\
@@ -1447,7 +1453,7 @@ $\Delta'$の$B$上の下限和を表す。
     \]
     $\Delta$と$\Delta'$の細分を$\Delta''$とすると，補題\ref{lem3.1}より
     \[
-    	S(f,\Delta'')-s(f,\Delta'')\leq S(f,\Delta')-s(f,\Delta')<\epsilon
+    	S(f,\Delta'')-s(f,\Delta'')\leq S(f,\Delta)-s(f,\Delta')<\epsilon
     \]
 \end{proof}
 
@@ -1482,10 +1488,10 @@ $\Delta'$の$B$上の下限和を表す。
 			\end{proof}
 	\end{itemize}
 \end{example}
-\begin{example}[加算集合の例]
+\begin{example}[可算集合の例]
 区間$[0,1]$の有理数全体。
 \[
-X:加算集合\Leftrightarrow\exists f:X\to\mathbb{N}:全単射
+X:可算集合\Leftrightarrow\exists f:X\to\mathbb{N}:全単射
 \]
 \end{example}
 \begin{framed}
@@ -1503,7 +1509,7 @@ X:加算集合\Leftrightarrow\exists f:X\to\mathbb{N}:全単射
 \end{proof}
 
 \begin{dfn*}[容積0]
-	$A\subset\mathbb{R}$とする。$\forall\epsilon>0,\exists$有限個の閉方体（開方体）$\{c_1,c_2,\cdots,c_k\}$\ s.t.\ $A\displaystyle\subset\bigcap_{i=1}^kc_i$，$\displaystyle\sum_{i=1}^k|c_i|<\epsilon$とできるとき，$A$は容積$0$であるという。
+	$A\subset\mathbb{R}$とする。$\forall\epsilon>0,\exists$有限個の閉方体（開方体）$\{c_1,c_2,\cdots,c_k\}$\ s.t.\ $A\displaystyle\subset\bigcup_{i=1}^kc_i$，$\displaystyle\sum_{i=1}^k|c_i|<\epsilon$とできるとき，$A$は容積$0$であるという。
 \end{dfn*}
 
 \begin{note}
@@ -1718,13 +1724,13 @@ $\delta$を小さくすると$M(a,f,\delta)-m(a,f,\delta)(\geq 0)$も小さく�
 \end{note}
 
 \begin{framed}
-	\begin{thm}
+	\begin{thm}\label{th3.9}
 		$A\subset\mathbb{R}^n$:有界集合，$A$を含む閉方体を$C$とする。このとき，関数$\chi_A:C\to\mathbb{R}$が可積分$\Leftrightarrow$$A$の境界が測度$0$。ここで$A$の境界は有界閉集合，つまりコンパクト集合だから，測度$0$の代わりに容積$0$としても成立する。（$\because$定理\ref{th3.6}による）
 	\end{thm}
 \end{framed}
 
 \begin{proof}
-	$A$の境界が関数$\chi_A$の不連続店の全体と一致することを示せば定理\ref{th3.8}よりOK。
+	$A$の境界が関数$\chi_A$の不連続点の全体と一致することを示せば定理\ref{th3.8}よりOK。
 	\begin{itemize}
 		\item $x$が$A$の内部のとき$\exists U$:開方体 s.t. $x\in U\subset A$となる$U$が存在。$U$上で$\chi_A=1$より$\chi_A$は$x$で連続。
 		\item $x$が$A$の外部のとき$\exists U$:開方体 s.t. $x\in U\subset \mathbb{R}^n-A$とできる。$U$上で$\chi_A=0$より$\chi_A$は$x$で連続。
@@ -1738,9 +1744,11 @@ $\delta$を小さくすると$M(a,f,\delta)-m(a,f,\delta)(\geq 0)$も小さく�
 \begin{dfn*}[体積]
 	関数$1$の$A$上積分$\displaystyle \int_A 1$を$A$の（$n$次元）体積という。
 \end{dfn*}
-%\begin{note}
-%3.8 そくどぜろならりーまんせきぶんできる。けど、ディリクレ関数はりーまんせきぶんできない。有理数で1、無理数で0 不連続点はすべての点。定理3.9によれば積分できないことがわかる。
-%\end{note}
+\blfootnote{
+\begin{note}
+定理\ref{th3.8}によれば，測度0ならばリーマン可積分である。ディリクレ関数はリーマン可積分でない（ディリクレ関数は有理数で1，無理数で0をとる関数）。不連続点はすべての点である。定理\ref{th3.9}によれば積分できないことがわかる。
+\end{note}
+}
 
 
 \newpage
@@ -1752,7 +1760,7 @@ $\delta$を小さくすると$M(a,f,\delta)-m(a,f,\delta)(\geq 0)$も小さく�
 このとき$\displaystyle\sup_{\Delta}s(f,\Delta)$と$\displaystyle\inf_{\Delta}S(f,\Delta)$は必ず存在する。これらを$\displaystyle\underline{\int_A} f$，$\displaystyle\overline{\int_A}f$で表し，前者を$f$の$A$上の下積分，後者を$f$の$A$上の上積分という。
 \end{dfn*}
 \begin{framed}
-	\begin{thm}[重積分]\label{th3.10}
+	\begin{thm}[重積分・Fubiniの定理]\label{th3.10}
 			$A\subset\mathbb{R}^n,B\subset\mathbb{R}^m:$閉方体，$f:A\times B\to\mathbb{R}:$可積分関数とする。$x\in A$に対し，$g_x:B\to\mathbb{R}$を$g_x(y):=f(x,y)$で定め，
 			\[
 				L(x):= \underline{\int_B}g_x= \underline{\int_B}f(x,y) dy
@@ -1977,7 +1985,9 @@ $f:\mathbb{R}\to\mathbb{R}:$連続関数に対して，変換$g:[a,b]\to\mathbb{
 ここで，$0\leq r\leq +\infty$，$0\leq\theta_i\leq\pi\ (i=1,2,\cdots,n-2)$，$0\leq\theta_{n-1}\leq 2\pi$である。\\
 このとき，ヤコビアンは$r^{n-1}\sin^{n-2}\theta\sin^{n-3}\theta_2\cdots\sin\theta_{n-2}$となる。
 
-\subparagraph{3次元の場合}
+\subparagraph{3次元の場合}\footnotemark
+
+\footnotetext{$x_1,x_2,x_3$を$z,x,y$とすれば物理学でみられる曲座標変換に対応する。}
 
 \begin{empheq}[left=\empheqlbrace]{align*}
 	x_1 &= r\cos\theta_1 \\
@@ -2024,6 +2034,8 @@ r\cos\theta_1\sin\theta_2 & r\sin\theta_1\cos\theta_2
 
 以上から$0\leq\theta_1\leq\pi$より，$\sin\theta_1\geq 0$となるので，$dx_1dx_2dx_3=r^2\sin\theta_1drd\theta_1d\theta_2$
 
+\newpage
+
 \end{example}
 
 \begin{ex}
@@ -2063,7 +2075,7 @@ $\Omega$と$D$が対応し，$(ヤコビアン)=r^2\sin\theta_1$
 	\begin{dfn}\footnotemark
 		有界関数$f:\Omega\to\mathbb{R}$は$\Omega$内の任意のJordan可測\footnotemark かつ有界閉集合$K$に対して$K$上可積分であるとする。
 		\begin{enumerate}
-			\item $f(x)\leq 0$ならば$f$の$\Omega$上の広義積分を
+			\item $f(x)\geq 0$ならば$f$の$\Omega$上の広義積分を
 			\[
 				\int_\Omega f := \sup_{K\subset\Omega}\int_K f
 			\]
@@ -2076,7 +2088,7 @@ $\Omega$と$D$が対応し，$(ヤコビアン)=r^2\sin\theta_1$
 			\[
 			f^-(x):=\max\{-f(x),0\}=\frac{1}{2}\{|f(x)|-f(x)\}
 			\]
-			$f^+,f^-\leq 0$であり，$f(x)=f^+(x)-f^-(x)$である。このとき，$\displaystyle\int_\Omega f^+,\int_\Omega f^- <+\infty$（つまり広義可積分のとき）
+			$f^+,f^-\geq 0$であり，$f(x)=f^+(x)-f^-(x)$である。このとき，$\displaystyle\int_\Omega f^+,\int_\Omega f^- <+\infty$（つまり広義可積分のとき）
 			\[
 			\int_\Omega f := \int_\Omega f^+ - \int_\Omega f^-
 			\]
@@ -2106,11 +2118,11 @@ Jordan可測$\Leftrightarrow$境界が測度0の集合$\Leftrightarrow$面積が
 \end{framed}
 
 \begin{proof}\footnote{ワンパターンな証明。不等式ではさむ。}
-	$f(x)\leq 0$について示せば十分。$\forall j$で
+	$f(x)\geq 0$について示せば十分。$\forall j$で
 	\[
 		\int_{K_j} f\leq \sup_{K\subset\Omega}\int_K f = \int_\Omega f
 	\]
-	となっている。$\displaystyle\int_{K_j} f$は$f\leq 0$より，$j$について単調減少列より，収束する。したがって，$\displaystyle\lim_{j\to\infty}\int_{K_j}f\leq\int_{\Omega} f$。一方で，上限の定義から
+	となっている。$\displaystyle\int_{K_j} f$は$f\geq 0$より，$j$について単調減少列より，収束する。したがって，$\displaystyle\lim_{j\to\infty}\int_{K_j}f\leq\int_{\Omega} f$。一方で，上限の定義から
 	\[
 		\forall\epsilon>0,\exists K\subset\Omega:\textrm{Jordan可測有界閉集合\ s.t.\ }\int_\Omega f-\epsilon \leq \int_K f
 	\]
@@ -2135,7 +2147,7 @@ Jordan可測$\Leftrightarrow$境界が測度0の集合$\Leftrightarrow$面積が
 		&=\left(\int_0^\infty e^{-x^2} dx\right)^2
 	\end{split}
 	\]
-    \footnotetext{フビ二の定理を利用。}
+    \footnotetext{フビニの定理を利用。}
 	一方，$\Omega$に対して$K_j'=\{(x_1,x_2):x_1^2+x_2^2\leq j^2,x_1\geq 0,x_2\geq 0\}$とすると
 	\[
 		\begin{split}
