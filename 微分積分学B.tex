@@ -1409,7 +1409,7 @@ $\Delta'$の$B$上の下限和を表す。
 
 \begin{framed}
     \begin{cor}
-        任意の分割$\Delta$，$\Delta'$に対して$s(f,\Delta)\leq s(f,\Delta')$
+        任意の分割$\Delta$，$\Delta'$に対して$s(f,\Delta)\leq S(f,\Delta')$
     \end{cor}
 \end{framed}
 
@@ -1418,12 +1418,13 @@ $\Delta'$の$B$上の下限和を表す。
     \[
         s(f,\Delta)\leq s(f,\Delta'')\leq S(f,\Delta'')\leq S(f,\Delta')
     \]
-    以上より
-    \[
-        \sup_{\Delta} s(f,\Delta)\leq \inf_{\Delta} S(f,\Delta)
-    \]
-    が\textbf{常に}成り立つ。
 \end{proof}
+以上より
+\[
+    \sup_{\Delta} s(f,\Delta)\leq \inf_{\Delta} S(f,\Delta)
+\]
+が\textbf{常に}成り立つ。
+
 \begin{dfn*}[リーマン可積分 Riemann Integrable]
     \[
         \sup_{\Delta} s(f,\Delta)= \inf_{\Delta} S(f,\Delta)
@@ -1458,7 +1459,7 @@ $\Delta'$の$B$上の下限和を表す。
 \end{proof}
 
 
-\newpage
+
 
 
 \section{測度0集合}
@@ -1560,7 +1561,7 @@ X:可算集合\Leftrightarrow\exists f:X\to\mathbb{N}:全単射
 \section{可積分関数}
 \paragraph{準備：有界関数の不連続度}
 \begin{dfn*}[変動量]
-$A\subset \mathbb{R}^n$とする。$f:A\to\mathbb{R}^n$:有界関数，$a\in A$とする。$\forall\delta>0$に対して
+$A\subset \mathbb{R}^n$とする。$f:A\to\mathbb{R}^n$:有界関数，$a\in A$とする。$\exists\delta>0$に対して
 \[
 	M(a,f,\delta):=\sup\{f(x):x\in A,|x-a|<\delta\}
 \]
@@ -1987,7 +1988,7 @@ $f:\mathbb{R}\to\mathbb{R}:$連続関数に対して，変換$g:[a,b]\to\mathbb{
 
 \subparagraph{3次元の場合}\footnotemark
 
-\footnotetext{$x_1,x_2,x_3$を$z,x,y$とすれば物理学でみられる曲座標変換に対応する。}
+\footnotetext{$x_1,x_2,x_3$を$z,x,y$とすれば物理学でみられる極座標変換に対応する。}
 
 \begin{empheq}[left=\empheqlbrace]{align*}
 	x_1 &= r\cos\theta_1 \\
@@ -2250,6 +2251,23 @@ Jordan可測$\Leftrightarrow$境界が測度0の集合$\Leftrightarrow$面積が
     \item $C^1$級関数$f:\mathbb{R}^n\to\mathbb{R}^n$は全射でありかつ$\forall a\in\mathbb{R}^n$で$\det f'(a)>0$を満たすとする。このとき$f$は$\mathbb{R}^n$上で1対1か。1対1であれば証明し，そうでなければ反例をあげよ。
 \end{enumerate}
 
+\subsection{小テスト3（2020年1月7日 4限 実施）}
+
+\begin{enumerate}
+    \item 以下の問にそれぞれ答えよ。
+        \begin{enumerate}\renewcommand{\labelenumii}{(\arabic{enumii})}
+            \item $A\subset\mathbb{R}^n$が測度0であることの定義を正確に記述せよ。
+            \item $A\subset\mathbb{R}^n$がJordan可測集合であることの定義を正確に記述せよ。
+            \item 開集合$U\subset\mathbb{R}^n$であって測度0であるものは存在するか。存在するならば例を示し，存在しないならばそのことを証明せよ。
+        \end{enumerate}
+    \item $f:[a,b]\to\mathbb{R}$はRiemann積分可能であるとする。このとき
+    \[
+        A:=\{(x,y)\in\mathbb{R}^2:a\leq x\leq b,0\leq y\leq f(x)\}
+    \]
+    としたとき，$A$がJordan可測であることを示せ。
+    \item $A_k$（$k=1,2,\cdots$）をJordan可測集合とし，$\displaystyle A:=\bigcup_{k=1}^\infty A_k$とする。このとき，$A$はJordan可測か。そうであるならば証明し，そうでないならば反例をあげよ。
+\end{enumerate}
+
 \newpage
 
 \section{解答編}
@@ -2494,6 +2512,10 @@ Jordan可測$\Leftrightarrow$境界が測度0の集合$\Leftrightarrow$面積が
     \end{enumerate}
     \item 概略だけ。単射でないと仮定して，空間に線を引く。写像で写せば閉曲線ができるから，開集合で包めばコンパクト性がわかる。らしいです。
 \end{enumerate}
+
+\subsection{小テスト3}
+
+そのうち作る？
 
 
 \end{document}
