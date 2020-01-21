@@ -8,6 +8,7 @@
 \usepackage{color}
 \usepackage{tikz}
 \usepackage{braket}
+\usepackage{bm}
 \newtheoremstyle{mystyle1}% Name
     {}% Space above
     {}% Space below
@@ -24,6 +25,7 @@
 \newtheorem{cor}[dfn]{系}
 \newtheorem{prop}[dfn]{命題}
 \newtheorem{lem}[dfn]{補題}
+\newtheorem{exs}[dfn]{例題}
 
 \newtheoremstyle{mystyle2}% Name
     {}% Space above
@@ -58,6 +60,19 @@
 \renewcommand\proofname{証明}
 \renewcommand{\qedsymbol}{\ensuremath{\blacksquare}}
 \makeatother
+
+\makeatletter
+\renewenvironment{ans}[1][解答]{\par
+  \pushQED{\qed}%
+  \normalfont
+  \topsep6\p@\@plus6\p@ \trivlist
+  \item[\hskip\labelsep{\bfseries\sffamily #1}]\ignorespaces
+}{%
+  \popQED\endtrivlist\@endpefalse
+}
+\renewcommand{\qedsymbol}{\ensuremath{\blacksquare}}
+\makeatother
+
 
 \renewcommand{\thepart}{\arabic{part}}
 \renewcommand{\thenote}{}
@@ -976,6 +991,8 @@ D_{i,j}f(x),D_{x^i,x^j}f(x),f_{x^i,x^j}(x),\frac{\partial^2}{\partial x^j \parti
 	$g_i(x):=f(a_1,\cdots,x,\cdots,a^n)$とおくと，$g_i$は$a^i$で最大or最小となり，しかも$g_i$は$a^i$を含むある開区間で定義されている。$0=g'_i(a)=D_if(a)$となる。	（最後の等号は偏微分の定義による。）
 \end{proof}
 
+\newpage
+
 \begin{framed}
 	\begin{thm}
 		$f:\mathbb{R}^n\to\mathbb{R}^m$が点$a$で全微分可能ならば，偏微分$D_jf^i(a)$ $(1\leq i \leq m,1\leq j \leq n)$が存在し，ヤコビ行列$Df(a)$は$m\times n$行列$(D_jf^i(a))_{ij}$に等しい。
@@ -1003,6 +1020,8 @@ $m=1$のとき$f'(a)=(D_1f(a),D_2f(a),\cdots,D_nf(a))$
 $f^i=\pi^i\circ f,\pi^i:\mathbb{R}^m\to\mathbb{R}(\pi^i(x)=x^i)$\\
 これより$(f^i)'(a)=\pi^i\circ f'(a)$
 }
+
+\newpage
 
 \begin{framed}
 	\begin{thm}\label{th2.8}
@@ -1038,6 +1057,8 @@ $f^i=\pi^i\circ f,\pi^i:\mathbb{R}^m\to\mathbb{R}(\pi^i(x)=x^i)$\\
 	三角不等式を用いている。また，最後の等号は$D_if$は$a$で連続より，$h\to0$のとき$c_i\to h^i$となることによる。
 	}
 
+\newpage
+
 \paragraph{$C^k$級関数}
 $f:\mathbb{R}^n\to\mathbb{R}^m$について，すべての偏導関数$D_jf^i(x)$が存在し，$a\in\mathbb{R}^n$でそれらがすべて連続なとき$f$は$a$で$C^1$級という。同様に，$k$階までの　偏導関数$D_{i_1,\cdots,i_k}f(x)$が存在し，それらがすべて$a\in\mathbb{R}^n$で連続なとき，$f$は$a$で$C^k$級という。定理\ref{th2.5}より，$C^k$級関数は微分の順序には偏導関数は依存しない。
 
@@ -1068,6 +1089,8 @@ $f:\mathbb{R}^n\to\mathbb{R}^m$について，すべての偏導関数$D_jf^i(x)
 
 この左辺の第$i$成分は$D_iF(a)$であり，右辺の第$i$成分は$\displaystyle\sum_{j=1}^m D_jf(g_1(a),\cdots,g_m(a))\cdot D_ig_j(a)$となりOK。
 \end{proof}
+
+\newpage
 
 \begin{framed}
 	\begin{lem}[リプシッツ連続\footnotemark]\label{lem2.10}
@@ -1102,6 +1125,8 @@ $\because |y^i-x^i|\leq|y-x|$
 \footnotetext{
 $\sqrt{a_1^2+\cdots+a_n^2}\leq|a_1|+\cdots+|a_n|$
 }
+
+\newpage
 
 \begin{framed}
 	\begin{thm}[逆関数の定理]\label{th2.11}
@@ -1383,6 +1408,8 @@ s(f,\Delta)\leq S(f,\Delta)
 が成り立つ。
 \end{dfn*}
 
+\newpage
+
 \begin{framed}
 	\begin{lem}\label{lem3.1}
 		分割$\Delta'$が分割$\Delta$の細分\footnotemark ならば，$s(f,\Delta)\leq s(f,\Delta')$，$S(f,\Delta')\leq S(f,\Delta)$
@@ -1432,6 +1459,8 @@ $\Delta'$の$B$上の下限和を表す。
     のとき，有理関数$f$は閉方体$A$上で可積分（Riemann Integrable）であるという。
 \end{dfn*}
 
+\newpage
+
 \begin{framed}
     \begin{thm}
         有界関数$f:A\to\mathbb{R}$が可積分であるための必要十分条件は
@@ -1459,7 +1488,7 @@ $\Delta'$の$B$上の下限和を表す。
 \end{proof}
 
 
-
+\newpage
 
 
 \section{測度0集合}
@@ -1508,6 +1537,8 @@ X:可算集合\Leftrightarrow\exists f:X\to\mathbb{N}:全単射
 	\]
 	となる。
 \end{proof}
+
+\newpage
 
 \begin{dfn*}[容積0]
 	$A\subset\mathbb{R}$とする。$\forall\epsilon>0,\exists$有限個の閉方体（開方体）$\{c_1,c_2,\cdots,c_k\}$\ s.t.\ $A\displaystyle\subset\bigcup_{i=1}^kc_i$，$\displaystyle\sum_{i=1}^k|c_i|<\epsilon$とできるとき，$A$は容積$0$であるという。
@@ -1594,6 +1625,9 @@ $\delta$を小さくすると$M(a,f,\delta)-m(a,f,\delta)(\geq 0)$も小さく�
 \footnotetext{
 ここではsup-infのため等号が入る。
 }
+
+\newpage
+
 \begin{framed}
 	\begin{thm}\label{th3.7}
 		$A\subset\mathbb{R}^n$:閉集合，$f:A\to\mathbb{R}$:有界関数とする。このとき$\forall\epsilon>0$に対して，$B:=\{x\in A:\mathscr{O}(f,x)\geq \epsilon\}$は閉集合。
@@ -2040,7 +2074,7 @@ r\cos\theta_1\sin\theta_2 & r\sin\theta_1\cos\theta_2
 \end{example}
 
 \begin{ex}
-	$\displaystyle \int_\Omega\sqrt{a^2-x^2-y^2-z^2}dxdydz$，$\Omega=\{(x,y,z):x^2+y^2+z^2\leq a^2$
+	$\displaystyle \int_\Omega\sqrt{a^2-x^2-y^2-z^2}dxdydz$，$\Omega=\{(x,y,z):x^2+y^2+z^2\leq a^2\}$
 \end{ex}
 
 \begin{ans}
@@ -2104,8 +2138,10 @@ $\Omega$と$D$が対応し，$(ヤコビアン)=r^2\sin\theta_1$
 Jordan可測$\Leftrightarrow$境界が測度0の集合$\Leftrightarrow$面積が求まる
 }
 
+\newpage
+
 \begin{framed}
-	\begin{thm}
+	\begin{thm}\label{th3.14}
 		$f(x):\Omega$上広義積分可能，$\Omega$内のJordan可測な有界閉集合の列$\{K_j\}_{j=1,2,\cdots}$が
 		\begin{enumerate}
 			\item $K_1\subset K_2\subset K_3\subset \cdots$
@@ -2133,12 +2169,14 @@ Jordan可測$\Leftrightarrow$境界が測度0の集合$\Leftrightarrow$面積が
 	\]
 \end{proof}
 
+\newpage
+
 \begin{ex}
 広義積分を用いて$\displaystyle\int_0^\infty e^{-x^2}dx=\frac{\sqrt{\pi}}{2}$を示せ。
 \end{ex}
 
 \begin{ans}
-	広義積分$\displaystyle\int_\Omega e^{-(x_1^2+x_2^2)}dx_1dx_2$，$\Omega=\{(x_1,x_2):x_1\geq 0,x_2\geq 0\}$を考える。$\Omega$に対して$K_j:=\{(x_1,x_2):0\leq x_1\leq j,0\leq x_2\leq j\}$をとると
+	広義積分$\displaystyle\int_\Omega e^{-(x_1^2+x_2^2)}dx_1dx_2$，$\Omega=\{(x_1,x_2):x_1\geq 0,x_2\geq 0\}$を考える。\\$\Omega$に対して$K_j:=\{(x_1,x_2):0\leq x_1\leq j,0\leq x_2\leq j\}$をとると
 	\[
 	\begin{split}
 		\int_\Omega e^{-(x_1^2+x_2^2)}dx_1dx_2
@@ -2168,8 +2206,10 @@ Jordan可測$\Leftrightarrow$境界が測度0の集合$\Leftrightarrow$面積が
 	\]
 \end{ans}
 
+\newpage
+
 \begin{framed}
-	\begin{thm}
+	\begin{thm}\label{th3.15}
 		$\Omega\subset\mathbb{R}^n:$非有界領域，$f:\Omega\to\mathbb{R}^n:$有界関数とする。$\forall r>0$に対し$\Omega_r:=\{x\in\Omega:|x|\leq r\}$上では$f$は可積分とする。このとき，$\exists\alpha>0$\ s.t.\ $|f(x)|<c|x|^{-n-\alpha}\ (|x|:十分大)$ならば，$\Omega$上の広義積分$\displaystyle\int_\Omega f$は存在する。
 	\end{thm}
 \end{framed}
@@ -2198,7 +2238,223 @@ Jordan可測$\Leftrightarrow$境界が測度0の集合$\Leftrightarrow$面積が
 	}
 \end{proof}
 
-%はんいここまで。れぽーと7まで。測度0がメイン
+\newpage
+
+%期末は積分求値問題をだすよ〜2問だよ〜
+
+\paragraph{関数が有界でない場合}
+関数$f$はJordan可測な有界領域$\Omega$で定義されていて，$x\in\Omega$が$\Omega$の境界$\partial \Omega$のある1点$x_0$に近づく時，$f(x)$が非有界となる場合（そのような点$x_0$は有限個あってよい）。有界である場合と同様に$f(x)\geq 0$ならば$f(x)$の$\Omega$上の広義積分を
+\[
+	\int_\Omega f:=\sup_{K\subset\Omega}\int_K f
+\]
+と定義する。$\sup$をとる$K$は，積分領域が有界である場合と同様に「$f(x)$が$K$上で有界となるようなすべてのJordan可測な閉集合」を考える。$f(x)$の符号が一定でない場合も，積分領域が有界である場合と同様に$f^+,f^-$に分割し定める。
+\begin{note}
+	定理\ref{th3.14}，定理\ref{th3.15}も同様に成立する。\\
+	例えば点$x=x_0\in\mathbb{R}^n$で発散する関数$f$であれば
+	\[
+		\exists\alpha>0,\exists r_0>0\ \textrm{s.t.}\ |f(x)|\leq c|x-x_0|^{-n+\alpha}\ \ (|x-x_0|\leq r_0)
+	\]
+	となればよい。
+\end{note}
+\begin{example}
+$\displaystyle I_1=\int_{0<x^2+y^2<1}\log{(x^2+y^2)}dxdy$
+\end{example}
+
+\begin{ans}
+$K_n=\left\{(x,y):\frac{1}{n^2}\leq x^2+y^2\leq 1\right\}$とおくと
+\[
+\begin{split}
+	I_1
+	&=\lim_{n\to\infty}\int_{K_n}\log{(x^2+y^2)}dxdy\\
+	&=\lim_{n\to\infty}\int_{\theta=0}^{\theta=\pi}\int_{r=\frac{1}{n}}^{r=1}2r\log{r} rdrd\theta\\
+	&=4\pi\lim_{n\to\infty}\frac{1}{4}\left\{\left(\frac{1}{n}\right)^2-1+2\left(\frac{1}{n}\right)^2\log{n}\right\}\\
+	&=-\pi
+\end{split}
+\]
+\end{ans}
+
+\begin{example}
+	$\displaystyle I_2=\int_\Omega\frac{1}{|x-y|^{\frac{1}{2}}}dxdy,\Omega=[0,1]\times[0,1]$
+\end{example}
+
+\begin{ans}
+	$K_\epsilon:=\{(x,y):|x-y|\geq\epsilon,(x,y)\in\Omega\}$とおくと\footnote{この場合，正方形$\Omega$の対角線$y=x$は$\partial\Omega$の点とみる。}
+	\[
+	\begin{split}
+		I_2
+		&=\lim_{\epsilon\to0}\int_{K_\epsilon}\frac{1}{|x-y|^\frac{1}{2}}dxdy\\
+		&=2\lim_{\epsilon\to0}\int_{y=\epsilon}^{y=1}\left(\int_{x=0}^{x=y-\epsilon}(y-x)^{-\frac{1}{2}}dx\right)dy\footnotemark\\
+		&=\frac{8}{3}
+	\end{split}
+	\]
+    \footnotetext{
+    正方形を$y=x$で分割した2つの直角三角形とみて，$y=x$の上側部分の2倍
+    }
+\end{ans}
+
+\newpage
+
+\begin{example}\
+	\begin{enumerate}\renewcommand{\labelenumi}{(\arabic{enumi})}
+	\item $\displaystyle\frac{\partial}{\partial x}\left(\frac{2x}{(x+y)^2}\right)=-\frac{\partial}{\partial y}\left(\frac{2y}{(x^2+y^2)}\right)=\frac{2y-2x}{(x+y)^2}$
+		を用いて
+		\[
+        \displaystyle\int_0^1\left(\int_0^1\frac{2y-2x}{(x+y)^3}dx\right)dy =1, \int_0^1\left(\int_0^1\frac{2y-2x}{(x+y)^3}dy\right)dx =-1
+        \]
+        を示せ。
+
+	\item
+	$0<a,b<1$をみたす実数に対して$D(a,b)=\left\{(x,y):a\leq x\leq 1,b\leq y\leq 1\right\}$とする。
+	\[
+		\int_{D(a,b)}f(x,y)dxdy=1-\frac{2a}{1+a}-\frac{2}{1+b}+\frac{2a}{a+b}
+	\]
+    を示せ。
+	\item $\displaystyle D_n:=D\left(\frac{1}{n},\frac{1}{n}\right),\Omega_n:=D\left(\frac{1}{n},\frac{2}{n}\right)$に対して
+	\[
+		\lim_{n\to\infty}\int_{D_n}f(x,y)dxdy=0,\lim_{n\to\infty}\int_\Omega f(x,y)dxdy=-\frac{1}{6}
+	\]
+    を示せ。
+	\end{enumerate}
+
+\end{example}
+
+\begin{ans}
+    \begin{enumerate}\renewcommand{\labelenumi}{(\arabic{enumi})}
+    \item
+    \[
+        \int_0^1\left(\int_0^1\frac{2y-2x}{(x+y)^3}dx\right)dy=\int_0^1\left[\frac{2x}{(x+y)^2}\right]_{x=0}^{x=1}dy=\int_0^1\frac{2}{(1+y)^2}dy=1
+    \]
+    \[
+        \int_0^1\left(\int_0^1\frac{2y-2x}{(x+y)^3}dy\right)dx=\int_0^1\left[\frac{-2y}{(x+y)^2}\right]_{y=0}^{y=1}dy=\int_0^1\frac{-2}{(1+x)^2}dx=-1
+    \]
+    \begin{note}
+        これは$\displaystyle f(x,y)=\frac{2(x-y)}{(x+y)^3}$は（$[0,1]\times[0,1]$上）可積分でないことを示している。
+    \end{note}
+    \item
+	\[
+	\begin{split}
+		\int_{D(a,b)}f(x,y)dxdy
+		&=\int_b^1\left[\frac{-2x}{(x+y)^2}\right]_a^1 dy\\
+		&=\int_a^1\left(-\frac{2}{(1+y)^2}+\frac{2a}{(a+y)^2}\right)dy\\
+		&=\left[\frac{2}{1+y}-\frac{2a}{a+y}\right]_b^1\\
+		&=1-\frac{2a}{1+a}-\frac{2}{1+b}+\frac{2a}{a+b}
+	\end{split}
+	\]
+    \item 省略
+    \end{enumerate}
+\end{ans}
+
+\newpage
+
+\begin{framed}
+\begin{exs}
+	$p>0,q>0$に対して
+	\[
+		B(p,q)=\frac{\Gamma(p)\Gamma(q)}{\Gamma(p+q)}
+	\]
+	を示せ。\footnotemark
+\end{exs}
+\end{framed}
+
+\footnotetext{
+$\displaystyle \Gamma(p)=\int_0^\infty e^{-x}x^{p-1} dx = 2\int_0^\infty e^{-x^2}x^{2p-1} dx$\\
+$\displaystyle B(p,q)=\int_0^1 x^{p-1}(1-x)^{q-1}dx=2\int_0^{\frac{\pi}{2}}\sin^{2p-1}\theta\cos^{2q-1}\theta d\theta$
+}
+
+\begin{proof}
+	\[
+	\begin{split}
+	\Gamma(p)\Gamma(q)
+	&=\left(\int_0^\infty x^{p-1}e^{-x}dx\right)\left(\int_0^\infty y^{q-1}e^{-y}dy\right)\\
+	&=4\left(\int_0^\infty x^{2p-1}e^{-x^2}dx\right)\left(\int_0^\infty y^{2q-1}e^{-y^2}\right)\\
+	&=4\lim_{n\to\infty}\int_{D_n}e^{-x^2-y^2}x^{2p-1}y^{2q-1}dxdy	\end{split}
+	\]
+	ここで$D_n=\{(x,y):0\leq x\leq n,0\leq y\leq n\},\Omega_n=\{(x,y):X^2+y^2\leq n,x\geq0,y\geq0\}$とすると
+	\begin{equation}\tag{*}
+		4\lim_{n\to\infty}\int_{D_n}e^{-x^2-y^2}x^{2p-1}y^{2q-1}dxdy
+		= 4\lim_{n\to\infty}\int_{\Omega_n}e^{-x^2-y^2}x^{2p-1}y^{2q-1}dxdy
+	\end{equation}
+	が成り立つ。（$\because e^{-x^2-y^2}x^{2p-1}y^{2q-1}$は$[0,\infty)\times[0,\infty)$上で広義積分可より）
+	\[
+	\begin{split}
+		(*)&=\lim_{n\to\infty}4\int_0^{\frac{\pi}{2}}\left(\int_0^n e^{-r^2}r^{2(p+q)-1}dr\right)\cos^{2p-1}\theta\sin^{2q-1}\theta d\theta \\
+		&=\left(2\int_0^\infty e^{-r^2}r^{2(p+q)-1}dr\right)\left(2\int_0^{\frac{\pi}{2}}\cos^{2p-1}\theta\sin^{2q-1}\theta d\theta\right)\footnotemark\\
+		&=\Gamma(p+1)B(p,q)
+	\end{split}
+	\]
+\end{proof}
+
+\footnotetext{フビニの定理。}
+
+%2次形式の計算問題（3次元のやつ）をテストに出すよ
+
+\newpage
+
+\begin{framed}
+\begin{exs}\
+	\begin{enumerate}\renewcommand{\labelenumi}{(\arabic{enumi})}
+		\item $\displaystyle 5x^2-2\sqrt{2}xy+4y^2=\langle\begin{pmatrix} x \\ y\end{pmatrix}, A\begin{pmatrix} x \\ y\end{pmatrix}\rangle$をみたす2次対称行列$A$の固有値$\lambda_1,\lambda_2$を求めよ。\footnotemark
+		\item 行列の対角化により，$P^{-1}AP=\begin{pmatrix} \lambda_1 & 0 \\ 0 & \lambda_2 \end{pmatrix}$となる直交行列$P$が存在する。この$P$を用いて$\begin{pmatrix} x \\ y\end{pmatrix} = P \begin{pmatrix} u \\ v\end{pmatrix}$となる変数変換で
+		\[
+			5x^2-2\sqrt{2}xy+4y^2=\lambda_1 u^2+\lambda_2 v^2
+		\]
+		を示せ。
+		\item $\displaystyle \int_{\mathbb{R}^2} e^{-5x^2+2\sqrt{2}xy-4y^2}dxdy= \int_{\mathbb{R}^2} e^{-\lambda_1 u^2-\lambda_2 v^2}dudv=\frac{\pi}{\sqrt{18}}$となることを示せ。
+	\end{enumerate}
+\end{exs}
+\end{framed}
+
+\footnotetext{
+2次形式についての補足：例えば\\
+$x^2+2y^2+3z^2-2xy-4yz+6zx=(x,y,z)A\begin{pmatrix} x \\ y \\ z\end{pmatrix}$に対して$A$は
+\[
+A=
+\begin{pmatrix}
+	1 & -1 & 3 \\
+	-1 & 2 & -2 \\
+	3 & -2 & 3
+\end{pmatrix}
+\]
+となる。第$i$列，第$j$列が$1,2,3$に対して$x,y,z$に対応している。$i=j$のところは係数そのまま，$i\neq j$のところは係数の半分の値が入る。\\
+または，シルベスターの方法（慣性法則）を用いる。
+}
+
+\newpage
+
+\begin{ans}\
+    \begin{enumerate}\renewcommand{\labelenumi}{(\arabic{enumi})}
+        \item 2次対称行列は$A=\begin{pmatrix} 5 & -\sqrt{2} \\ -\sqrt{2} & 4 \end{pmatrix}$。固有値は$\det(A-\lambda E)=0$をといて$\lambda_1=3,\lambda_2=6$
+        \item 直交行列の性質$\langle P\bm{x},\bm{y}\rangle=\langle \bm{x},P^{-1}\bm{y}\rangle$を用いると
+        \[
+        \begin{split}
+            5x^2-2\sqrt{2}xy+4y^2
+            &=\langle \begin{pmatrix} x \\ y \end{pmatrix},A\begin{pmatrix} x \\ y \end{pmatrix} \rangle\\
+            &=\langle P\begin{pmatrix} u \\ v \end{pmatrix},AP\begin{pmatrix} u \\ v \end{pmatrix} \rangle\\
+            &=\langle \begin{pmatrix} u \\ v \end{pmatrix},P^{-1}AP\begin{pmatrix} u \\ v \end{pmatrix} \rangle\\
+            &=\langle \begin{pmatrix} u \\ v \end{pmatrix},\begin{pmatrix} \lambda_1 & 0 \\ 0 & \lambda_2 \end{pmatrix} \begin{pmatrix} u \\ v \end{pmatrix} \rangle\\
+            &=\lambda_1 u^2+\lambda_2 v^2
+        \end{split}
+        \]
+        \item $\begin{pmatrix} x \\ y \end{pmatrix}=P\begin{pmatrix} u \\ v \end{pmatrix}$の変数変換\footnotemark で$\mathbb{R}^2$は$\mathbb{R}^2$に移り，
+        \footnotetext{$f:\mathbb{R}^2\to\mathbb{R}^2:f(\begin{pmatrix} u \\ v \end{pmatrix})=P\begin{pmatrix} u \\ v \end{pmatrix}$，線形写像の微分は表現行列である。}
+        この変換のヤコビ行列式は$P$である。直交行列の行列式の値は$\pm 1$であるので，それの絶対値は$1$\footnotemark。
+        \footnotetext{つまり$dydx=|P|dudv=dudv$となることに注意。}
+        フビニの定理を用いて
+        \[
+        \begin{split}
+            \int_{\mathbb{R}^2} e^{-5x^2+2\sqrt{2}xy-4y^2}dxdy
+            &= \int_{\mathbb{R}^2} e^{-\lambda_1 u^2-\lambda_2 v^2}dudv\\
+            &= \left(\int_{\mathbb{R}} e^{-\lambda_1 u^2}du\right)\left(\int_{\mathbb{R}} e^{-\lambda_2 v^2}dv\right)\\
+            &= \left(\int_{-\infty}^\infty e^{-3 u^2}du\right)\left(\int_{-\infty}^\infty e^{-6 v^2}dv\right)\\
+            &= \left(\frac{1}{\sqrt{3}}\int_{-\infty}^\infty e^{\tilde{u}^2}d\tilde{u}\right)\left(\frac{1}{\sqrt{6}}\int_{-\infty}^\infty e^{-\tilde{v}^2}d\tilde{v}\right)\\
+            &=\sqrt{\frac{\pi}{3}}\sqrt{\frac{\pi}{6}}\\
+            &=\frac{\pi}{\sqrt{18}}\footnotemark
+        \end{split}
+        \]
+        \footnotetext{計算には
+        $\displaystyle \int_{-\infty}^\infty e^{-\alpha x^2}dx=\frac{1}{\sqrt{\alpha}} \int_{-\infty}^\infty e^{-u^2}du=\sqrt{\frac{\pi}{\alpha}}$を用いればよい。}
+    \end{enumerate}
+\end{ans}
 
 \newpage
 \part{小テストの問題と解答}
