@@ -1,0 +1,3408 @@
+\documentclass[dvipdfmx,a4j,10pt]{jsarticle}
+\usepackage{amsthm}
+\usepackage{newtxtext,newtxmath}
+\usepackage{mathrsfs}
+\usepackage{comment}
+%\renewcommand{\bf}{\bfseries\sffamily}
+\usepackage{empheq}
+\usepackage{framed}
+\usepackage{color}
+\usepackage{tikz}
+\usepackage{braket}
+\usepackage{bm}
+\newtheoremstyle{mystyle1}% Name
+    {}% Space above
+    {}% Space below
+    {\normalfont}% Body font
+    {}% Indent amount
+    {\bfseries\sffamily}% Theorem head font
+    {\hspace{0.5em}}% Punctuation after theorem head
+    { }% Space after theorem head, ‘ ‘, or \newline
+    {\thmname{#1}\thmnumber{#2}\thmnote{（#3）\\}}% Theorem head spec (can be left empty, meaning `normal')
+\theoremstyle{mystyle1}
+\newtheorem{dfn}{定義}[part]
+\newtheorem{thm}[dfn]{定理}
+\newtheorem{axi}[dfn]{公理}
+\newtheorem{cor}[dfn]{系}
+\newtheorem{prop}[dfn]{命題}
+\newtheorem{lem}[dfn]{補題}
+\newtheorem{exs}[dfn]{例題}
+\newtheorem{qes}[dfn]{問題}
+\newtheorem{ex}[dfn]{例題}
+\newtheorem{example}[dfn]{例}
+
+\newtheoremstyle{mystyle2}% Name
+    {}% Space above
+    {}% Space below
+    {\normalfont}% Body font
+    {}% Indent amount
+    {\bfseries\sffamily}% Theorem head font
+    {\hspace{0.5em}}% Punctuation after theorem head
+    { }% Space after theorem head, ‘ ‘, or \newline
+    {\thmname{#1}\thmnote{（#3）\\}}% Theorem head spec (can be left empty, meaning `normal')
+\theoremstyle{mystyle2}
+\newtheorem{dfn*}{定義}
+\newtheorem{thm*}{定理}
+\newtheorem{ex*}{例題}
+\newtheorem{example*}{例}
+\newtheorem{qes*}{問題}
+\newtheorem{rem}{注意}
+\newtheorem{ans}{解答}
+\newtheorem{note}{注意}
+\newtheorem{lem*}{補題}
+\newtheorem{axi*}{公理}
+\newtheorem{way*}{方法}
+
+
+\makeatletter
+\renewenvironment{proof}[1][\proofname]{\par
+  \pushQED{\qed}%
+  \normalfont
+  \topsep6\p@\@plus6\p@ \trivlist
+  \item[\hskip\labelsep{\bfseries\sffamily #1}]\ignorespaces
+}{%
+  \popQED\endtrivlist\@endpefalse
+}
+\renewcommand\proofname{証明}
+\renewcommand{\qedsymbol}{\ensuremath{\blacksquare}}
+\makeatother
+
+\makeatletter
+\renewenvironment{ans}[1][解答]{\par
+  \pushQED{\qed}%
+  \normalfont
+  \topsep6\p@\@plus6\p@ \trivlist
+  \item[\hskip\labelsep{\bfseries\sffamily #1}]\ignorespaces
+}{%
+  \popQED\endtrivlist\@endpefalse
+}
+\renewcommand{\qedsymbol}{\ensuremath{\blacksquare}}
+\makeatother
+
+
+\renewcommand{\thepart}{\arabic{part}}
+\renewcommand{\thenote}{}
+\renewcommand{\thelem}{}
+
+
+\newcommand{\defLeftrightarrow}{\overset{\text{def}}{\iff}}
+
+\makeatletter
+\@addtoreset{section}{part}
+\makeatother
+
+\makeatletter
+\def\blfootnote{\xdef\@thefnmark{}\@footnotetext}
+\makeatother
+
+\setcounter{tocdepth}{1}%目次をsectionまでの表示にする
+
+\title{微分積分学A}
+\author{KUinfoB1 Twitter:\_2pt}
+\author{2019年度 1T23,24 担当：久保}
+\date{}
+\begin{document}
+\maketitle
+\begin{enumerate}
+\item 評価の方法について
+	\begin{itemize}
+		\item 小テスト：20点$\times$3回\\
+			定義の確認，簡単な計算，演習問題の簡単な問題など
+		\item 期末試験
+	\end{itemize}
+	授業の出席は取らない
+\item 参考書
+	\begin{itemize}
+		\item 解析入門I（基礎数学2）- 杉浦光夫 [東京大学出版]
+		\item 解析入門I - 小平邦彦 [岩波書店]
+		\item 微分積分（共立講座 21世紀の数学） - 黒田 成俊 [共立出版]
+	\end{itemize}
+	問題集
+		\begin{itemize}
+		\item 解析演習（基礎数学）- 杉浦光夫 [東京大学出版]
+	\end{itemize}
+\item 後期が始まるまでに線形写像と行列の対応について学習しておくことが望ましい
+\end{enumerate}
+
+\begin{note}
+	この講義ノートは，授業の板書をもとに編集者が勝手にレイアウトを変更したり（ex.定義や定理などが講義での項目番号と必ずしも一致しない），言い回しを変えたり（ex.$\epsilon-N$論法の書き方が板書とは少し異なっています），余計な項目を追加したり（ex.積分公式の部分），手を加えているところが少なからずあります。より実際の授業の板書に近いノートを他の方が別のファイル（2018年度版）で上げていますので，そちらも合わせて見ていただいた方が良いかと思われます。なお，授業内容，板書は2018年度版と変化はありません。
+\end{note}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\part{数列と極限}
+\section{Introduction}
+
+\definecolor{shadecolor}{gray}{0.80}
+\begin{shaded}
+	\begin{qes}\label{introq}
+		\begin{empheq}[left=\empheqlbrace]{align*}
+			&a_1=\frac{1}{2}\\
+			&\vphantom{\frac{1}{2}}\smash[b]{a_{n+1}=a_n^2-a_n+1}
+		\end{empheq}
+		数列$\{a_n\}_{n=1}^\infty$は$n\to\infty$で極限をもつか。もつならばその値を求めよ。
+	\end{qes}
+\end{shaded}
+
+\begin{ans}[解答? \ref{introq}]
+    与式から
+    \[a_{n+1}-a_n=(a_n-1)^2\geq0\]
+    また
+    \[a_{n+1}=\left(a_n-\frac{1}{2}\right)^2+\frac{3}{4}\]
+    であるので，
+    \[\frac{1}{2}\leq a_n\leq 1\Longrightarrow \frac{1}{2}\leq a_n\leq a_{n+1}\leq 1\]
+    よって，帰納的に
+    \[a_1=\frac{1}{2}\leq a_2\leq a_3\leq \cdots\leq 1\]
+    \textcolor{red}{したがって数列$\{a_n\}_{n=1}^{\infty}$は極限をもち}，$\displaystyle \lim_{n\to\infty}a_n=\alpha$とすると，$\alpha\leq1$であって
+    \[a_{n+1}=a_n^2-a_n+1\xrightarrow{n\to\infty}\alpha=\alpha^2-\alpha+1\]
+    \[\therefore \alpha=1\]
+    よって
+    \[\lim_{n\to\infty}a_n=1\]
+\end{ans}
+
+この解答では赤字の部分が厳密ではない。
+
+\newpage
+
+\begin{framed}
+\begin{thm}\label{thm1}
+    数列$\{a_n\}$に対して
+    \begin{enumerate}
+    	\item $\forall n\in\mathbb{N}$\ s.t.\ $a_n\leq a_{n+1}$
+    	\item $\exists M\in\mathbb{R}$\ s.t.\ $\forall n\in\mathbb{N}\Longrightarrow a_n\leq M$
+    \end{enumerate}
+    ならば，数列$\{a_n\}$は$n\to\infty$で収束し，$\displaystyle\lim_{n\to\infty}a_n\leq M$である。
+\end{thm}
+
+\end{framed}
+この定理\ref{thm1}はつまり，
+\[
+    単調非減少で上に有界な数列は，（有限な）極限をもつ
+\]
+ということを示している。
+
+\begin{framed}
+    \begin{dfn}[数列の単調性／有界]\label{dfnyukai}
+        数列$\{a_n\}$に対して
+        \begin{enumerate}
+            \item
+        	\begin{itemize}
+        		\item 任意の$n$に対して$a_n<a_{n+1}$$\defLeftrightarrow$数列$\{a_n\}$は単調増加
+        		\item 任意の$n$に対して$a_n\leq a_{n+1}$$\defLeftrightarrow$数列$\{a_n\}$は単調非減少\footnotemark
+        		\item 任意の$n$に対して$a_n>a_{n+1}$$\defLeftrightarrow$数列$\{a_n\}$は単調減少
+        		\item 任意の$n$に対して$a_n\geq a_{n+1}$$\defLeftrightarrow$数列$\{a_n\}$は単調非増加\footnotemark
+        	\end{itemize}
+            \item
+        	\begin{itemize}
+        	\item	$\exists M\in\mathbb{R}$\ s.t.\ $\forall n\in\mathbb{N}$について$a_n\leq M$$\defLeftrightarrow$$\{a_n\}$は上に有界
+        	\item $\exists M\in\mathbb{R}$\ s.t.\ $\forall n\in\mathbb{N}$について$a_n\geq M$$\defLeftrightarrow$$\{a_n\}$は下に有界
+        	\end{itemize}
+        \end{enumerate}
+    \end{dfn}
+\end{framed}
+
+\begin{framed}
+    \begin{dfn}[$\epsilon -N$論法]\
+        \vspace{-\baselineskip}
+        \begin{enumerate}
+        \item 実数$\alpha$に対して数列$\{a_n\}$が$n\to\infty$で$\alpha$に収束する\\
+        	$\defLeftrightarrow$$\forall\epsilon>0,\exists n_0\in\mathbb{N}$\ s.t.\ $n> n_0\Longrightarrow |a_n-\alpha|<\epsilon$\footnotemark
+        \item 数列$\{a_n\}$が$n\to\infty$で$+\infty$に発散する\\
+        	$\defLeftrightarrow$$\forall M>0,\exists n_0\in\mathbb{N}$\ s.t.\ $n> n_0\Longrightarrow a_n>M$
+        \item 数列$\{a_n\}$が$n\to\infty$で$-\infty$に発散する\\
+        	$\defLeftrightarrow$$\forall M<0,\exists n_0\in\mathbb{N}$\ s.t.\ $n> n_0\Longrightarrow a_n<M$
+        \end{enumerate}
+    \end{dfn}
+\end{framed}
+
+\footnotetext[1]{広義単調増加とも言う}\footnotetext{広義単調減少とも言う}\footnotetext{言い換えれば，\\任意の正実数$\epsilon$に対し，ある自然数$n_0$であって，$n>n_0$ならば$|a_n-\alpha|<\epsilon$であるようなものが存在する。\\
+	どんなに小さな正実数$\epsilon$が与えられても，$\epsilon$に応じて十分に大きな自然数$n_0$（$n_0$は$\epsilon$を用いた式）を選べば$n_0$より大きいすべての自然数$n$について$|a_n-\alpha|<\epsilon$が成り立つ。}
+
+\begin{shaded}
+    \begin{ex}\label{ex1}次を証明せよ。
+        \begin{enumerate}
+            \item $\displaystyle\frac{1}{n}\to0$\ as\ $n\to\infty$
+            \item $n^2\to+\infty$\ as\ $n\to\infty$
+            \item $\sqrt[n]{n}\to1$\ as\ $n\to\infty$
+            \item $\displaystyle a_n:=1+\frac{1}{2}+\frac{1}{3}+\cdots+\frac{1}{n}\Longrightarrow\lim_{n\to\infty}a_n=+\infty$
+        \end{enumerate}
+    \end{ex}
+\end{shaded}
+
+\begin{ans}[解答\ref{ex1}]\
+    \begin{enumerate}
+        \item 任意の正実数$\epsilon$に対して$n_0$を$\displaystyle\frac{1}{\epsilon}$より大きな自然数とする。このとき，任意の$n_0$以上の自然数$n$に対し，
+        	\[\left|\frac{1}{n}\right|\leq\frac{1}{n_0}<\epsilon\]
+        	よって，
+        	\[\lim_{n\to\infty}\frac{1}{n}=0\]
+        \item 任意の正実数$M$に対して$n_0$を$\sqrt{M}$より大きな自然数とする。このとき，任意の$n_0$以上の自然数$n$に対し，
+        	\[n^2\geq n_0^2>M\]
+        	よって，
+        	\[\lim_{n\to\infty}n^2=+\infty\]
+        \item $1\leq\sqrt[n]{n}$は明らかである。\\
+        	任意の正実数$\epsilon$に対して
+        	\[n_0=\frac{2}{\epsilon^2}+1\]
+        	とする\footnotemark  と，$n_0$より大きい任意の自然数$n$に対して
+        	\[\sqrt[n]{n}<1+\epsilon\]
+        	となるので
+        	\[\lim_{n\to\infty}\sqrt[n]{n}=1\]
+        	\footnotetext{示したいのは「$\forall\epsilon>0,\exists n_0\in\mathbb{N}$\ s.t.\ $n> n_0\Longrightarrow |a_n-\alpha|<\epsilon$」の$a_n=\sqrt[n]{n},\alpha=1$としたものである。極限値1との誤差$\epsilon$がどれだけ小さくなっても$n_0$が適切に設定できればよいので，$\epsilon$の関数である$n_0$を明示的に表すとわかりやすい。
+        	\[|\sqrt[n]{n}-1|<\epsilon\]
+        	から，
+        	\[\sqrt[n]{n}<1+\epsilon\]
+        	よって
+        	\[n<(1+\epsilon)^n=1+n\epsilon+\frac{n(n-1)}{2}\epsilon^2\cdots\epsilon^n\]
+        	であるが，これを参考にして
+        	\[n<\frac{n(n-1)}{2}\epsilon^2\Leftrightarrow n>\frac{2}{\epsilon^2}+1\]
+        	で抑えることを考えれば，この右辺を$n_0$としてしまえばよいことがわかる。
+        	}
+        \item \[1+\frac{1}{2}+\underbrace{\frac{1}{3}+\frac{1}{4}}_{\geq\frac{1}{4}+\frac{1}{4}=\frac{1}{2}}+\underbrace{\frac{1}{5}+\frac{1}{6}+\frac{1}{7}+\frac{1}{8}}_{\frac{1}{8}+\frac{1}{8}+\frac{1}{8}+\frac{1}{8}=\frac{1}{2}}+\cdots\]
+        	である。一般に，
+        	\[
+        	\begin{split}
+        		\frac{1}{2^n+1}+\frac{1}{2^n+2}+\cdots+\frac{1}{2^{n+1}}
+        		&\geq \frac{1}{2^{n+1}}+\frac{1}{2^{n+1}}+\cdots+\frac{1}{2^{n+1}}\\
+        		&=\frac{1}{2}
+        	\end{split}
+        	\]
+        	よって
+        	\[\sum_{n=1}^{\infty}\frac{1}{n}=+\infty\]
+    \end{enumerate}
+\end{ans}
+
+\begin{shaded}
+    \begin{ex}\label{ex2} $\displaystyle a_n=\left(1+\frac{1}{n}\right)^n$とする。
+        \begin{enumerate}
+            \item 数列$\{a_n\}_{n=1}^{\infty}$は単調増加であることを示せ。
+            \item $\displaystyle \lim_{n\to\infty}a_n=1+\frac{1}{1!}+\frac{1}{2!}+\cdots+\frac{1}{n!}+\cdots=\sum_{n=1}^{\infty}\frac{1}{n!}$であることを示せ。
+        \end{enumerate}
+    \end{ex}
+\end{shaded}
+
+\begin{ans}[解\ref{ex2}]\
+    \begin{enumerate}
+        \item
+        	\[
+        	\begin{split}
+        	a_n &=\sum_{r=0}^n\binom{n}{r}\left(\frac{1}{n}\right)^r\\
+        	&=1+\frac{n}{n}+\frac{1}{2!}\frac{n(n-1)}{n^2}+\frac{1}{3!}\frac{n(n-1)(n-2)}{n^3}+\cdots+\frac{1}{n!}\frac{n!}{n^n}\\
+        	&=1+1+\frac{1}{2!}\left(1-\frac{1}{n}\right)+\frac{1}{3!}\left(1-\frac{1}{n}\right)\left(1-\frac{2}{n}\right)+\cdots\\
+        	&\ \ \ \ \ \cdots+\frac{1}{r!}\left(1-\frac{1}{n}\right)\cdots\left(1-\frac{r-1}{n}\right)+\cdots+\frac{1}{n!}\left(1-\frac{1}{n}\right)\left(1-\frac{2}{n}\right)\cdots\left(1-\frac{n-1}{n}\right)
+        	\end{split}
+        	\]
+        	同様に
+        	\[
+        	\begin{split}
+        	a_{n+1} &=1+1+\frac{1}{2!}\left(1-\frac{1}{n+1}\right)+\frac{1}{3!}\left(1-\frac{1}{n+1}\right)\left(1-\frac{2}{n+1}\right)+\cdots\\
+        	&\ \ \ \ \ \cdots+\frac{1}{r!}\left(1-\frac{1}{n+1}\right)\cdots\left(1-\frac{r-1}{n+1}\right)+\cdots+\frac{1}{n!}\left(1-\frac{1}{n+1}\right)\left(1-\frac{2}{n+1}\right)\cdots\left(1-\frac{n-1}{n+1}\right)\\
+        	&\ \ \ \ \ \ \ \ +\frac{1}{(n+1)!}\frac{(n+1)!}{(n+1)^{n+1}}
+        	\end{split}
+        	\]
+        	よって
+        	\[a_n<a_{n+1}\]
+        	数列$\{a_n\}_{n=1}^{\infty}$は単調増加数列である。
+        \item \[S_n:=1+1+\frac{1}{2!}+\frac{1}{3!}+\cdots\frac{1}{n!}\]
+        	とすると
+        	\[a_n<S_n\]
+        	である。ここで，
+        	\[
+        	\begin{split}
+        	n!&=n(n-1)\cdots2\\
+        	&\geq2^{n-1}
+        	\end{split}
+        	\]
+        	より
+        	\[
+        	\begin{split}
+        	S_n&=1+1+\frac{1}{2!}+\frac{1}{3!}+\cdots+\frac{1}{n!}\\
+        	&\leq 1+1+\frac{1}{2}+\frac{1}{2^2}+\cdots+\frac{1}{2^{n-1}}\\
+        	&\leq 3
+        	\end{split}
+        	\]
+        	よって，$S_n$は（上に）有界。したがって$a_n$も（上に）有界。ここで，定理\ref{thm1}より$S_n,a_n$は$n\to\infty$で共に収束し
+        	\[\lim_{n\to\infty}a_n\leq\lim_{n\to\infty}S_n\]
+        	となる。ここで，
+        	\[
+        	\begin{split}
+        	b_n^{(m)}&=1+1+\frac{1}{2!}\left(1-\frac{1}{n}\right)+\frac{1}{3!}\left(1-\frac{1}{n}\right)\left(1-\frac{2}{n}\right)+\cdots\\
+        	&\ \ \ \ \ \cdots+\frac{1}{r!}\left(1-\frac{1}{n}\right)\cdots\left(1-\frac{r-1}{n}\right)+\cdots+\frac{1}{m!}\left(1-\frac{1}{n}\right)\left(1-\frac{2}{n}\right)\cdots\left(1-\frac{m-1}{n}\right)
+        	\end{split}
+        	\]
+        	とし，$n>m$とすれば
+        	\[b_n^{(m)}\leq a_n\]
+        	$m$は固定し，$n\to\infty$とすると$b_n^{(m)}\to S_n$であり
+        	\[S_m\leq\lim_{n\to\infty}a_n\]
+        	で，さらに$m\to\infty$とすれば
+        	\[\lim_{m\to\infty}S_m\leq\lim_{n\to\infty}a_n\]
+        	となる。以上により
+        	\[\lim_{n\to\infty}a_n=\lim_{n\to\infty}S_n\]
+    \end{enumerate}
+\end{ans}
+
+\newpage
+\section{解析の出発点（実数の連続性）}
+\begin{framed}
+\begin{axi}[Dedekind]\label{axi1}
+$A\subset\mathbb{R}$が
+\begin{enumerate}
+	\item $A\neq\emptyset,\mathbb{R}$
+	\item $a\in A\Longrightarrow\forall b>a,b\in A$
+\end{enumerate}
+をみたすならば
+\[\exists\alpha\in\mathbb{R}\ s.t.\ A=[\alpha,\infty)\lor(\alpha,\infty)\]
+\end{axi}
+\end{framed}
+
+\begin{proof}[定理\ref{thm1}の証明]\
+    \begin{enumerate}
+    \renewcommand{\labelenumi}{Step\arabic{enumi}.}
+    	\item $A:=\{x\in\mathbb{R}:a_n\leq x,\forall n\}$とする\footnotemark  と
+    		\begin{enumerate}
+    		\renewcommand{\labelenumii}{\arabic{enumii}.}
+    			\item $A\neq\emptyset (\because M\in A),A\neq\mathbb{R} (\because a_1-1\notin A)$
+    			\item $a\in A\Longrightarrow a_n\leq a\ {\rm s.t \ }\forall n\in\mathbb{N}$となるので，$\forall b>a$とすると$a_n\leq a<b$となって
+    				\[b\in A\]
+    		\end{enumerate}
+    		よって，公理\ref{axi1}より，
+    		\[\exists\alpha\ {\rm s.t.\ }A=[\alpha,\infty)\lor(\alpha,\infty)\]
+    		となる。ここで，$A=(\alpha,\infty)$であるときは$\alpha\notin A$。すなわち
+    		\[\exists n\ {\rm s.t.\ }a_n>\alpha\Longrightarrow \alpha<\beta<a_n\]
+    		なる$\beta$についても$\beta\notin A$となってしまうので不適当である。ゆえに
+    		\[A=[\alpha,\infty)\]
+    	\item\footnotemark  $a_n\leq\alpha<\alpha+\epsilon$は明らかである。\\
+    		いま，$\alpha-\epsilon<\alpha$であるので，$\alpha-\epsilon\notin A$。すなわち
+    		\[\exists m\ {\rm s.t.\ } a_m>\alpha-\epsilon\Longrightarrow[\forall n\geq m\Longrightarrow a_n\geq a_m>\alpha-\epsilon]\]
+    		よって
+    		\[\lim_{n\to\infty}a_n=\alpha\leq M\]
+    \end{enumerate}
+\end{proof}
+
+\footnotetext{$A(\ni x)$が上組，$\mathbb{R}/A(\supset\{a_n\})$が下組}
+\footnotetext{ここで示すべきことは$\forall\epsilon>0,\exists n_0\in\mathbb{N}$\ s.t.\ $n> n_0\Longrightarrow |a_n-\alpha|<\epsilon$である。$|a_n-\alpha|<\epsilon\Leftrightarrow \alpha-\epsilon<a_n<\alpha+\epsilon$に注意して，左右の不等号を別々に考えればよい。}
+
+\begin{framed}
+    \begin{dfn}[上界・上に有界／下界・下に有界]
+    	$X\subset R$とする。
+    	\begin{itemize}
+    	\item
+    		\begin{enumerate}
+    			\item $a\in \mathbb{R}$が$X$の上界$\defLeftrightarrow$$\forall x\in X,x\leq a\ \ ({\rm i.e.}\ X\subset(-\infty,a])$
+    			\item $X$が上に有界$\defLeftrightarrow$$\exists M\in \mathbb{R}\ {\rm s.t.\ }\forall x\in X,x\leq M$
+    		\end{enumerate}
+    	\item
+    		\begin{enumerate}
+    			\item $a\in \mathbb{R}$が$X$の下界$\defLeftrightarrow$$\forall x\in X,x\geq a\ \ ({\rm i.e.}\ X\subset[a,\infty))$
+    			\item $X$が下に有界$\defLeftrightarrow$$\exists L\in \mathbb{R}\ {\rm s.t.\ }\forall x\in X,x\geq L$
+    		\end{enumerate}
+    	\end{itemize}
+    \end{dfn}
+\end{framed}
+
+\begin{framed}
+    \begin{dfn}[連続の公理]\label{thm2.3}\
+        \vspace{-\baselineskip}
+        \begin{enumerate}
+        	\item
+        		$X\subset\mathbb{R},X\neq\emptyset,X$が上に有界ならば，$\exists\alpha\in\mathbb{R}$に対して
+        		\[\{a:aはXの上界\}=[\alpha,\infty)\]
+        	\item
+        		$X\subset\mathbb{R},X\neq\emptyset,X$が下に有界ならば，$\exists\alpha\in\mathbb{R}$に対して
+                \[\{a:aはXの下界\}=(-\infty,\alpha]\]
+        \end{enumerate}
+    \end{dfn}
+\end{framed}
+
+上記の1.における上界集合の最小元$\alpha$を$X$の上限（最小上界）といい，
+\[\alpha=\sup X\]
+とかく。
+\par
+上記の2.における下界集合の最大元$\alpha$を$X$の下限（最大下界）といい，
+\[\alpha=\inf X\]
+とかく。
+\par
+この定義は「上に有界な集合は上限を持つ」「下に有界な集合は下限をもつ」ということを表している。
+なお，$X\subset\mathbb{R}$が上に有界でないときは$\sup X=\infty$，$X\subset\mathbb{R}$が下に有界でないときは$\inf X=-\infty$となる。\\
+
+\begin{proof}[定理\ref{thm2.3}の証明]
+    定理\ref{thm1}の証明のStep1で$A:=\{a\in\mathbb{R}:aはXの上界\}$とするとよい。
+\end{proof}
+
+実は以下のような関係が成立しており，これらはいずれも同値な関係となっている。
+
+\[
+\begin{array}{ccccc}
+     &          &      &        &\\
+     &          &      & &\\
+     &         & 公理\ref{axi1} &         &\\
+     & \Swarrow &      &\Nwarrow &\\
+ 定理\ref{thm2.3} &          &   \Updownarrow   &         &注意\ref{rem1}\\
+     & \Searrow &      &\Nearrow &\\
+     &         & 定理\ref{thm1} &         &\\
+     &          &      & &\\
+     &          &      &       &
+\end{array}
+\]
+\begin{proof}[定理\ref{thm2.3}$\Rightarrow$定理\ref{thm1}の証明]\footnote{概要：
+$A:=\{x:a_n\leq x,\forall n\}$とし，定理\ref{thm2.3}を適用して$\alpha$を$A$の下限とする。定理\ref{thm1}のStep2の議論をこの$A$と$\alpha$に対してする。}
+    $A:=\{x\in\mathbb{R}:a_n\leq x,\forall n\}$とすると
+	\begin{enumerate}
+	\renewcommand{\labelenumii}{\arabic{enumii}.}
+		\item $A\neq\emptyset (\because M\in A),A\neq\mathbb{R} (\because a_1-1\notin A)$
+		\item $a\in A\Longrightarrow a_n\leq a\ {\rm s.t \ }\forall n\in\mathbb{N}$となるので，$\forall b>a$とすると$a_n\leq a<b$となって
+			\[b\in A\]
+	\end{enumerate}
+	よって$\alpha=\inf A$とすると，公理\ref{axi1}より，
+	\[A=[\alpha,\infty)\]
+	$a_n\leq\alpha<\alpha+\epsilon$は明らかである。\\
+	いま，$\alpha-\epsilon<\alpha$であるので，$\alpha-\epsilon\notin A$。すなわち
+	\[\exists m\ {\rm s.t.\ } a_m>\alpha-\epsilon\Longrightarrow[\forall n\geq m\Longrightarrow a_n\geq a_m>\alpha-\epsilon]\]
+	よって
+	\[\lim_{n\to\infty}a_n=\alpha\leq M\]
+\end{proof}
+
+\begin{proof}[定理\ref{thm1}$\Rightarrow$公理\ref{axi1}の証明]
+    公理\ref{axi1}の$A$で$x_1\notin A,y_1\in A$とする。このとき$x_1<y_1$である。\\
+    $x_n\notin A,y_n\in A,x_n<y_n$としたとき，
+    \[\frac{x_n+y_n}{2}\in A\Rightarrow x_{n+1}=x_n,y_{n+1}=\frac{x_n+y_n}{2}\]
+    \[\frac{x_n+y_n}{2}\notin A\Rightarrow x_{n+1}=\frac{x_n+y_n}{2},y_{n+1}=y_n\]
+    とすれば
+    \[x_{n+1}\notin A,y_{n+1}\in A,x_{n+1}<y_{n+1}\]
+    となる。このように帰納的に数列$\{x_n\}_{n=1}^{\infty},\{y_n\}_{n=1}^{\infty}$を定める。このとき，
+    \[x_n\notin A,y_n\in A\]
+    \[x_n\leq x_{n+1},y_{n+1}\leq y_n\]
+    \[|x_n-y_n|=\frac{1}{2^{n-1}}|x_1-y_1|\ \ \ \cdots(*)\]
+    である。定理\ref{thm1}より，
+    \[\exists\alpha=\lim_{n\to\infty}x_n,\exists\beta=\lim_{n\to\infty}y_n,\]
+    (*)より
+    \[\alpha=\beta\footnote{$|\alpha-\beta|=|\alpha-x_n+x_n-y_n+y_n-\beta|\leq|\alpha-x_n|+|x_n-y_n|+|y_n-\beta|$}\]
+    したがって，
+    \[\alpha<x\Rightarrow x\in A \footnote{$\exists y_n\ {\rm s.t.}\ \alpha=\beta<y_n\leq x$よって，$y_n\in A$であるから，公理の条件2より，$x\in A$}\]
+    \[x<\alpha\Rightarrow x\notin A\footnote{$x\in A$と仮定すると，$\exists x_n\ {\rm s.t.} x\leq x_n\leq \alpha$で，このとき$x_n\notin A$だが，$x\in A$で$x\leq x_n$より，$x_n\in A$となり矛盾}\]
+    が成り立つ。
+\end{proof}
+
+\begin{rem}\label{rem1}
+\ 定理\ref{thm2.3}は上限公理と呼ばれ，これを公理とする場合もある。いまみたように，以上の3つは同値であり，どれを公理として出発しても他を定理として示せることがわかる。これらに加え，以下で説明する区間縮小法も同値な命題であることを付け加えておく。
+\begin{framed}
+    \begin{thm*}[区間縮小法]
+    	閉区間の列$I_n=[a_n,b_n]$が
+    	\begin{enumerate}
+    	\item $\forall n\in\mathbb{N}$に対して$I_{n+1}\subset I_n$
+    	\item $\displaystyle \lim_{n\to\infty}(b_n-a_n)=0$
+    	\end{enumerate}
+    	ならば
+    	\[\left|\bigcap_{n=1}^{\infty}I_n\right|=1\]
+    \end{thm*}
+\end{framed}
+
+\end{rem}
+
+\begin{rem}[Dedekindの元々の公理]\
+    \vspace{-\baselineskip}
+    \begin{framed}
+    	\begin{dfn*}[Dedekind切断]
+        	実数体$\mathbb{R}$を次の性質を満たす2つの集合$A,B$に分ける。
+        	\[\mathbb{R}=A\cup B,A\neq\emptyset,B\neq\emptyset,A\cap B=\emptyset;a\in A,b\in B\Rightarrow a<b\]
+        	このような組$(A,B)$をDedekind切断といい，$A$を下組，$B$を上組という。（このような実数体$\mathbb{R}$の分け方を$\mathbb{R}$の切断という。）
+        \end{dfn*}
+    \end{framed}
+
+    \begin{framed}
+        \begin{axi*}[Dedekindの公理]\footnotemark
+            $\mathbb{R}$の切断$(A,B)$は以下のどちらかだけを満たす。
+            \begin{enumerate}
+            \item Aの最大元が存在せず，Bの最小元が存在する。
+            \item Aの最大元が存在し，Bの最小元が存在しない。
+            \end{enumerate}
+        \end{axi*}
+    \end{framed}
+    \footnotetext{$A=B^{c}=\{x\in\mathbb{R}:x\notin B\}$とすると，先の定理\ref{thm2.3}となる。}
+\end{rem}
+この公理は実数の連続性を表している。実際，$\mathbb{Q}$だと，上組下組どちらにも最小元，最大元のないようにできるし，$\mathbb{Z}$だと，上組下組どちらにも最小元，最大元があるようにできる。
+
+\newpage
+
+\begin{rem}[上限の定義の言い換えについて]
+    次章から以下の言い換えをよく使うことになるので知っておくことが望ましい。
+    \\
+    \par
+    $X\subset \mathbb{R}$は上に有界で$X\neq\emptyset$とする。
+    \[
+    \alpha=\sup X
+    \Leftrightarrow
+    \begin{cases}
+    			&\forall\beta\in X,\beta\leq\alpha\\
+    			&\forall\epsilon>0,\exists\beta\in X{\rm s.t.}\ \alpha-\epsilon<\beta<\alpha
+    		\end{cases}
+    		\]
+\end{rem}
+
+\newpage
+
+
+\section{上極限・下極限・Cauchy列}
+\begin{example}\label{example3-1}
+収束しない数列の例をここに示す。
+    \begin{enumerate}
+        \item $a_n=(-1)^{n}$
+        \item \footnote{ロジスティック写像で調べてみるとおもしろいかも。}
+        \begin{empheq}[left=\empheqlbrace]{align*}
+        			&a_1=\frac{1}{2}\\
+        			&\vphantom{\frac{1}{2}}\smash[b]{a_{n+1}=\mu a_n(1-a_n)	}
+        \end{empheq}
+		    （ただし$\mu=\textrm{Const.},0<\mu \leq4$）
+        	\begin{itemize}
+            	\item $0\leq \mu\leq 1\Longrightarrow a_n\to0\ {\rm as}\ n\to\infty$
+            	\item $1<\mu <3 \Longrightarrow a_n\to1-\frac{1}{\mu}\ {\rm as}\ n\to\infty$
+            	\item $4<\mu\Longrightarrow a_n$は収束しない
+            	\item $\mu$が4に十分近いとカオス現象
+        	\end{itemize}
+    \end{enumerate}
+\end{example}
+
+\begin{framed}
+    \begin{dfn}[集積点]\label{syuusekiten}
+        数列$\{a_n\}$に対して$\alpha\in\mathbb{R}$が$\{a_n\}$の集積点（$\omega$-極限点）であるとは，
+        \[ある n_1<n_2<\cdots に対して\ a_{n_k}\to\alpha\ (k\to\infty)\]
+        が成り立つことをいう。
+        （ただし，$\{a_{n_k}\}_{k=1}^{\infty}$を$\{a_n\}$の部分数列という）\\
+        また，$\{a_n\}$集積点全体を$L_\omega(\{a_n\})$で表す。
+        \[L_\omega(\{a_n\}):=\{a_n\}の集積点全体\]
+    \end{dfn}
+\end{framed}
+
+\begin{framed}
+\begin{note}[定義\ref{syuusekiten}の言い換え]\
+    $\alpha\in\mathbb{R}$が$\{a_n\}$の集積点であることは，$\forall \epsilon>0$に対し，無限個の$n$があって$|a_n-\alpha|<\epsilon$であることと同値である。
+\end{note}
+\end{framed}
+
+\newpage
+
+\begin{framed}
+\begin{prop}　\label{prop1}
+\begin{enumerate}
+	\item $L_\omega(\{a_n\})\neq\emptyset,\{a_n\}$は上に有界$\Longrightarrow$$L_\omega(\{a_n\})$は最大値をもつ\\
+		(i.e.\ $\exists\alpha\in L_\omega(\{a_n\})\ {\rm s.t.}\ L_\omega(\{a_n\})\subset(-\infty,\alpha]$)
+	\item $L_\omega(\{a_n\})\neq\emptyset,\{a_n\}$は下に有界$\Longrightarrow$$L_\omega(\{a_n\})$は最小値をもつ\\
+		(i.e.\ $\exists\alpha\in L_\omega(\{a_n\})\ {\rm s.t.}\ L_\omega(\{a_n\})\subset[\alpha,\infty)$)
+\end{enumerate}
+\end{prop}
+\end{framed}
+\par
+上記の1.での$\alpha$を$\{a_n\}$の$n\to\infty$での上極限といい，
+\[\alpha=\limsup_{n\to\infty}a_n\ {\rm or}\ \varlimsup_{n\to\infty}a_n\]
+とかく。
+\par
+上記の2.での$\alpha$を$\{a_n\}$の$n\to\infty$での下極限といい，
+\[\alpha=\liminf_{n\to\infty}a_n\ {\rm or}\ \varliminf_{n\to\infty}a_n\]
+とかく。
+\par
+また，
+\begin{itemize}
+	\item 上に有界でないとき$\displaystyle \varlimsup_{n\to\infty}a_n=\infty$
+	\item 下に有界でないとき$\displaystyle \varliminf_{n\to\infty}a_n=-\infty$
+\end{itemize}
+とし，
+\begin{itemize}
+	\item 上に有界かつ$L_\omega(\{a_n\})=\emptyset$のとき$\displaystyle \varlimsup_{n\to\infty}a_n=-\infty$
+	\item 下に有界かつ$L_\omega(\{a_n\})=\emptyset$のとき$\displaystyle \varliminf_{n\to\infty}a_n=\infty$
+\end{itemize}
+とする。\footnote{例えば上に有界かつ集積点がないのであれば，下側に集積するしかない。}
+
+\begin{proof}[命題\ref{prop1}の証明]
+    $L_\omega(\{a_n\})$は上に有界なので，定理\ref{thm2.3}より上限$\alpha=\sup L_\omega(\{a_n\})$が存在\footnote{$\alpha\in L_\omega(\{a_n\})$を示す}。上限の定義（言い換え）より
+    \[\forall\epsilon>0,\exists\beta\in L_\omega(\{a_n\})\ {\rm s.t.}\ \alpha-\epsilon<\beta<\alpha\]
+    定義\ref{syuusekiten}より，任意の正実数$\epsilon$をとり，無限個の$n\in\mathbb{N}$に対して
+    \[|a_n-\beta|<\epsilon\]
+    いま，
+    \[
+    \begin{split}
+    |a_n-\alpha|&=|a_n-\beta+\beta-\alpha|\\
+    &\leq|a_n-\beta|+|\beta-\alpha|\\
+    &<2\epsilon
+    \end{split}
+    \]
+    よって，無限個の$n$に対して
+    \[|a_n-\alpha|<2\epsilon\]
+    これは
+    \[\alpha\in L_\omega(\{a_n\})\]
+    であることを示している。
+\end{proof}
+
+\begin{example}\
+    \begin{enumerate}
+    \item $\displaystyle a_{n}=(-1)^n\left(1+\frac{1}{n}\right)$とすると，
+    	\[L_\omega(\{a_n\})=\{-1,1\},\varlimsup_{n\to\infty}a_n=1,\varliminf_{n\to\infty}a_n=-1\]
+    \item 例\ref{example3-1}の2.で$3<\mu\leq1+\sqrt{6}$のとき
+    	\[L_\omega(\{a_n\})=\left\{\frac{(1+\mu)\pm\sqrt{(\mu-3)(1+\mu)}}{2\mu}\right\}\]
+    	\item $\displaystyle \{a_n\}=\left\{\frac{1}{2},\frac{1}{3},\frac{2}{3},\frac{1}{4},\frac{2}{4},\frac{3}{4},\frac{1}{5},\frac{2}{5},\cdots\right\}$とすると
+    	\[L_\omega(\{a_n\})=[0,1]\]
+    \end{enumerate}
+\end{example}
+
+\newpage
+
+\begin{framed}
+\begin{prop}\label{prop2}
+$a,b\in\mathbb{R}$と数列$\{a_n\}$に対して，\\$a\leq a_n\leq b$をみたす$a_n$が無限個存在するならば，$\exists\alpha\in[a,b]\ {\rm s.t.}\ \alpha$は$a_n$の集積点
+\end{prop}
+\end{framed}
+
+\begin{proof}[命題\ref{prop2}の証明]
+    $x_1=a,y_1=b,a\leq a_n \leq b$をみたす$n$を1つとり，それを$n_1$とする。（i.e.$x_1\leq a_{n_1}\leq y_1$）\\
+    いま，「$a_k\leq a_{n_k}\leq y_k:[x_k,y_k]$は無限個の$a_n$を含む」と仮定する。このとき，
+    \begin{enumerate}
+            \renewcommand{\labelenumi}{Case\arabic{enumi}.}
+            \item $\displaystyle \left[x_k,\frac{x_k+y_k}{2}\right]$が無限個の$\{a_n\}$を含むならば
+            \begin{itemize}
+                \item $\displaystyle x_{k+1}:=x_k,y_{k+1}:=\frac{x_k+y_k}{2}$とする
+                \item $n_{k+1}$を$n_k$より大きな数で$\displaystyle a_{n_{k+1}}\in\left[x_k,\frac{x_k+y_k}{2}\right]$となるように選ぶ
+            \end{itemize}
+            \item ({\it Otherwise})
+            \begin{itemize}
+                \item $\displaystyle x_{k+1}:=\frac{x_k+y_k}{2},y_{k+1}:=y_k$とする
+                \item $n_{k+1}$を$n_k$より大きな数で$\displaystyle a_{n_{k+1}}\in\left[\frac{x_k+y_k}{2},y_k\right]$となるように選ぶ
+        \end{itemize}
+    \end{enumerate}
+    帰納的に$x_k,y_k,a_{n_k}$を上の方法で定めると
+    \[x_1\leq x_2\leq \cdots \leq x_k\leq \cdots\cdots\cdots\leq y_k\leq\cdots\leq y_2\leq y_1\footnote{$x_k\leq \cdots\cdots\cdots\leq y_k$の部分が狭まっていってそのうち$\alpha$しか含まれなくなる}\]
+    定理\ref{thm1}より，$\exists\lim_{k\to\infty} x_k,\exists\lim_{k\to\infty} y_k$だが，$\displaystyle |x_k-y_k|=\frac{1}{2^{k-1}}|b-a|$ゆえ
+    \[\alpha=\lim_{k\to\infty}x_k=\lim_{k\to\infty}y_k\]
+    いま，$x_k\leq a_{n_k}\leq y_k$より，$\{a_k\}$は$k\to\infty$で収束し
+    \[\lim_{k\to\infty}a_{n_k}=\alpha\]
+    よって，$\alpha$は$\{a_n\}$の集積点で$\alpha\in[a,b]$である。
+\end{proof}
+
+\begin{framed}
+    \begin{cor}[Bolzano-Weierstrassの定理]\label{cor3.6}
+        数列$\{a_n\}$が有界であるならば，\footnote{上にも下にも有界であるということ。}$L_\omega(\{a_n\})\neq\emptyset$となる。
+    \end{cor}
+\end{framed}
+
+このことを言い換えると，「有界閉集合はCompact」「有界数列は収束する部分列をもつ」ということ。
+\begin{proof}[系\ref{cor3.6}の証明]
+    明らか。
+\end{proof}
+
+\begin{note}
+    このとき，$L_\omega(\{a_n\})$も有界ゆえ，上極限・下極限が存在する。
+\end{note}
+
+\newpage
+
+\begin{framed}
+\begin{cor}\label{cor3.7}
+	数列$\{a_n\}$が上に有界かつ$L_\omega(\{a_n\})\neq\emptyset$であるならば，$\displaystyle\alpha=\varlimsup_{n\to\infty}a_n$とすると，$\forall\epsilon>0,\alpha+\epsilon\leq a_n$となる$n\in\mathbb{N}$は高々有限個である。(i.e. $\forall\epsilon>0,\exists N\in\mathbb{N}$\ s.t.\ $\forall n\geq N\Rightarrow a_n<\alpha+\epsilon$)\\
+	同様に，数列$\{a_n\}$が下に有界かつ$L_\omega(\{a_n\})\neq\emptyset$であるならば，$\displaystyle\alpha=\varliminf_{n\to\infty}a_n$とすると，$\forall\epsilon>0,\alpha-\epsilon\geq a_n$となる$n\in\mathbb{N}$は高々有限個である。(i.e. $\forall\epsilon>0,\exists N\in\mathbb{N}$\ s.t.\ $\forall n\geq N\Rightarrow a_n>\alpha-\epsilon$)
+\end{cor}
+\end{framed}
+\begin{proof}[系\ref{cor3.7}の証明]
+    $\{a_n\}$の有界の1つを$b$とする。($\alpha+\epsilon<b$)以下背理法により示す。$\alpha+\epsilon\leq a_n$となる$n$が無限個あると仮定すると，$a_n\in [\alpha+\epsilon,b]$となる$n$が無限個存在することになるので，命題\ref{prop2}より，$[\alpha+\epsilon,b]$の中に$\{a_n\}$の集積点が存在することになるが，これは$\{a_n\}$の集積点の最大値が$\alpha$であることに矛盾する。
+\end{proof}
+
+\begin{rem}\label{rem3.8}
+$\alpha=\varlimsup a_n$とするとき，$\displaystyle\alpha=\lim_{k\to\infty}\left(\sup_{n\geq k}a_n\right)$が成り立つ。ただし，$\displaystyle \sup_{n\geq k}a_n:=\sup\{a_n:n\geq k\}$
+\end{rem}
+
+\begin{proof}[注意\ref{rem3.8}の証明]
+    $\displaystyle b_k:=\sup_{n\geq k}a_n=\sup\{a_n:n\geq k\}$とする。
+    \begin{enumerate}
+        \renewcommand{\labelenumi}{Case\arabic{enumi}.}
+        \item $\{a_n\}$が上に有界でないとき，すべての$k$に対して$b_k=\infty$かつ$\alpha=\infty$ゆえ，両方$\infty$
+        \item $\{a_n\}$が上に有界かつ$L_\omega(\{a_n\})=\emptyset$
+        のとき，定義より
+        \[\alpha=-\infty\]
+        また，
+        \[\forall M>0,\exists N_0\in\mathbb{N}\ {\rm s.t.}\ n\geq N_0\Longrightarrow a_n<-M\footnotemark \]
+        が成り立つことより
+        \[\forall M>0,\exists N_0\in\mathbb{N}\ {\rm s.t.}\ n\geq N_0 \Longrightarrow b_n<-M\]
+        が成り立つので，
+        \[\lim_{n\to\infty}b_n=-\infty\]
+        となって，
+        $\displaystyle\alpha=\lim_{k\to\infty}\left(\sup_{n\geq k}a_n\right)$
+        が成り立つ。
+        \footnotetext{この部分の証明：背理法による。上記が成立しないと仮定すると，
+        \[\exists M>0,\forall N_0\in\mathbb{N}に対して\exists n\geq N_0\ {\rm s.t.}\ a_n\geq -M\]
+        よって，$\{a_n\}$の部分列で$a_n\geq -M$となるものがとれる。$\{a_n\}$は上に有界なので，
+        \[\exists L>0\ {\rm s.t.}\ a_n\leq L(\forall n\in\mathbb{N})\]
+        以上より$\{a_n\}$の部分列で$-M\leq a_n\leq L$となるものが存在するが，これは$L_\omega(\{a_n\})=\emptyset$であることに矛盾する。
+        }
+        \item $\{a_n\}$が上に有界かつ$L_\omega(\{a_n\})\neq\emptyset$のとき，$\{b_n\}$は定義から$b_1\geq b_2\geq b_3\geq\cdots$であって下に有界。ゆえに極限値が存在する。また，上限の定義よりすべての$k$に対して$\alpha\leq b_k$が成立。また，系\ref{cor3.7}より，
+        \[\forall \epsilon>0,\exists N\in\mathbb{N}\ {\rm s.t.}\ n>N\Longrightarrow b_n\geq \alpha+\epsilon\]
+        が成立する。以上により$\displaystyle\alpha=\lim_{k\to\infty}\left(\sup_{n\geq k}a_n\right)$が成立。
+    \end{enumerate}
+\end{proof}
+
+\begin{framed}
+    \begin{dfn}[Cauchy列]\label{cauchyretu}
+    	数列$\{a_n\}_{n=1}^\infty$がCauchy列であるとは，
+    	\[\forall\epsilon>0,\exists N\in\mathbb{N}{\rm s.t.}\ n,m\geq N\Longrightarrow |a_n-a_m|<\epsilon\]
+    	であることをいう。
+    \end{dfn}
+\end{framed}
+
+\begin{framed}
+    \begin{thm}\label{thm3.8}次の3つは同値である。
+        \begin{enumerate}
+        	\item $\{a_n\}$は$n\to\infty$で収束する。
+        	\item $\{a_n\}$は有界で$\varlimsup a_n=\varliminf a_n$
+        	\item $\{a_n\}$はCauchy列である。
+        \end{enumerate}
+    \end{thm}
+\end{framed}
+
+上記の定理は
+\[\{a_n\}が収束列\Leftrightarrow \{a_n\}が有界で集積点がただ1つ\Leftrightarrow \{a_n\}がCauchy列\]
+を示している。
+
+\begin{proof}[定理\ref{thm3.8}の証明]\
+
+\noindent\fbox{$1.\Rightarrow 3.$}
+明らか。
+$\{a_n\}$は収束列なので
+\[\forall\epsilon>0,\exists N\in\mathbb{N}\ {\rm s.t.}\ n>N\Longrightarrow |a_n-\alpha|<\epsilon/2\]
+よって
+\[
+\begin{split}
+	|a_n-a_m|&=|a_n-\alpha+\alpha-a_m|\\
+	&\leq|a_n-\alpha|+|a_m-\alpha|\\
+	&\leq \epsilon/2+\epsilon/2\\
+	&=\epsilon
+\end{split}
+\]
+
+\noindent\fbox{$3.\Rightarrow 2.$}
+仮定より
+\[\forall\epsilon>0,\exists N\in\mathbb{N}\ {\rm s.t.}\ m,n\geq N\Longrightarrow |a_m-a_n|<\epsilon\]
+$\epsilon=1$とすれば
+\[\exists N_0\in\mathbb{N}\ {\rm s.t.}\ m,n\geq N_0\Longrightarrow |a_m-a_n|<1\]
+特に
+\[n\geq N_0\Longrightarrow |a_{N_0}-a_n|<1\]
+ここで$\displaystyle M:=\max_{1\leq n \leq N_0}|a_n|+1$とすると
+\begin{itemize}
+\item $n=1,2,\cdots,N_0$のとき，
+\[|a_n|\leq M\]
+\item $n>N_0$のとき
+\[
+\begin{split}
+|a_n|&=|a_n-a_{N_0}+a_{N_0}|\\
+&\leq |a_n-a_{N_0}|+|a_{N_0}|\\
+&\leq 1+|a_{N_0}|\\
+&\leq M
+\end{split}
+\]
+\end{itemize}
+ゆえに，$\forall n\in\mathbb{N}$で$|a_n|\leq M$。したがって$\{a_n\}$は有界なので，$L_\omega(\{a_n\})$が存在し，
+\[L_\omega(\{a_n\})\subset[-M,M]\]
+ここで$\beta:=\varliminf a_n,\alpha:=\varlimsup a_n$とすると
+\begin{itemize}
+\item $n_1,n_2,\cdots$があり，$a_{n_k}\to\alpha(k\to\infty)$
+\item $m_1,m_2,\cdots$があり，$a_{m_k}\to\beta(k\to\infty)$
+\end{itemize}
+3.より
+\[\forall\epsilon>0,\exists K\in\mathbb{N}\ {\rm s.t.}\ k\geq K\Longrightarrow |a_{n_k}-a_{m_k}|<\epsilon\footnotemark \]
+\footnotetext{3.のCauchy列の定義で$m,n$をそれぞれ$m_k,n_k$に対応させ，$m_k,n_k>N$となる$k$を$K$とする。}
+したがって
+\[\lim_{k\to\infty}|a_{n_k}-a_{m_k}|=0\]
+すなわち
+\[\lim_{k\to\infty} a_{n_k}=\lim_{k\to\infty}a_{m_k}\ \ \ \ \ ({\rm i.e.}\ \alpha=\beta)\]
+
+\noindent\fbox{$2.\Rightarrow 1.$}
+$\alpha=\varlimsup a_n=\varliminf a_n\ (|\alpha|<\exists M)$とすると，系\ref{cor3.7}より
+\[\forall\epsilon>0,\exists N_1\in\mathbb{N}\ {\rm s.t.}\ n\geq N_1\Longrightarrow \alpha+\epsilon>a_n\]
+\[\forall\epsilon>0,\exists N_2\in\mathbb{N}\ {\rm s.t.}\ n\geq N_2\Longrightarrow \alpha-\epsilon<a_n\]
+よって，$N:=\max\{N_1,N_2\}$とすれば
+\[n\geq N\Longrightarrow |a_n-\alpha|<\epsilon\]
+つまり
+\[a_n\to\alpha\ (n\to\infty)\]
+となって収束。
+\end{proof}
+
+\newpage
+
+\section{無限級数}
+\begin{shaded}
+    \begin{ex}\label{ex4.1}
+        $\forall x\in\mathbb{R}$に対して
+        \[1+x+\frac{x^2}{2!}+\cdots\cdots=\sum_{n=0}^{\infty}\frac{x^n}{n!}\]
+        は収束することを示せ。さらに，$\displaystyle f(x)=\sum_{n=0}^{\infty}\frac{x^n}{n!}$とおくとき，
+        \[f(x+y)=f(x)f(y)\]
+        が成立することを示せ。
+    \end{ex}
+\end{shaded}
+
+\begin{framed}
+    \begin{dfn}[級数の収束]\label{def4.2}
+        数列$\{a_n\}$に対して$\displaystyle\sum_{n=0}^{\infty}a_n$が収束するとは，$\displaystyle S_n:=\sum_{n=0}^N a_n$とおくとき$\{S_N\}$が$N\to\infty$で収束することをいう。
+    \end{dfn}
+\end{framed}
+\par\noindent
+\begin{example}\
+    \begin{enumerate}
+    \item $\displaystyle 1+r+r^2+\cdots\cdots=\frac{1}{1-r}\ \ (|r|<1)$
+    \item $\displaystyle \sum_{n=1}^{\infty}\frac{1}{n^\alpha}\ (\alpha>1)$は収束する。これは
+    	\[\frac{1}{(2^{n-1}+1)^\alpha}+\cdots+\frac{1}{2^{n\alpha}}<\frac{2^{n-1}}{(2^{n-1})^\alpha}=\frac{1}{2^{(n-1)(\alpha-1)}}\]
+    	\[\sum_{n=1}^{\infty}\frac{1}{n^{\alpha}}\leq 1+\sum_{n=1}^{N}\frac{1}{2^{(n-1)(\alpha-1)}}\overset{N\to\infty}{\longrightarrow}\frac{2^\alpha-1}{2^{\alpha-1}-1}<\infty\]
+    	により従う。
+    \end{enumerate}
+\end{example}
+
+\newpage
+
+\begin{framed}
+\begin{prop}\label{prop4.3}
+	$\displaystyle \sum_{n=0}^{\infty} a_n$が収束するということは
+	\[\forall\epsilon>0,\exists N\in\mathbb{N}\ {\rm s.t. }\ m>n\geq N\Rightarrow |a_n+a_{n+1}+\cdots+a_m|<\epsilon\]
+	と同値。
+\end{prop}
+
+\end{framed}
+\begin{proof}[命題\ref{prop4.3}の証明] 定理\ref{thm3.8}より明らか。$\displaystyle S_n:=\sum_{i=1}^{N}a_i$とすると
+\[\{S_N\}が収束列\overset{定理\ref{thm3.8}}{\Leftrightarrow}\{S_n\}はCauchy列\footnotemark \]
+\end{proof}
+
+\footnotetext{$\forall\epsilon>0,\exists N\in\mathbb{N}\ {\rm s.t.}\ m>n-1\geq N\Rightarrow |S_m-s_{n-1}|<\epsilon$\\
+※ここでの定理\ref{thm3.8}はノートでは定理3.8である。
+}
+
+
+\newpage
+
+\begin{framed}
+    \begin{thm}\label{thm4.4}　
+    \begin{enumerate}
+    \renewcommand{\labelenumi}{\Roman{enumi}.}
+    \item $\{a_n\}$に対して$\{b_n\}$が存在して
+    	\begin{enumerate}
+    	\renewcommand{\labelenumii}{\arabic{enumii}.}
+    		\item 十分大きな$n$で$|a_n|\leq b_n$
+    		\item $\displaystyle \sum_{n=1}^{\infty}b_n$が収束する
+    	\end{enumerate}
+    	ならば，$\displaystyle\sum_{n=1}^{\infty}a_n$は収束する\footnotemark
+    \item $\{a_n\},\{b_n\}$が正項級数\footnotemark  で
+    	\begin{enumerate}
+    	\renewcommand{\labelenumii}{\arabic{enumii}.}
+    		\item $a_n\leq b_n$
+    		\item $\displaystyle \sum_{n=1}^{\infty}a_n\to\infty$（無限大に発散）
+    	\end{enumerate}
+    	ならば，$\displaystyle\sum_{n=1}^{\infty}b_n\to\infty$
+    \end{enumerate}
+    \end{thm}
+\end{framed}
+\footnotetext{$\displaystyle \sum_{n=1}^{\infty}|a_n|$も収束する。}
+\footnotetext{$a_n\geq0,b_n\geq0,\forall n\in\mathbb{N}$}
+\begin{proof}[定理\ref{thm4.4}の証明]
+    命題\ref{prop4.3}より明らか。
+    \begin{enumerate}
+    \renewcommand{\labelenumi}{\Roman{enumi}.}
+    \item 1. 2.より，$\displaystyle \sum_{n=1}^{\infty}b_n$が収束するので
+    	\[\forall\epsilon>0,\exists N\in\mathbb{N}\ {\rm s.t.}\ m>n\geq N\Rightarrow |b_n+b_{n+1}+\cdots+b_m|<\epsilon\]
+    	よって
+    	\[
+    	\begin{split}
+    		|a_n+a_{n+1}+\cdots+a_m|&\leq |a_n|+|a_{n+1}|+\cdots+|a_m|\\
+    		&\leq b_n+b_{n+1}+\cdots+b_m\\
+    		&=|b_n+b_{n+1}+\cdots+b_m|\\
+    		&<\epsilon
+    	\end{split}
+    	\]
+    \item 1. 2.より，$\displaystyle \sum_{n=1}^{\infty}a_n$が無限大に発散するので
+    \[\forall M>0,\exists N\in\mathbb{N}\ {\rm s.t.}\ n\geq N\Rightarrow M<\sum_{n=1}^N a_n<\sum_{n=1}^N b_n\]
+    \end{enumerate}
+\end{proof}
+\newpage
+
+\begin{framed}
+    \begin{thm}\label{thm4.5}
+        \begin{enumerate}
+        \renewcommand{\labelenumi}{\Roman{enumi}.}
+        \item （D'Alembertの収束判定法）
+            \begin{enumerate}
+                \renewcommand{\labelenumii}{\arabic{enumii}.}
+                \item $\displaystyle a_n\neq0,\varlimsup_{n\to\infty}\left|\frac{a_{n+1}}{a_n}\right|<1\Rightarrow \displaystyle\sum a_n$は収束する。
+                \item $\displaystyle a_n\geq0,\lim_{n\to\infty}\frac{a_{n+1}}{a_n}>1\Rightarrow \displaystyle\sum a_n$は発散する。
+            \end{enumerate}
+        \item （Cauchyの収束判定法）
+            \begin{enumerate}
+                \renewcommand{\labelenumii}{\arabic{enumii}.}
+                \item $\displaystyle\varlimsup_{n\to\infty}\sqrt[n]{|a_n|}<1\Rightarrow \displaystyle\sum a_n$は収束する。
+                \item $\displaystyle a_n\geq0,\lim_{n\to\infty}\sqrt[n]{a_n}>1\Rightarrow \displaystyle\sum a_n$は発散する。
+            \end{enumerate}
+        \end{enumerate}
+    \end{thm}
+\end{framed}
+
+\begin{proof}[定理\ref{thm4.5}の証明]
+    I. II.共に1.は十分大きな$n$に対し，$|a_n|\leq cr^n\ (0<r<1)$とできる\footnotemark  ので，定理\ref{thm4.4}の1.より成立。2.については，十分大きな$n$に対し，$a_n\geq cr^n\ (r>1)$となるので，定理\ref{thm4.4}の2.より成立。
+\end{proof}
+
+\begin{note}
+    $\displaystyle\varlimsup_{n\to\infty}\left|\frac{a_{n+1}}{a_n}\right|=1$のときは，判定ができない。例えば，$\displaystyle a_n=\frac{1}{n^\alpha}$のとき，$\alpha>1$であれば収束するが，$\alpha\leq 1$では発散する。
+\end{note}
+
+\footnotetext{
+例えば$\displaystyle \varlimsup_{n\to\infty}\left|\frac{a_{n+1}}{a_n}\right|<1,\varlimsup_{n\to\infty}\left|\frac{a_{n+1}}{a_n}\right|=R$\\
+系\ref{cor3.7}（十分大きな$n$では$\displaystyle a_n<\varlimsup_{n\to\infty}a_n+\epsilon$）より
+\[\forall\epsilon>0,\exists N\in\mathbb{N}\ {\rm s.t.}\ n\geq N\Rightarrow \left|\frac{a_{n+1}}{a_n}\right|\leq R+\epsilon\]
+ここで$\displaystyle\epsilon:=\frac{1-R}{2}$とし，$r=R+\epsilon$とおけば
+\[\left|\frac{a_{n+1}}{a_n}\right|\leq r<1\ (\forall n\leq N)\]
+よって
+\[a_n\leq ra_{n-1}\leq r^2a_{n-2}\leq\cdots\leq r^{n-N}a_N\]
+\[a_n\leq r^n\frac{a_N}{r^N}\ (\forall n>N)\]
+$\displaystyle\frac{ a_N}{r^N}=c$とおく。
+}
+
+\begin{ans}[例題\ref{ex4.1}の解答（前半）]\
+\begin{enumerate}
+\renewcommand{\labelenumi}{Case\arabic{enumi}.}
+\item $x=0$のときは明らか。
+\item $x\neq 0$のときは，$\displaystyle a_n:=\frac{x^n}{n!}$とすると
+	\[\left|\frac{a_{n+1}}{a_n}\right|=\left|\frac{x^{n+1}n!}{(n+1)!x^n}\right|=\left|\frac{x}{n+1}\right|\to0\ (n\to\infty)\]
+	定理\ref{thm4.5}より，収束。
+\end{enumerate}
+\end{ans}
+
+\newpage
+
+\begin{shaded}
+\begin{qes}\label{q4.6}
+	$\displaystyle\sum a_n$が収束列であるとき，加える順序を変えても収束するか。
+\end{qes}
+\end{shaded}
+
+\begin{ans}[解答\ref{q4.6}]
+    収束しない。以下に反例を示す。
+    \begin{itemize}
+    \item $\displaystyle \underbrace{1,-1}_{1\times 2コ},\underbrace{\frac{1}{2},-\frac{1}{2},\frac{1}{2},-\frac{1}{2}}_{2\times 2コ},\underbrace{\frac{1}{4},-\frac{1}{4},\cdots,-\frac{1}{4}}_{4\times 2コ},\frac{1}{8},\cdots$：$\displaystyle\sum a_n$は$0$に収束。
+    \item $\displaystyle 1,-1,\frac{1}{2},\frac{1}{2},-\frac{1}{2},-\frac{1}{2},\frac{1}{4},\cdots,\frac{1}{4},-\frac{1}{4},\cdots,-\frac{1}{4},\frac{1}{8},\cdots$：$\displaystyle\sum b_n$は$1,0$をとり収束しない。
+    \end{itemize}
+\end{ans}
+
+\begin{framed}
+    \begin{dfn}[絶対収束]
+        $\displaystyle\sum |a_n|$が収束するとき，$\displaystyle\sum a_n$は絶対収束するという。
+    \end{dfn}
+\end{framed}
+
+\begin{itemize}
+    \item $\displaystyle\sum a_n$が絶対収束するならば，$\displaystyle\sum a_n$は収束する。（定理\ref{thm4.4}で$a_n$に対して$b_n=|a_n|$とする）
+    \item 定理\ref{thm4.4}のI.と定理\ref{thm4.5}のI.の$\displaystyle\sum a_n$は絶対収束する。
+\end{itemize}
+
+
+\newpage
+
+\begin{framed}
+	\begin{thm}\label{thm4.8}
+		$\displaystyle\sum a_n$が絶対収束するならば，$\{a_n\}$の順序を入れ替えた数列$\{b_n\}$について，$\displaystyle\sum b_n$も$\displaystyle \sum a_n$と同じ値に収束する。
+	\end{thm}
+\end{framed}
+
+\begin{note}
+    逆も成り立つ。条件収束\footnote{$\displaystyle\sum a_n<\infty$かつ$\displaystyle \sum |a_n|=+\infty$}ならば項の順序を入れ替えて$\displaystyle\sum a_{k_n}$の和を$\infty$にできる。$\displaystyle\sum |a_n|$の収束は$\displaystyle S_n:=\sum_{n=1}^N a_n$が有界であればよい。
+\end{note}
+
+\begin{proof}[定理\ref{thm4.8}の証明]
+    \begin{enumerate}
+    \renewcommand{\labelenumi}{Step\arabic{enumi}.}
+    \item $\forall n\in\mathbb{N}$に対して$a_n\geq0$のとき\\
+    	$\displaystyle s_N:=\sum_{n=1}^N a_n, S_N:=\sum_{n=1}^N b_n, s:=\sum_{n=1}^\infty a_n $とすると，$N\to\infty$で$s_N$は$s$に下から近づく。ここで，$\forall N\in\mathbb{N}$に対して\\
+        (1)$s_N\leq S_{N_1}$となるような$N_1$が存在する。また，
+        (2)$S_N\leq s_{N_2}\leq s$となるような$S_{N_2}$が存在する。\\
+        (2)より，$S_N$は広義単調増加で上に有界。ゆえに収束する。また，(1)より，$N\to\infty$で$S_N\to s$（はさみうちの定理）。
+    \item 一般のとき
+    	\[a_n^+:=a_n\lor0(:=\max\{a_n,0\}),\ a_n^-=-(a_n\lor0)(:=-\min\{a_n,0\})\]
+    	とすると，
+    	\[a_n=a_n^+-a_n^-\]
+    	\[\max\{|a_n^+|,|a_n^-|\}\leq|a_n|\]
+    	ゆえに，$\displaystyle \sum a_n^+,\sum a_n^-$は収束する。\\
+    	同様に$\{b_n^\pm\}$も定義すると，$\{b_n^\pm\}$は$\{a_n^\pm\}$の順番を入れ替えたものとなる。step1.より$\displaystyle \sum_{n=1}^\infty a_n^+ = \sum_{n=1}^\infty b^+,\ \sum_{n=1}^\infty a_n^- = \sum_{n=1}^\infty b^-$であることより
+    	\[
+    	\begin{split}
+    		\sum_{n=1}^\infty a_n&= \sum_{n=1}^\infty a_n^+ - \sum_{n=1}^\infty a_n^-\\
+    		&= \sum_{n=1}^\infty b_n^+ - \sum_{n=1}^\infty b_n^-\\
+    		&= \sum_{n=1}^\infty b_n
+    	\end{split}
+    	\]
+    \end{enumerate}
+\end{proof}
+
+\newpage
+
+\begin{framed}
+    \begin{thm}\label{thm4.9}
+    	$\displaystyle\sum_{n=0}^\infty a_n,\sum_{n=0}^\infty b_n$が絶対収束するならば，$\displaystyle c_n:=\sum_{r=0}^n a_r b_{n-r}$とすると$\displaystyle \sum_{n=0}^\infty c_n$も収束し，
+    	\[\left(\sum_{n=0}^\infty a_n\right) \left(\sum_{n=0}^\infty b_n\right)= \sum_{n=0}^\infty c_n\]
+    	が成り立つ。
+    \end{thm}
+\end{framed}
+
+\begin{ans}[例題\ref{ex4.1}の解答（後半）]
+    $\displaystyle a_n=\frac{x^n}{n!},b=\frac{y^n}{n!}$として定理\ref{thm4.9}を用いると
+    \[
+    \begin{split}
+    c_n&=\sum_{r=0}^n\frac{x^r}{r!}\frac{y^{n-r}}{(n-r)!}\\
+    &=\frac{1}{n!}\sum_{r=0}^n\binom{n}{r}x^ry^{n-r}\\
+    &=\frac{1}{n!}(x+y)^n
+    \end{split}
+    \]
+    となって題意は示された。
+\end{ans}
+
+\begin{proof}[定理\ref{thm4.9}の証明]
+    $a_0b_0,a_1b_0,a_0b_1,a_2b_0,a_1b_1,a_0b_2,a_3b_0,\cdots$を順に$d_0,d_1,d_2,\cdots$とする。\footnotemark\\
+    まず，$\displaystyle\sum d_n$が絶対収束することを示す。$\displaystyle \sum_{i=0}^N |d_i|$が上に有界であることをいえばよい。
+    \[
+    \begin{split}
+    \sum_{i=0}^N|d_i|&\leq \sum_{i=0}^N|a_i| \sum_{i=0}^N|b_i|\\
+    &\leq \sum_{i=0}^\infty |a_i| \sum_{i=0}^\infty |b_i|\\
+    &<\infty
+    \end{split}
+    \]
+    ゆえに$\displaystyle\sum d_n$は絶対収束する。ここで，$\displaystyle \sum_{n=0}^N c_n = \sum_{i=0}^{M-1}d_i$（ただし$\displaystyle M=1+2+\cdots+(N+1)=\frac{(N+1)(N+2)}{2}$とすると，$c_n$の中の項数は$M$コ）となるので
+    \[\sum_{n=0}^\infty c_n = \sum_{n=0}^\infty d_i\]
+    一方，$\{d_i\}$の加える順番を入れ換えると定理\ref{thm4.8}より
+    \[(a_0+a_1+\cdots+a_n)(b_0+b_1+\cdots+b_n) \overset{n\to\infty}{\longrightarrow}\sum_{i=0}^\infty d_i\]
+    以上より
+    \[\left(\sum_{n=0}^\infty a_n\right) \left(\sum_{n=0}^\infty b_n\right)= \sum_{n=0}^\infty c_n\]
+\end{proof}
+
+\newpage
+
+\footnotetext{Cantorの対関数みたいな感じ。}
+
+\begin{framed}
+    \begin{thm}[無限交代級数の収束定理]\label{thm4.10}
+        $\{a_n\}$が広義単調減少かつ$\displaystyle\lim_{n\to\infty}a_n=0$かつ$a_n\geq0$ならば，$\displaystyle\sum_{n=1}^\infty (-1)^n a_n$は収束する。
+    \end{thm}
+\end{framed}
+
+\begin{proof}[定理\ref{thm4.10}の証明]
+$\displaystyle x_n=\sum_{k=0}^{2n}(-1)^ka_k,y_n=\sum_{k=0}^{2n+1}(-1)^ka_k$のとき
+\[x_{n+1}-x_n=a_{2n+2}-a_{2n+1}\leq0\]
+\[y_{n+1}-y_n=-a_{2n+3}+a_{2n+2}\geq0\]
+\[x_n-y_n=a_{2n+1}\geq0\]
+より
+\[y_0\leq y_1\leq y_2\leq \cdots\leq x_2\leq x_1\leq x_0\]
+単調有界数列であるので$\exists\lim x_n,\exists\lim y_n$。また，$0\leq x_n-y_n\to0\ (n\to\infty)$より
+\[\lim x_n=\lim y_n\]
+\end{proof}
+
+\begin{example}\
+    \begin{itemize}
+        \item $\displaystyle 1-\frac{1}{2}+\frac{1}{3}-\frac{1}{4}+\frac{1}{5}-\frac{1}{6}+\cdots=\log{2}$
+        \item $\displaystyle 1-\frac{1}{3}+\frac{1}{5}-\frac{1}{7}+\frac{1}{9}-\cdots=\frac{\pi}{4}$
+    \end{itemize}
+\end{example}
+
+
+\newpage
+
+
+\part{一変数の関数}
+\section{関数の極限・連続関数}
+\begin{framed}
+\begin{dfn}
+$f(x)$を$x=a$のまわりで定義された関数とする。このとき，
+\[f(x)\to\alpha\ (x\to\alpha)\ {\rm or}\ \lim_{x\to a}f(x)=\alpha \defLeftrightarrow \forall\epsilon>0,\exists\delta>0\ {\rm s.t.}\ 0<|x-a|<\delta \Rightarrow |f(x)-\alpha|<\epsilon\]
+\end{dfn}
+
+\end{framed}
+
+\begin{framed}
+    \begin{thm}\label{th5.2}
+        以下の2つは同値である。
+        \begin{enumerate}
+        \item $f(x)\to\alpha\ (x\to a)$
+        \item $x_n\neq a$で$x_n\to a\ (n\to\infty)$となるすべての$\{x_n\}$に対して$f(x_n)\to\alpha\ (x\to a)$
+        \end{enumerate}
+    \end{thm}
+\end{framed}
+
+\begin{proof}[定理\ref{th5.2}の証明]\
+    \fbox{$1\Rightarrow 2$}\\
+    $\forall\epsilon>0,\exists\delta>0\ {\rm s.t.}\ \forall x:0<|x-a|<\delta \Rightarrow |f(x)-\alpha|<\epsilon\ $\\
+    いま，$x_n\to a\ (n\to\infty)$より，$\delta>0$に対して$n$が十分大きいならば
+    \[0<|x_n-a|<\delta \overset{仮定より}{\Rightarrow} |f(x_n)-\alpha|<\epsilon\]
+
+    \fbox{$2\Rightarrow 1$}\\
+    「$\forall\epsilon>0,\exists\delta>0\ {\rm s.t.}\ 0<|x-a|<\delta \Rightarrow |f(x)-\alpha|<\epsilon\ $」の対偶\\
+    「$\exists\epsilon>0,\forall\delta>0,\exists x:0<|x-a|<\delta \land |f(x)-\alpha|\geq\epsilon\ $」を示す。\footnote{目標としては$\delta=\frac{1}{n}\Rightarrow x_n$としたい。この技術はよく使うらしい。}
+    \\
+    このとき，$0<|x-a|<\frac{1}{n}$となる$x_n$で，$|f(x)-\alpha|\geq\epsilon\ $となるものがとれる。これは$x_n\to a\ (n\to\infty,x_n\neq a)$だが，$|f(x)-\alpha|\geq\epsilon$
+\end{proof}
+
+\newpage
+
+\begin{framed}
+    \begin{dfn}\label{def5.3}　
+        \begin{enumerate}
+            \item $x=a$のまわりで定義された関数$f(x)$について
+            \[f(x)がx=aで連続 \defLeftrightarrow \lim_{n\to a}f(x)=f(a)\]
+            \item $X\subset \mathbb{R}$上で定義された関数$f(x)$について
+            \[f(x)がX上連続 \defLeftrightarrow \forall a\in Xでf(x)が連続\]
+        \end{enumerate}
+    \end{dfn}
+\end{framed}
+
+\begin{example}\
+    \begin{enumerate}
+    \item $ f(x) =
+    \begin{cases}
+    0 & (x = 0)\\
+    \displaystyle\sin{\frac{1}{x}} & (x \neq 0)
+    \end{cases}
+    $は$x=0$で連続でない。
+    \item $ f(x) =
+    \begin{cases}
+    0 & (x = 0)\\
+    \displaystyle x\sin{\frac{1}{x}} & (x \neq 0)
+    \end{cases}
+    $は$x=0$で連続。
+    \end{enumerate}
+\end{example}
+
+\begin{shaded}
+\begin{ex}\label{ex5.4}
+$\displaystyle f(x)=\sum_{n=0}^\infty \frac{x^n}{n!}$が$\mathbb{R}$上連続であることを示せ。
+\end{ex}
+\end{shaded}
+
+\par\noindent
+\begin{ans}[解答\ref{ex5.4}]
+    $f(x+h)=f(x)f(h)$より，$f(x+h)-f(x)=f(x)(f(h)-1)$\\
+    $|h|<1$のとき
+    \[
+    |f(h)-1|\leq |h|+\frac{|h|^2}{2!}+\cdots \leq |h|+|h|^2+\cdots =\frac{|h|}{1-|h|}
+    \]
+    よって，$|h|<1$のとき
+    \[
+    |f(x+h)-f(x)|\leq\left(\frac{|h|}{1-|h|}\right)|f(x)|
+    \]
+    \[
+    \lim_{h\to0}f(x+h)=f(x)
+    \]
+\end{ans}
+
+\newpage
+
+\paragraph{一様連続}
+　
+\begin{framed}
+連続性は，与えられた$x$に対し，（1つ$x$を固定して）
+\[
+\forall\epsilon>0,\exists\delta\footnotemark >0\ {\rm s.t.}\ |x-y|<\delta \Rightarrow |f(x)-f(y)|<\epsilon
+\]
+とも言い換えられる。
+\end{framed}
+\footnotetext{$\delta$ は $x$と$\epsilon$に依存してよい。すなわち $\delta=\delta(\epsilon,x)$}
+
+\begin{example}
+    \[
+    f(x)=\frac{1}{x}
+    \]
+    について考えてみる。
+    \[
+    \left|\frac{1}{x}-\frac{1}{x\pm \delta}\right|<\epsilon
+    \]
+    から
+    \[
+     \frac{\delta}{x(x\pm\delta)}<\epsilon
+    \]
+    $x>0,x\pm\delta >0$であり，負で条件を満たせば正でも条件を満たすので，
+    \[\frac{\delta}{x(x-\delta)}=\epsilon \Leftrightarrow \delta=\frac{x^2\epsilon}{1+x\epsilon}\]
+    ゆえに$|f(x)-f(y)|<\epsilon$となる$\delta$の幅は
+    \[
+    \delta(\epsilon,x):=\frac{x^2\epsilon}{1+x\epsilon} \overset{x\to0}{\longrightarrow} 0
+    \]
+\end{example}
+
+\begin{note}
+    一様連続はこの幅$\delta$が$x$によらずとれる。
+\end{note}
+
+\begin{framed}
+    \begin{dfn}[一様連続]
+    $A\subset\mathbb{R}$\footnotemark に対して，$f(x)$が$A$上一様連続とは
+    \[
+    \forall\epsilon>0,\exists\delta>0\ {\rm s.t.}\ \forall x,\forall y\in A:|x-y|<\delta\Rightarrow |f(x)-f(y)|<\epsilon
+    \]
+    \end{dfn}
+\end{framed}
+\begin{framed}
+    \begin{note}[連続]
+    $A\subset\mathbb{R}$\footnotemark に対して，$f(x)$が$A$上連続とは
+    \[
+    \forall x\in A,\forall\epsilon>0,\exists\delta>0\ {\rm s.t.}\ \forall y\in A:|x-y|<\delta\Rightarrow |f(x)-f(y)|<\epsilon
+    \]
+    \end{note}
+\end{framed}
+\footnotetext{$A$は実数体の任意の区間}
+\footnotetext{同上}
+
+\newpage
+
+\begin{framed}
+\begin{thm}\label{thm5.6}
+$f$が$[a,b]$（有界閉区間）上連続ならば，$f$は$[a,b]$上一様連続である。
+\end{thm}
+\end{framed}
+
+\begin{proof}[定理\ref{thm5.6}の証明]
+\footnote{
+このような示しにくいものは，背理法で命題を否定するとよい。$\delta$の任意性から$\delta=\frac{1}{n}$とし，それから$x,y$を$x_n,y_n$とする。
+}
+    背理法による。このとき「$\exists\epsilon>0,\forall\delta>0,\exists x,\exists y\in[a,b]:|x-y|<\delta\land |f(x)-f(y)|\geq\epsilon$」から$\displaystyle\delta=\frac{1}{n}$として$\displaystyle x_n,y_n\in[a,b]:|x_n-y_n|<\frac{1}{n}\land |f(x_n)-f(y_n)|\geq\epsilon$が成立しているはずである。ここで，命題\ref{prop2}\footnote{$a,b\in\mathbb{R}$と数列$\{a_n\}$に対して，$a\leq a_n\leq b$をみたす$a_n$が無限個存在するならば，$\exists\alpha\in[a,b]\ {\rm s.t.}\ (\alpha$は$a_n$の集積点)}より$\{x_n\}$の部分列で$\exists\alpha\in[a,b]$に対して$x_{n'_k}\to\alpha\ (k\to\infty)$となるものがとれる。このとき仮定から$\displaystyle \left|x_{n'_k}-y_{n'_k}\right|<\frac{1}{n'_k}$となるので$y_{n'_k}\to\alpha(k\to\infty)$\footnote{$\{y_{n'_k}\} \subset \{y_{n_k}\}\subset [a,b]$}$が成立。f(x)$は$[a,b]$上連続より$x=\alpha$で連続である。
+    \[\therefore \lim_{k\to\infty}f(x_{n'_k})=\lim_{k\to\infty}f(y_{n'_k})=f(\alpha)\]
+    これは$\left|f(x_{n'_k})-f(y_{n'_k})\right|\geq\epsilon$に矛盾する。
+\end{proof}
+
+\newpage
+
+\paragraph{最大値の存在}
+　
+\begin{framed}
+\begin{thm}\label{thm5.7}
+$f$を$[a,b]$上連続とするとき，$f$は$[a,b]$上最大値をとる。\\
+(i.e. $\exists c\in [a,b] \ {\rm s.t.}\ \forall x\in [a,b],f(c)\geq f(x)$)
+\end{thm}
+\end{framed}
+\begin{note}　
+\begin{itemize}
+\item $-f$に対してこの定理を用いると最小値の存在もわかる
+\item $(a,b),[a,+\infty)$ではいえない
+\end{itemize}
+\end{note}
+
+\begin{proof}[定理\ref{thm5.7}の証明]\footnote{step1で背理法を用いて上に有界であることを示し，step2で最大値の存在を示す，というのが，最大値の存在を示す時の典型的な流れである。}
+    \begin{enumerate}
+        \renewcommand{\labelenumi}{Step\arabic{enumi}.}
+        \item 背理法を用いて上に有界である（$\exists M>0,\forall x\in [a,b],f(x)\leq M$）ことを示す。\\
+        $\forall n>0,\exists x_n\in [a,b], f(x_n)\geq n$と仮定すると，$\{x_n\}$の部分列$\{x_{n_k}\}_{k=1}^\infty$で収束するものがとれる（命題\ref{prop2}）。つまり
+        \[
+        x_{n_k}\to\alpha\in [a,b] \ {\rm as}\ k\to\infty
+        \]
+        $f$は$x=\alpha$で連続であるので
+        \[
+        f(x_{n_k})\to f(\alpha) \ {\rm as} \ k\to\infty
+        \]
+        これは$f(x_{n_k})>n_k$と矛盾する。
+        \item 最大値の存在を示す。\\
+        step1.から$\{f(x):x\in [a,b]\}$は上に有界である。定理\ref{thm2.3}（上に有界な集合は上限をもつ）より$m:=\sup\{f(x):x\in [a,b]\}$とすると，上限の言い換えより
+        \[
+        \forall\epsilon>0,\exists x\in [a,b]\  {\rm s.t.}\ m-\epsilon<f(x)\leq m
+        \]\footnote{$\epsilon$を$\frac{1}{n}$に，$x$を$x_n$としたい}
+        よって
+        \[
+        \forall n\in\mathbb{N},\exists x_n\in [a,b] \ {\rm s.t.} \ m-\frac{1}{n}<f(x)\leq m
+        \]
+        とできる。再び命題\ref{prop2}より，$\{x_n\}$の収束する部分列を$\{x_{n_k}\}$とすると
+        \[
+        x_{n_k}\to c\in [a,b] \ {\rm as} \ k\to\infty
+        \]
+        $f$は$x=c$で連続より
+        \[
+        f(x_{n_k})\to f(c) \ {\rm as} \ k\to\infty
+        \]
+        $\displaystyle m-\frac{1}{n_k}<f(x_{n_k})\leq m$であるので
+        \[
+        m=f(c)
+        \]
+    \end{enumerate}
+\end{proof}
+
+\newpage
+
+\paragraph{中間値の定理}
+　
+\begin{shaded}
+    \begin{ex}\label{ex5.8}
+        $f$を$[a,b]$上連続とする。$f(a)\leq 0,f(b)\geq0$のとき，$x_0=a,y_0=b$として
+        \[
+        \begin{cases*}
+        \displaystyle x_{n+1}=x_n,y_{n+1}=\frac{x_n+y_n}{2} \quad \left(f\left(\frac{x_n+y_n}{2}\right)f(x_n)\leq0\right)\\
+        \displaystyle x_{n+1}=\frac{x_n+y_n}{2},y_{n+1}=y_n \quad \left(f\left(\frac{x_n+y_n}{2}\right)f(x_n)>0\right)\\
+        \end{cases*}
+        \]
+        で$\{x_n\},\{y_n\}$を定めるとき，$n\to\infty$で$\{x_n\},\{y_n\}$は同じ値に収束し，極限値を$c$とすると
+        \[
+        f(c)=0
+        \]
+        であることを示せ。
+    \end{ex}
+\end{shaded}
+
+\begin{ans}[解答\ref{ex5.8}]
+    帰納的に$f(x_n)\leq0,f(y_n)\geq0$，$x_n\leq x_{n+1}\leq y_{n+1}\leq y_n$で$\displaystyle |x_n-y_n|=\frac{|a-b|}{2^n}$\\
+    よって$x_n,y_n$は同じ値に収束。その極限値を$c$とする。このとき，
+    \begin{itemize}
+    \item $f(x_n)\leq 0$のとき$\displaystyle\lim_{n\to\infty}f(x_n)=f(c)\leq 0$
+    \item $f(y_n)\geq 0$のとき$\displaystyle\lim_{n\to\infty}f(y_n)=f(c)\geq 0$
+    \end{itemize}
+    ゆえに
+    \[
+    f(c)=0
+    \]
+\end{ans}
+
+\begin{framed}
+    \begin{thm}[中間値の定理]\label{thm5.9}
+    $f$を$[a,b]$上連続，$\alpha$を$f(a)$と$f(b)$の間の数とするならば，ある$c\in [a,b]$であって$f(c)=\alpha$となるものが存在する。\footnotemark
+    \end{thm}
+\end{framed}
+
+\begin{proof}[定理\ref{thm5.9}の証明]
+    例題\ref{ex5.8}の$f(x)$を$f(x)-\alpha$とする。
+\end{proof}
+\footnotetext{
+$f(a)\geq f(b)\Rightarrow f(a)\geq \alpha \geq f(b)$，$f(a)\leq f(b)\Rightarrow f(a)\leq \alpha \leq f(b)$\\
+もしくは$(f(a)-\alpha)(f(b)-\alpha)\leq0$
+}
+
+\newpage
+
+\paragraph{そのほかの極限}
+　
+\begin{framed}
+    \begin{dfn}[右極限・左極限]　
+        \begin{enumerate}
+        \renewcommand{\labelenumi}{\Roman{enumi}.}
+        \item 右極限
+            \begin{enumerate}
+            \renewcommand{\labelenumii}{\arabic{enumii}.}
+            \item $x>a$で定義された$f$に対し
+            \[
+            \lim_{x\to a+0} f(x)=\alpha \ {\rm or}\ \lim_{x\downarrow a}f(x)=\alpha \ {\rm or} \ f(x)\to\alpha\ (x\searrow a)
+            \]
+            とは
+            \[
+            \forall\epsilon>0,\exists\delta>0\ {\rm s.t.}\ x:a<x<a+\delta \Rightarrow |f(x)-\alpha|<\epsilon
+            \]
+
+            \item 十分大きい$x$に対して定義された$f$に対し
+            \[
+            \lim_{x\to\infty}f(x)=\alpha\ {\rm or}\ f(x)\to\alpha(x\to \infty)
+            \]
+            とは
+            \[
+            \forall\epsilon>0,\exists N>0\ {\rm s.t.}\ x>N\Rightarrow |f(x)-\alpha|<\epsilon
+            \]
+            \end{enumerate}
+        \item 左極限
+            \begin{enumerate}
+            \renewcommand{\labelenumii}{\arabic{enumii}.}
+            \item $x>a$で定義された$f$に対し
+            \[
+            \lim_{x\to a-0} f(x)=\alpha \ {\rm or}\ \lim_{x\uparrow a}f(x)=\alpha \ {\rm or} \ f(x)\to\alpha\ (x\nearrow a)
+            \]
+            とは
+            \[
+            \forall\epsilon>0,\exists\delta>0\ {\rm s.t.}\ x:a-\epsilon<x<a \Rightarrow |f(x)-\alpha|<\epsilon
+            \]
+            \item 十分小さい$x$に対して定義された$f$に対し
+            \[
+            \lim_{x\to-\infty}f(x)=\alpha\ {\rm or}\ f(x)\to\alpha(x\to -\infty)
+            \]
+            とは
+            \[
+            \forall\epsilon>0,\exists N>0\ {\rm s.t.}\ x<-N\Rightarrow |f(x)-\alpha|<\epsilon
+            \]
+            \end{enumerate}
+        \end{enumerate}
+    \end{dfn}
+\end{framed}
+
+\newpage
+
+\begin{framed}
+    \begin{prop}\label{prop5.11}
+        $f$が$x=a$のまわりで定義された関数であり，$x=a$のまわりで有界である
+        \footnotemark
+        ならば，\\$\{z:\exists x_n\to a\ {\rm s.t.} \ f(x_n)\to z\}$は最大値，最小値をもつ。
+    \end{prop}
+\end{framed}
+\footnotetext{
+i.e. $\exists M>0,\exists r>0 \ {\rm s.t.}\ |x-a|<r \Rightarrow |f(x)|\leq M$
+}
+それらのうち，最大値を$\displaystyle \limsup_{x\to a}f(x) \ {\rm or}\ \varlimsup_{x\to a}f(x)$，最小値を$\displaystyle \liminf_{x\to a}f(x) \ {\rm or}\ \varliminf_{x\to a}f(x)$とかく。\footnote{$x\to\pm\infty$も定義できる。}
+
+\begin{proof}[命題\ref{prop5.11}の証明]
+    $L:=\{z:\exists x_n\to a,f(x_n)\to z\}$とするとき，有界性の仮定より
+    \[
+    L\subset [-M,M]\Rightarrow Lは上限・下限をもつ（定理\ref{thm2.3}）
+    \]
+    $\alpha:=\sup{L}$とするとき，$\alpha\in L$を示せばよい（$\because\alpha=\max{L}$となるため）\\
+    上限の言い換えより，
+    \[
+    \forall\epsilon>0,\exists z\in L\ {\rm s.t.}\ \alpha-\epsilon<z\leq\alpha
+    \]
+    $z$に対して，
+    \[
+    \exists y_n\to a,f(y_n)\to z(n\to\infty)
+    \]
+    $\forall m\in\mathbb{N}$に対して$\displaystyle |x_m-a|<\frac{1}{m},|f(x_m)-\alpha|<\frac{2}{m}$となる$x_m$が存在することを示す。\\
+    $\displaystyle \exists z\in L\ {\rm s.t.}\ \alpha-\frac{1}{m}<z\leq \alpha$。この$z$に対して
+    \[
+    \exists y_n\to a,f(y_n)\to z(n\to\infty)
+    \]
+    したがって，十分大きな$n$では
+    \[
+    |y_n-a|<\frac{1}{m},|f(y_n)-z|<\frac{1}{m}
+    \]
+    とできる。このような$y_n$を$x_m$と名付けると
+    \[
+    |x_m-a|<\frac{1}{m}
+    \]
+    また，
+    \[
+    |f(x_m)-\alpha|\leq|f(x_m)-z|+|z-\alpha|\leq\frac{2}{m}
+    \]
+\end{proof}
+
+\newpage
+
+\begin{framed}
+\begin{prop}\label{prop5.12}\footnotemark
+\[
+\varlimsup_{x\to a}f(x)=\inf\{\alpha:\forall\epsilon>0,\exists\delta>0\ {\rm s.t.}\ 0<|x-a|<\delta \Rightarrow f(x)<\alpha+\epsilon\}
+\]
+\end{prop}
+\end{framed}
+\footnotetext{系\ref{cor3.7}の関数版}
+
+\begin{proof}[命題\ref{prop5.12}の証明]
+    $A:=\{\alpha:\forall\epsilon>0,\exists\delta>0\ {\rm s.t.}\ 0<|x-a|<\delta \Rightarrow f(x)<\alpha+\epsilon\}$とする。
+    $\displaystyle\beta:=\varlimsup_{x\to a}f(x),\gamma :=\inf{A}$とおき，$\beta=\gamma$を示す。\\
+    $\beta=\max\{\omega:\exists x_n\to a \ {\rm s.t.}\ f(x_n)\to\omega\}$
+    より，
+    \[
+    \exists\{x_n\} \ {\rm s.t.}\ x_n\to a,f(x_n)\to \beta \ (n\to\infty)
+    \]
+    となるので
+    \[
+    \forall\epsilon_0>0,\exists N\in\mathbb{N} \ {\rm s.t.}\ \forall n\geq N \Rightarrow 0<|x_n-a|<\epsilon_0,|f(x_n)-\beta|<\epsilon_0
+    \]
+    $\gamma=\inf{A}$より，
+    \[
+    \forall \epsilon>0,\exists \alpha\in A \ {\rm s.t. } \ \gamma\leq\alpha<\gamma+\epsilon
+    \]
+    よって
+    \[
+    \forall\epsilon>0,\exists\delta>0 \ {\rm s.t.}\ 0<|x-a|<\delta \Rightarrow f(x)<\gamma+2\epsilon \footnotemark
+    \]
+    \footnotetext{
+    $\gamma\leq\alpha<\gamma+\epsilon$をみたす$\alpha$はそもそも$\forall\epsilon>0,\exists\delta>0\ {\rm s.t.}\ 0<|x-a|<\delta \Rightarrow f(x)<\alpha+\epsilon$をみたすので，\\$f(x)<\alpha+\epsilon<(\gamma+\epsilon)+\epsilon=\gamma+2\epsilon\leq\alpha+2\epsilon$\\
+    なお，ここまではほとんど定義をバラして整理しているだけである。
+    }
+    ここで$\epsilon_0:=\min(\epsilon,\delta)$とすると
+    \[
+    |f(x_n)-\beta|<\epsilon_0
+    \]
+    したがって
+    \[
+    \beta-\epsilon_0<f(x_n)<\gamma+2\epsilon
+    \]
+    これの左辺と右辺に注目すれば
+    \[
+    \beta<\gamma+3\epsilon
+    \]
+    よって
+    \[
+    \beta\leq\gamma
+    \]
+    次に，$\gamma\leq\beta$を示すために背理法を用いる。すなわち，$\gamma>\beta$と仮定する。\\
+    $d:=\gamma-\beta>0$とおくと，$\displaystyle\gamma>\beta+\frac{1}{2}d$より，$\gamma$の定義から$\displaystyle\beta+\frac{1}{2}d\notin A$とわかるので
+    \[
+    \exists\epsilon_1>0,\forall\delta>0, \exists x:0<|x-a|<\delta \ {\rm s.t.} \ f(x)\geq\beta+\frac{1}{2}d+\epsilon_1
+    \]
+    このとき明らかに$\displaystyle \varlimsup_{x\to a}f(x)\geq\beta+\frac{1}{2}d$つまり$d\leq0$となり矛盾。よって$\gamma\leq\beta$がいえた。\\
+    以上から$\gamma=\beta$であることが示された。
+\end{proof}
+
+\newpage
+
+\section{微分の定義}
+\begin{framed}
+    \begin{dfn}[微分可能]\label{def6.1}　
+        \vspace{-\baselineskip}
+        \begin{enumerate}
+        \item $x=a$のまわりで定義された関数$f$が$x=a$で微分可能であるとは，ある極限値$\displaystyle \lim_{x\to a}\frac{f(x)-f(a)}{x-a}$が存在することである。\\
+        このとき，$\displaystyle f'(a):=\lim_{x\to a}\frac{f(x)-f(a)}{x-a}$または$\displaystyle f'(x):=\lim_{h\to 0}\frac{f(x+h)-f(x)}{h}$と書く。
+        \item $f$が$A\subset\mathbb{R}$上微分可能とは，$f$が$A$の各点で微分可能であることを言う。
+        \end{enumerate}
+    \end{dfn}
+\end{framed}
+
+\begin{example}[指数関数とその微分]
+    ネイピア数を
+    \[
+    e:=\lim_{n\to\infty}\left(1+\frac{1}{n}\right)^n
+    \]
+    で定義するとき，自然数$n$に対して
+    \[
+    e^n=\underbrace{e\cdot e\cdots e}_{nコ}
+    \]
+    となる。また，有理数に対して
+    \[
+    e^{\frac{q}{p}}=x
+    \]
+    は，$x^p=e^q$となる$x>0$で定義する。一般の$e^x$はこれを連続に拡張したものである。\\
+    今，$\displaystyle f(x)=\sum_{n=0}^{\infty}\frac{x^n}{n!}$とおくと，例題$\ref{ex1}$より$f(1)=e$，例題$\ref{ex4.1}$より$f(x+y)=f(x)f(y)$であるので，
+    \[
+    f(n)=e^n,f\left(\frac{q}{p}\right)=e^{\frac{q}{p}}
+    \]
+    例題$\ref{ex5.4}$より$f(x)$は連続であるので
+    \[
+    f(x)=e^x
+    \]
+    である。
+    \[
+    \begin{split}
+    \lim_{y \to 0}\frac{f(x+y)-f(x)}{y}&=\lim_{y\to 0}\frac{f(x)f(y)-f(x)}{y}\\
+    &=f(x)\lim_{y\to 0}\frac{f(y)-1}{y}
+    \end{split}
+    \]
+    ここで
+    \[
+    \begin{split}
+    \frac{f(y)-1}{y}-1&=\frac{1}{y}\left(y+\frac{y^2}{2!}+\frac{y^3}{3!}+\cdots +\frac{y^n}{n!}+\cdots\right)\\
+    &=1+\frac{y}{2!}+\frac{y^2}{3!}+\cdots
+    \end{split}
+    \]
+    したがって
+    \[
+    \begin{split}
+    \left|\frac{f(y)-1}{y}-1\right|&=\left|\frac{y}{2!}+\frac{y^2}{3!}+\cdots\right|\\
+    &\leq|y|+|y^2|+|y^3|+\cdots\\
+    &=\frac{|y|}{1-|y|} \ (|y|<1)\\
+    &\to 0\ (y\to 0)
+    \end{split}
+    \]
+    よって
+    \[
+    f'(x)=e^x
+    \]
+\end{example}
+
+\begin{framed}
+    \begin{dfn}[極大・極小]\label{def6.3}
+        $x=a$のまわりで定義された関数$f$が$x=a$で極大であるとは， $a$に十分近い\footnotemark $x$で$f(a)\geq f(x)$が成り立つことをいう。また，$x=a$のまわりで定義された関数$f$が$x=a$で極小であるとは， $a$に十分近い$x$で$f(a)\leq f(x)$が成り立つことをいう。
+    \end{dfn}
+\end{framed}
+\footnotetext{$\exists r>0,\forall x:|x-a|<r$}
+
+\begin{framed}
+    \begin{prop}\label{prop6.4}　
+    \begin{enumerate}
+        \item $f$が$x=a$で極大（極小）かつ$x=a$で微分可能ならば，$f'(a)=0$
+        \item $[a,b]$上連続な関数$f$に対して$f(a)=f(b)$ならば，ある$c\in (a,b)$であって$f$は$x=c$で極大または極小となるものが存在する
+    \end{enumerate}
+    \end{prop}
+\end{framed}
+
+\begin{proof}[命題\ref{prop6.4}の証明]\
+    \begin{enumerate}
+        \item
+        $x<a$で$\displaystyle \frac{f(x)-f(a)}{x-a}\geq 0\Rightarrow \lim_{x\to a-0}\frac{f(x)-f(a)}{x-a}\geq 0$\\
+        $x>a$で$\displaystyle \frac{f(x)-f(a)}{x-a}\leq 0\Rightarrow \lim_{x\to a+0}\frac{f(x)-f(a)}{x-a}\leq 0$\\
+        これらを合わせると$f'(a)=0$
+        \item
+        定理\ref{thm5.7}より$[a,b]$上最大値（最小値）をとる。$f(\alpha):=\max f(x),f(\beta):=\min f(x)$とすると
+        \begin{itemize}
+            \item $\alpha,\beta$のどちらかが$(a,b)$に含まれていればOK
+            \item $\alpha,\beta$のどちらも$a$または$b$となるとき，$f(x)\equiv \textrm{Const.}$ゆえに$(a,b)$でも最大または最小。
+        \end{itemize}
+    \end{enumerate}
+\end{proof}
+
+\newpage
+
+\begin{framed}
+    \begin{cor}[Rolleの定理]\label{cor6.5}
+        $f$は$[a,b]$上連続，$(a,b)$上微分可能とする。$f(a)=f(b)$ならば，ある$c\in (a,b)$であって$f'(c)=0$となるものが存在する。
+    \end{cor}
+\end{framed}
+
+\begin{framed}
+    \begin{thm}[平均値の定理]\label{thm6.6}
+        $f$が$[a,b]$上連続，$(a,b)$上微分可能ならば，ある$c\in (a,b)$であって$\displaystyle f'(c)=\frac{f(b)-f(a)}{b-a}$となるものが存在する。
+    \end{thm}
+\end{framed}
+
+\begin{proof}[定理\ref{thm6.6}の証明]
+$\displaystyle F(x):=f(x)-\left\{\frac{f(b)-f(a)}{b-a}(x-a)+f(a)\right\}$とすると，$F(x)$は微分可能で$F(a)=F(b)=0$。よって系\ref{cor6.5}よりある$c\in (a,b)$であって$F'(c)=0$となるものがある。よって$\displaystyle f'(c)-\frac{f(b)-f(a)}{b-a}=0$
+\end{proof}
+
+\begin{framed}
+    \begin{thm}[Cauchyの平均値の定理]\label{thm6.7}
+        $f,g$は$[a,b]$上連続，$(a,b)$上微分可能で，さらに$(a,b)$上$g'(x)\neq0$\footnotemark ならば，ある$c\in (a,b)$であって$\displaystyle \frac{f(a)-f(b)}{g(a)-g(b)}=\frac{f'(c)}{g'(c)}$となるものが存在する。
+    \end{thm}
+\end{framed}
+\footnotetext{$(a,b)$上$g'(x)\neq0\Rightarrow g(a)\neq g(b)$。これは系\ref{cor6.5}の対偶である。}
+
+\begin{proof}[定理\ref{thm6.7}の証明]
+    $F(x)=\{ g(b)-g(a)\}f(x)-\{f(b)-f(a)\}g(x)$にRolleの定理を適用する。\\
+    $F(a)=F(b)=f(a)g(b)-f(b)g(a)$であるので，ある$c\in (a,b)$であって$F'(c)=0$となるものが存在する。
+\end{proof}
+
+\begin{framed}
+    \begin{thm}[l'Hospitalの定理]\label{thm6.7_no_ouyou}
+        $f(a)=g(a)=0$のとき$\displaystyle \frac{f(x)}{g(x)}\overset{x\to a}{\longrightarrow}\frac{f'(a)}{g'(a)}$\\
+        \\
+        正確には...\\
+        \\
+        $f,g$を$(a,b)$上微分可能な関数とする。$c\in (a,b)$で$\displaystyle\lim_{x\to c}f(x)=\lim_{x\to c}g(x)$，$g'(x)\neq0$のとき，$x\in (a,b) \setminus \{c\}$で$\displaystyle \lim_{x\to c}\frac{f'(x)}{g'(x)}=l$が存在すれば，$\displaystyle \lim_{x\to c}\frac{f(x)}{g(x)}$も存在して$l$に等しい。
+    \end{thm}
+\end{framed}
+
+\newpage
+
+\section{微分の計算}
+
+\begin{framed}
+    \begin{prop}[合成関数の微分]\label{prop7.1}　
+        \begin{enumerate}
+        \item $f(g(x))'=f'(g(x))g'(x)$
+        \item $\displaystyle \left(\frac{g}{f}\right)'=\frac{g'f-gf'}{f^2}$
+        \item $(fg)'=f'g+fg'$
+        \end{enumerate}
+    \end{prop}
+\end{framed}
+
+\begin{framed}
+    \begin{prop}\label{prop7.2}
+    $f$が$[a,b]$上連続かつ狭義単調増加ならば，$[f(a),f(b)]$上の単調増加な連続関数$g$があり$g(f(x))=x$である。（$g$を$f$の$[a,b]$上の逆関数といい，$f^{-1}$で表す。）\\
+    さらに$f$が点$c\in (a,b)$で微分可能であってかつ$f'(x)\neq0$ならば，$g$は$f(c)$で微分可能で\\$g'(f(c))=(f'(c))^{-1}$が成り立つ。
+    \end{prop}
+\end{framed}
+
+\begin{proof}[命題\ref{prop7.2}の証明]\
+    \\
+    （前半）\\
+    中間値の定理から，$\alpha\in [f(a),f(b)]$に対して唯一\footnote{単調性から唯一であることがわかる。}の$c$があって$f(c)=\alpha$。よって$g(\alpha)=c$とすると$g$は単調，$g(f(x))=x$が成り立つ。\\
+    （後半）\\
+    $y:|y-\alpha|<\delta\Rightarrow y\in (f(g(\alpha)-\epsilon),f(g(\alpha)+\epsilon))$であるので，$\delta :=\min\{|\alpha-f(g(\alpha)-\epsilon)|,|\alpha-f(g(\alpha)+\epsilon)|\}$とすればよい
+\end{proof}
+
+\begin{example}　
+    \begin{enumerate}
+    \item $e^x$は$e^x>0$，$(e^x)'=e^x$，単調増加。$(-\infty , \infty)$での$e^x$の逆関数を$\log x$と定義する。
+    \begin{itemize}
+        \item $\displaystyle (\log x)'=\frac{1}{e^{\log x}}=\frac{1}{x}$
+        \item $\log x$の定義域は$\displaystyle \lim_{x\to -\infty}e^x=0$より$(0,\infty)$
+        \item $e^{x+y}=e^xe^y \Rightarrow \log{xy}=\log{x}+\log{y}$\footnote{$e^{x+y}=e^xe^y$に$x\to\log{x},y\to\log{y}$を代入すると$e^{\log{x}+\log{y}}=x\cdot y$より$\log{xy}=\log{x}+\log{y}$}
+    \end{itemize}
+    \item $x^\alpha(>0)$の定義の微分$(\alpha\in\mathbb{R})$
+    \begin{itemize}
+        \item $x^\alpha:=e^{\alpha\log{x}}$（定義）
+        \item $(x^\alpha)'=e^{\alpha\log{x}}(\alpha\log{x})'=\frac{\alpha}{x}e^{\alpha\log{x}}=\alpha x^{\alpha-1}$（$\alpha\in\mathbb{N}$の定義と一致）
+    \end{itemize}
+    \end{enumerate}
+\end{example}
+
+\newpage
+
+\paragraph{三角関数}
+\begin{dfn*}[三角関数の定義]
+    \begin{itemize}
+    \item $s'(x)=c(x),c'(x)=-s(x),c(0)=1,s(0)=0$をみたす関数$s(x),c(x)$を$s(x)=\sin{x},c(x)=\cos{x}$とかく。
+    \item $\displaystyle e^x=\sum_{n=0}^{\infty}\frac{x^n}{n!}$を$z=x+iy\in\mathbb{C}$に拡張して$\displaystyle e^z=\sum_{n=0}^{\infty}\frac{z^n}{n!}$としたとき
+    \begin{itemize}
+    \item $\displaystyle\cos{z}:=\frac{e^{iz}+e^{-iz}}{2}=\sum_{n=0}^{\infty}\frac{(-1)^n}{(2n)!}z^{2n}$
+    \item $\displaystyle\sin{z}:=\frac{e^{iz}-e^{-iz}}{2i}=\sum_{n=0}^{\infty}\frac{(-1)^n}{(2n+1)!}z^{2n+1}$
+    \end{itemize}
+    \end{itemize}
+\end{dfn*}
+
+\subparagraph{\underline{$s(x),c(x)$の一意性}}
+　\\
+$s^2(x)+c^2(x)=1\equiv \textrm{Const.}$（左辺を$x$で微分すると$2ss'+2cc'=0$）（$s'=c,c'=-s,\tilde{s}'=\tilde{c},\tilde{c}'=-\tilde{s}(\because s(0)=0,c(0)=1)$）\\
+よって$\{s,c\}$と$\{\tilde{s},\tilde{c}\}$の2つの解があったとする。このとき$(s-\tilde{s})'=(c-\tilde{c}),(c-\tilde{c})'=-(s-\tilde{s}),s(0)-\tilde{s}(0)=0,c(0)-\tilde{c}(0)=1-1=0$より$S=(s(x)-\tilde{s}(x))^2,C=(c(x)-\tilde{c}(x))^2$としたとき$S'=C,C'=-S,C(0)=0,S(0)=0$より，$S+C=0$すなわち$s-\tilde{s},c-\tilde{c}$は2乗和が0となり，$s=\tilde{s},c=\tilde{c}$がいえた。
+
+\begin{framed}
+    \begin{thm}\label{thm7.4}
+        ある区間$I$において$f(x)$が微分可能のとき
+        \begin{enumerate}
+            \item $f'(x)>0,\forall x\in I \Rightarrow f(x)$は単調増加
+            \item $f'(x)<0,\forall x\in I \Rightarrow f(x)$は単調減少
+            \item $f'(x)=0,\forall x\in I \Rightarrow f(x)\equiv c$となる$c$が存在する
+        \end{enumerate}
+    \end{thm}
+\end{framed}
+
+\begin{proof}[定理\ref{thm7.4}の証明]
+    $\forall x_1,x_2\in I$に対して$\exists\xi\in (x_1,x_2)\ {\rm s.t.}\ f(x_2)-f(x_1)=f'(\xi)(x_2-x_1)>0$
+\end{proof}
+
+\begin{note}
+    ある点$x_0$で$f'(x)>0$であっても$f(x)$は$x_0$の近傍で単調増加とは限らない。\\
+    例えば
+    $ f(x) =
+    \begin{cases}
+    \displaystyle x+x^2\sin{\frac{1}{x^2}} & (x \neq0)\\
+    0 & (x = 0)
+    \end{cases}
+    $は$\displaystyle f'(0)=1>0,f'(x)=1+2x\sin{\frac{1}{x^2}}-\frac{1}{x}\cos{\frac{1}{x^2}}(x\neq0)$より，$f'(x)$は$x\neq0$で十分$x=0$に近いところで正負になる。
+\end{note}
+
+\newpage
+
+\begin{framed}
+\begin{dfn}\label{def7.5}
+ある区間$I$で$f'(x)$が連続であるとき，$f(x)$は$I$上で（1回）連続微分可能であるという（連続的微分可能）。このような関数を$C^1$級関数といい，そのような関数全体を$C^1(I)$で表す。
+\end{dfn}
+\end{framed}
+\begin{dfn*}[高階導関数]（関数$f$のが点$x_0$で微分可能なとき，$f$は点$x_0$で1回微分可能という。）\\
+    $f'(x)$は$x_0$の関数となる。これを$f$の1階導関数という。同様に$n$階導関数$f^{(n)}(x)$または$\displaystyle \frac{d^n}{dx^n}f(x)$を
+    \[
+    f^{(n)}(x)=(f^{(n-1)}(x))'\ (n=1,2,\cdots)
+    \]
+    で定める（ただし$f^{(0)}=f(x)$）。
+\end{dfn*}
+
+\begin{framed}
+    \begin{thm}[Leibnizの公式]\label{thm7.6}
+        $f(x),g(x)$が$x_0$で$n$回微分可能ならば
+        \[
+        (f\cdot g)^{(n)}(x_0)=\sum_{k=0}^{n}\binom{n}{k}f^{(k)}(x_0)g^{(n-k)}(x_0)
+        \]
+    \end{thm}
+\end{framed}
+
+\begin{proof}[定理\ref{thm7.6}の証明]
+    帰納法による。$n=0$のときは明らか。$n$のときの成立を仮定すると
+    \[
+    \begin{split}
+    (f\cdot g)^{(n+1)}(x_0)
+    &=\sum_{k=0}^{n}\binom{n}{k}\left\{f^{(k+1)}(x_0)f^{(n-k)}(x_0)+f^{(k)}(x_0)f^{(n-k+1)}(x_0)\right\}\\
+    &=\sum_{k=1}^{n+1}\binom{n}{k-1}f^{(k)}(x_0)f^{(n-k+1)}(x_0)+\sum_{k=0}^{n}\binom{n}{k}f^{(k)}(x_0)g^{(n-k+1)}(x_0)\\
+    &=\sum_{k=0}^{n+1}\left\{\binom{n}{k-1}+\binom{n}{k}\right\}f^{(k)}(x_0)g^{(n-k+1)}(x_0)\\
+    &=\sum_{k=0}^{n+1}\binom{n+1}{k}f^{(k)}(x_0)g^{(n-k+1)}(x_0)
+    \footnotemark
+    \end{split}
+    \]
+\end{proof}
+\footnotetext{パスカルの法則$\binom{n}{k-1}+\binom{n}{k}=\binom{n+1}{k}$を用いている。}
+
+\begin{framed}
+    \begin{dfn}
+        ある区間$I$で$f^{(k)}(x)$が連続であるとき，$f(x)$は$I$上で$k$回連続微分可能という。その関数全体を$C^k(I)$で表し，$f$を$C^k$級関数という。すべての$k\in\mathbb{N}$に対して$C^k(I)$に属する関数を$C^\infty$級関数といい，その関数全体を$C^\infty(I)$で表す。\footnotemark
+    \end{dfn}
+\end{framed}
+\footnotetext{杉浦解析p.89。$C^\infty$級関数の例として$e^x$や多項式や三角関数などが挙げられる。}
+
+\newpage
+
+\section{Taylor展開}
+
+\begin{framed}
+\begin{thm}[Taylorの公式]\label{thm8.1}
+$f$が$[a,b]$上$n-1$回連続微分可能，$(a,b)$上$n$階微分可能ならば，ある$c$であって
+\[
+f(b)=f(a)+f'(a)(b-a)+\frac{f''(a)}{2!}(b-a)^2+\cdots+\frac{f^{(n-1)}(a)}{(n-1)!}(b-a)^{n-1}+\frac{f^{(n)}(c)}{n!}(b-a)^n
+\]
+となるものが開区間$(a,b)$に存在する。\\
+$\displaystyle R_n(b)= \frac{f^{(n)}(a)}{n!}(b-a)^n $は誤差を表す剰余項である。
+\end{thm}
+\end{framed}
+
+\begin{proof}[定理\ref{thm8.1}の証明]
+    $\displaystyle k=\frac{1}{(b-a)^n}\left\{f(b)-\left(f(a)+f'(a)(b-a)+\cdots+\frac{f^{(n-1)}(a)}{(n-1)!}(b-a)^{n-1}\right)\right\}$とおく。$\displaystyle F(x):=f(x)+f'(x)(b-x)+\frac{f''(x)}{2!}(b-x)^2+\cdots+\frac{f^{(n-1)}(x)}{(n-1)!}(b-x)^{n-1}+(b-x)^nk$とおくと，$F$は$F(a)=F(b)=f(b)$で，$[a,b)$上微分可能。よって，平均値の定理より$\exists c\in (a,b)\rm{\ s.t.\ }F'(c)=0$とできる。いま$\displaystyle F'(x)=\frac{f^{(n)}(x)}{(n-1)!}(b-x)^{n-1}-n(b-x)^{n-1}k$である。したがって
+    \[
+    F'(c)=\frac{f^{(n)}(c)}{(n-1)!}(b-c)^{n-1}-n(b-c)^{n-1}k
+    \]
+    $c\neq b$より
+    \[
+    k=\frac{f^{(n)}(c)}{n!}
+    \]
+\end{proof}
+
+\begin{framed}
+    \begin{cor}\label{cor8.2}
+        $p$を$1\leq p\leq n$なる任意の実数とし，$f$を$[a,b]$上$n-1$回連続微分可能，$(a,b)$上$n$回微分可能であるとすると，
+        \[
+        f(b)=f(a)+f'(a)(b-a)+\frac{f'(a)}{2!}(b-a)^2+\cdots+\frac{f^{(n-1)}(a)}{(n-1)!}(b-a)^{n-1}+\frac{(1-\theta)^{n-p}f^{(n)}(a+\theta(b-a))}{(n-1)!p}(b-a)^n
+        \]
+        ただし，$\displaystyle R_n(b)= \frac{(1-\theta)^{n-p}f^{(n)}(a+\theta(b-a))}{(n-1)!p}(b-a)^n $
+        はロシュの剰余項である。
+    \end{cor}
+\end{framed}
+
+\begin{proof}[系\ref{cor8.2}の証明]
+\[
+F(x)=f(x)+f'(x)(b-x)+\frac{f''(x)}{2!}(b-x)^2+\cdots+\frac{f^{(n-1)}}{(n-1)!}(b-x)^{n-1}+nk(b-x)^p
+\]
+とおいて同様の証明をする。
+\end{proof}
+
+\newpage
+
+\begin{framed}
+    \subparagraph{系\ref{cor8.2}の別の表記}\
+    \\
+    $0<\exists \theta <1$
+    \[
+    f(x+h)=f(x)+f'(x)h+\frac{f''(x)}{2!}h^2+\cdots+\frac{f^{(n-1)}(x)}{(n-1)!}h^{n-1}+\frac{f^{(n)}(x+\theta h)}{n!}h^n
+    \]
+    $x=0$で展開すると
+    \[
+    f(x)=f(0)+f'(0)+\frac{f''(0)}{2!}x^2+\cdots+\frac{f^{(n-1)}(0)}{(n-1)!}x^{n-1}+\frac{f^{(n)}(\theta x)}{n!}x^n
+    \]
+\end{framed}
+
+\begin{framed}
+    \begin{thm}[Taylor展開]\label{thm8.3}\
+        \vspace{-\baselineskip}
+        \begin{enumerate}
+            \item
+            $f$が$x_0$の近傍$A$\footnotemark で$C^\infty$級で，すべての$x\in A$で$\displaystyle \lim_{x\to\infty}R_n(x)=0$をみたすとき，$f$は$A$上で
+            \[
+            f(x)=\sum_{n=0}^\infty \frac{f^{(n)}(x_0)}{n!}(x-x_0)^n\ \ \ \ (x\in A)
+            \]
+            \item
+            $\exists c\geq 0,\exists d\geq 0 \ {\rm s.t.\ }\forall x\in\mathbb{N},\forall x\in A$に対して$|f^{(n)}(x)|\leq cd^n$が成り立つならば$f$はTaylor展開可能である。
+        \end{enumerate}
+    \end{thm}
+\end{framed}
+\footnotetext{i.e.\ $\exists R>0\ {\rm s.t.\ }A=(x_0-R,x_0+R)$}
+
+\begin{proof}[定理\ref{thm8.3}の証明]\
+\begin{enumerate}
+\item
+\[
+\left|f(x)-\sum_{k=0}^{n-1}\frac{f^{(k)}(x_0)}{k!}(x-x_0)^k\right|=|R_n(x)|\to 0 (n\to\infty)
+\]
+
+\item
+\[
+|R_n(x)|=\frac{f^{(n)}(c)}{n}|x-x_0|^n\leq c\frac{d^n}{n!}|x-x_0|^n
+\]
+一般に$\displaystyle \frac{M^n}{n!}\to0\ (n\to\infty)$
+よって1.の条件はみたされて題意は示された。
+\end{enumerate}
+\end{proof}
+
+\begin{dfn*}[解析的 analytic]
+    $x_0$の近傍で$C^\infty$級の関数$f(x)$が$x_0$の近傍でTaylor展開可能であるとき，$x_0$の近傍で$C^\omega$級（解析的：analytic）であるという。
+\end{dfn*}
+
+\newpage
+
+\begin{shaded}
+    \begin{example}\label{ex8.4}\
+        \begin{enumerate}
+            \item
+            $\displaystyle e^x=\sum_{n=0}^\infty \frac{x^n}{n!}=1+\frac{1}{1!}x+\frac{1}{2!}x^2+\frac{1}{3!}x^3+\frac{1}{4!}x^4+\cdots\ (x\in\mathbb{R})$
+            \item
+            $\displaystyle \frac{1}{1-x}=\sum_{n=0}^\infty x^n=1+x+x^2+x^3+x^4+\cdots\ (|x|<1)$
+            \item
+            $\displaystyle \sin x=\sum_{n=0}^\infty\frac{(-1)^n x^{2n+1}}{(2n+1)!}=x-\frac{1}{3!}x^3+\frac{1}{5!}x^5-\frac{1}{7!}x^7+\cdots\ (x\in\mathbb{R})$
+            \item
+            $\displaystyle \cos x=\sum_{n=0}^\infty\frac{(-1)^n x^{2n}}{(2n)!}=1-\frac{1}{2!}x^2+\frac{1}{4!}x^4-\frac{1}{6!}x^6+\cdots\ (x\in\mathbb{R})$
+            \item
+            $\displaystyle \log{(1+x)}=\sum_{n=1}^\infty\frac{(-1)^{n+1}x^n}{n!}=x-\frac{1}{2}x^2+\frac{1}{3}x^3-\frac{1}{4}x^4+\cdots\ (|x|<1)$
+        \end{enumerate}
+    \end{example}
+\end{shaded}
+
+\begin{shaded}
+    \begin{ex}\label{ex8.5}
+        $\displaystyle\lim_{x\to0}\frac{1-\cos{x}}{x^2}$
+    \end{ex}
+\end{shaded}
+
+\begin{ans}[例題\ref{ex8.5}の解答]
+    Maclaurin展開
+    \[
+    \cos{x}=1-\frac{\cos{(\theta x)}}{2!}x^2\ (0<\exists\theta<1)
+    \]
+    よって
+    \[
+    \frac{1-\cos{x}}{x^2}=\frac{1}{2!}\cos{(\theta x)}\to\frac{1}{2}\ (x\to0)
+    \]
+\end{ans}
+\footnotetext{編集者注：例\ref{ex8.4}の例の数を板書よりも増やしました。}
+
+
+\newpage
+
+\section{不定積分（原始関数）}
+\begin{framed}
+    \begin{dfn}[不定積分]\label{def9.1}
+        $f:A\to\mathbb{R}$に対し$F'(x)=f(x)\ (\forall x\in A,A\subset\mathbb{R})$を満たす$F$を$f$の原始関数（不定積分）とよび，
+        \[
+        \int f(x) dx
+        \]
+        とかく。
+    \end{dfn}
+\end{framed}
+
+$F,G$を$f$の原始関数とすると，
+\[
+(F-G)'=0
+\]
+ゆえに
+\[
+F-G=C
+\]
+$C=\textrm{Const.}\in I$となる。\\
+
+$F$が$f$の区間$I$における1つの原始関数であるならば，$f$の$I$上のすべての原始関数は$F(x)+C$（ただし$C$：定数/積分定数）という形で表せる。
+\paragraph{不定積分の性質}
+\begin{itemize}
+\item 線型性：$\displaystyle \int (\alpha f+\beta g) dx=\alpha \int f dx + \beta \int g dx$
+\item 部分積分：$\displaystyle \int fg' dx=g-\int f'g dx$
+\item 置換積分：$\displaystyle \int f(x) dx=\int f(\phi(t))\phi'(t) dt$（ただし$x=\phi(t)$：$C^1$級）\footnotemark
+\end{itemize}
+\footnotetext{$\displaystyle F(x)=\int f(x) dx$とおくと，$F(\phi(t))'=f(\phi(t))\cdot\phi'(t)$}
+
+\newpage
+
+\paragraph{基本公式}\
+\begin{table}[htb]
+\begin{tabular}{cc}
+\begin{minipage}[t]{0.4\hsize}
+\subparagraph{三角関数}
+ \begin{center}
+{\renewcommand\arraystretch{2}
+\begin{tabular}{c|c} \hline
+関数 & 定義 \\ \hline \hline
+$\csc{x}$ & $\displaystyle \frac{1}{\sin{x}}$ \\
+$\sec{x}$ & $\displaystyle \frac{1}{\cos{x}}$ \\
+$\arcsin{x}$ & $\sin^{-1}{x}$ \\
+$\arccos{x}$ & $\cos^{-1}{x}$ \\
+$\arctan{x}$ & $\tan^{-1}{x}$ \\ \hline
+\end{tabular}
+}
+ \end{center}
+
+\end{minipage}
+\hspace{2mm}
+\begin{minipage}[t]{0.6\hsize}
+\subparagraph{積分公式}
+ \begin{center}
+{\renewcommand\arraystretch{2}
+\begin{tabular}{c|c} \hline
+$f(x)=F'(x)$ & $F(x)=\int f(x) dx$ \\ \hline \hline
+$x^r$ & $\displaystyle\frac{x^{r+1}}{r+1}$ \\
+$\displaystyle \frac{1}{x}$ & $\log{|x|}$ \\
+$e^x$ & $e^x$\\
+$a^x$ & $\displaystyle \frac{a^x}{\log{a}}$\\
+$\sin{x}$ & $-\cos{x}$\\
+$\cos{x}$ & $\sin{x}$\\
+$\sec^2 x$ & $\tan{x}$\\
+$\displaystyle \frac{1}{1+x^2}$ & $\arctan{x}$\footnotemark\\
+$\displaystyle \frac{1}{\sqrt{1-x^2}}$ & $\arcsin{x}$\footnotemark\\ \hline
+\end{tabular}
+}
+ \end{center}
+
+\end{minipage}
+\end{tabular}
+\end{table}
+
+\footnotetext{
+$y=\arctan{x}$より$\tan{y}=x$。
+\\
+両辺$x$で微分し$\displaystyle\frac{1}{\cos^2 y}\frac{dy}{dx}=1$ゆえに$\displaystyle\frac{dy}{dx}=\cos^2 y=\frac{1}{1+\tan^2 y}=\frac{1}{1+x^2}$
+}
+\footnotetext{
+$y=\arcsin{x}$より$\sin{y}=x$。
+\\
+両辺$x$で微分し$\displaystyle\cos{y}\frac{dy}{dx}=1$ゆえに$\displaystyle\frac{dy}{dx}=\frac{1}{\cos{y}}=\frac{1}{\sqrt{1-x^2}}$
+}
+
+\newpage
+
+\begin{shaded}
+\begin{ex}\label{ex9.2}
+次の不定積分を求めよ。
+\begin{enumerate}
+\item $\log{|x|}$
+\item $\cos^2 x$
+\item $\sqrt{a^2-x^2}(a>0)$
+\end{enumerate}
+\end{ex}
+\end{shaded}
+
+\begin{ans}[解答\ref{ex9.2}]\
+    \begin{enumerate}
+        \item
+        \[
+        \begin{split}
+        \int \log{|x|} dx
+        &=x\log{|x|}-\int\frac{x}{x} dx\\
+        &=x\log{|x|}-x+C
+        \end{split}
+        \]
+        \item
+        \[
+        \begin{split}
+        \int \cos^2 x dx
+        &=\int \frac{1-\cos{2x}}{2} dx\\
+        &=\frac{x}{2}\frac{\sin{2x}}{4}+C
+        \end{split}
+        \]
+        \item
+        $x=a\sin{t}\ (-\pi/2\leq t\leq \pi/2)$とすると$dx=a\cos{t}dt$，$\displaystyle t=\arcsin{\left(\frac{x}{a}\right)}$，$\sqrt{a^2-x^2}=a|\cos{t}|=a\cos{t}$\\よって
+        \[
+        \begin{split}
+        \int\sqrt{a^2-x^2} dx&=\int a^2\cos^2t dt\\
+        &=\frac{a^2}{2}(t+\sin{t}\cos{t})+C\\
+        &=\frac{1}{2}\left(x\sqrt{a^2-x^2}+a^2\arcsin{\left(\frac{x}{a}\right)}\right)+C
+        \end{split}
+        \]
+    \end{enumerate}
+\end{ans}
+
+\begin{shaded}
+    \begin{ex}\label{ex9.25}
+        $\displaystyle I=\int e^{ax}\cos{bx} dx,J=\int e^{ax}\sin{bx} dx\ (a^2+b^2\neq0)$を求めよ。
+    \end{ex}
+\end{shaded}
+
+\begin{ans}[解答\ref{ex9.25}]
+    $a\neq0$のとき部分積分により
+    \[
+    aI=e^{ax}\cos{bx}+bJ
+    \]
+    \[
+    aJ=e^{ax}\sin{bx}-bI
+    \]
+    よって
+    \[
+    I=\frac{e^{ax}}{a^2+b^2}(a\cos{bx}+b\sin{bx})
+    \]
+    \[
+    J=\frac{e^{ax}}{a^2+b^2}(-b\cos{bx}+a\sin{bx})
+    \]
+\end{ans}
+
+\begin{shaded}
+    \begin{ex}\label{ex9.3}
+        $\displaystyle I_m=\int \frac{dx}{(x^2+A)^m}\ (A\neq0)$を求めよ。
+    \end{ex}
+\end{shaded}
+\begin{ans}[解答\ref{ex9.3}]
+    \[
+    \begin{split}
+    I_m
+    &=\frac{1}{A}\int\frac{(x^2+A)-x^2}{(x^2+A)^m}dx\\
+    &=\frac{1}{A}I_{m-1}-\frac{1}{2A}\int x\frac{2x}{(x^2+A)^m}dx\\
+    &=\frac{1}{A}I_{m-1}+\frac{1}{2A(m-1)}\frac{x}{(x^2+A)^{m-1}}-\frac{1}{2A(m-1)}I_{m-1}
+    \end{split}
+    \]
+    $m=1$のときは，まず$A=-a^2<0$の場合
+    \[
+    \begin{split}
+    \int\frac{dx}{x^2-a^2}
+    &=\frac{1}{2a}\int\left(\frac{1}{x-a}-\frac{1}{x+a}\right)dx\\
+    &=\frac{1}{2a}\log\left(\frac{x-a}{x+a}\right)+C
+    \end{split}
+    \]
+    $A=a^2>0$の場合
+    \[
+    \begin{split}
+    \int\frac{dx}{x^2+a^2}
+    &=\frac{1}{a^2}\int(\cos^2\theta)a\frac{d\theta}{\cos^2\theta}\\
+    &=\frac{\theta}{a}+C\\
+    &=\frac{1}{a}\arctan\left(\frac{x}{a}\right)+C
+    \end{split}
+    \]
+    ここで$x=a\tan\theta$から$\displaystyle\theta=\arctan\left(\frac{x}{a}\right)$であり，$\displaystyle  dx=a\frac{d\theta}{\cos^2\theta},\tan^2\theta+1=\frac{1}{\cos^2\theta}$
+    を用いた。よって
+    \[
+    I_1=
+    \begin{cases}
+    \displaystyle\frac{1}{2a}\log\left(\frac{x-a}{x+a}\right)+C & (A=-a^2<0)\\
+    \\
+    \displaystyle\frac{1}{a}\arctan\left(\frac{x}{a}\right)+C & (A=a^2>0)
+    \end{cases}
+    \]
+\end{ans}
+
+\newpage
+
+\paragraph{有理関数の不定積分}
+
+$\displaystyle f(x)=\frac{Q(x)}{P(x)}$（$P,Q$：多項式）の形の関数を有理関数とよぶ。
+
+\begin{note}
+有理関数は常に不定積分が求まる。
+\end{note}
+
+\begin{way*}
+    部分分数に展開する。すなわち，各項を$\displaystyle\int\frac{dx}{(x+\alpha)^n}$，$\displaystyle\int\frac{Bx+C}{(x^2+\beta x+\gamma)^m}dx$の形にする。\\
+    ここで
+    \[
+    \int\frac{dx}{(x+\alpha)^n}=
+    \begin{cases}
+    \displaystyle-\frac{1}{n-1}\frac{1}{(x+\alpha)^{n-1}} & (n>1)\\
+    \\
+    \log{|x+\alpha|} & (n=1)
+    \end{cases}
+    \]
+    また
+    $\displaystyle\frac{Bx+C}{(x^2+\beta x+\gamma)^m}=\frac{B}{2}\frac{2x+\beta}{(x^2+\beta x+\gamma)^m}+\left(C-\frac{\beta B}{2}\right)\frac{1}{(x^2+\beta x+\gamma)^m}$については
+    \[
+    \int \frac{2x+\beta}{(x^2+\beta x+\gamma)^m}dx =
+    \begin{cases}
+    \displaystyle\log{(x^2+\beta x+\gamma)} & (m=1)\\
+    \\
+    \displaystyle-\frac{1}{m-1}\frac{1}{(2x+\beta)/(x^2+\beta x+\gamma)^{m-1}} & (m>1)
+    \end{cases}
+    \]
+    \[
+    \int\frac{dx}{(x^2+\beta x+\gamma)^m}=\int\frac{dx}{\{(x+\beta/2)^2+\gamma-\beta^2/4\}}
+    \]
+\end{way*}
+
+\begin{shaded}
+\begin{ex}\label{ex9.4}
+$\displaystyle\int\frac{dx}{x^3+1}$を求めよ。
+\end{ex}
+\end{shaded}
+
+\begin{ans}[解答\ref{ex9.4}]
+部分分数分解により$\displaystyle\frac{1}{x^3+1}=\frac{A}{x+1}+\frac{Bx+C}{x^2-x+1}$から$\displaystyle A=\frac{1}{3},B=-\frac{1}{3},C=\frac{2}{3}$。よって
+\[
+\begin{split}
+\int\frac{dx}{x^3+1}&=\frac{1}{3}\int\frac{dx}{x+1}-\frac{1}{3}\int\frac{x-2}{x^2-x+1}dx\\
+&=\frac{1}{3}\int\frac{dx}{x+1}-\frac{1}{6}\int\frac{(2x-1)-3}{\left(x-\frac{1}{2}\right)^2+\frac{3}{4}}dx\\
+&=\frac{1}{3}\log{|x+1|}-\frac{1}{6}\log{|x^2-x+1|}+\frac{1}{\sqrt{3}}\arctan{\left(\frac{2x-1}{\sqrt{3}}\right)}+C
+\end{split}
+\]
+\end{ans}
+
+\newpage
+
+\paragraph{三角関数の不定積分}
+$R(X,Y)$：$X,Y$の有理関数
+\begin{way*}
+    $R(\cos\theta,\sin\theta)$の積分は有理関数の形に帰す
+\end{way*}
+$\displaystyle\tan{\frac{x}{2}}=t$とおく。このとき$\displaystyle\cos{x}=\frac{1-t^2}{1+t^2},\sin{x}=\frac{2t}{1+t^2}$。
+
+\begin{shaded}
+    \begin{ex}\label{ex9.5}
+        $\displaystyle\int\frac{dx}{\sin{x}}$を求めよ。
+    \end{ex}
+\end{shaded}
+
+\begin{ans}[解答\ref{ex9.5}]
+    \[
+    \begin{split}
+    \int\frac{dx}{\sin{x}}
+    &=\int\frac{1}{2t/(1+t^2)}\frac{2}{1+t^2}dt\\
+    &=\int\frac{dt}{t}\\
+    &=\log{|t|}\\
+    &=\log{\left|\tan{\frac{x}{2}}\right|}
+    \end{split}
+    \]
+\end{ans}
+
+\newpage
+
+\paragraph{無理関数の不定積分}
+
+初等関数で表せないものがある
+（初等関数：有理関数，指数関数，三角関数から四則，逆，合成を有限回施して得られる関数）。
+例えば$\displaystyle \int\frac{e^x}{x}dx,\frac{\sin{x}}{x}dx,\int\frac{dx}{\log{x}},\int e^{-x^2}dx$など。
+
+\begin{way*}
+    置換で有理関数となる例
+    \begin{itemize}
+        \item
+        $R(x,\sqrt{ax^2+bx+c})$のとき
+        \begin{itemize}
+            \item $a>0$のとき：$t=\sqrt{ax^2+bx+c}-\sqrt{a}x$とおく。
+            \item $a<0$のとき：$\displaystyle t=\sqrt{\frac{x-\alpha}{\beta-x}}$とおく（ただし$\alpha,\beta$は$ax^2+bx+c=0$の2つの実数解）。
+        \end{itemize}
+        \item
+        $\displaystyle R\left(x,\sqrt[n]{\frac{ax+b}{cx+d}}\right),ad-bc\neq0$のとき：$\displaystyle t=\sqrt[n]{\frac{ax+b}{cx+d}}$とおく。
+    \end{itemize}
+\end{way*}
+
+\begin{shaded}
+    \begin{ex}\label{ex9.6}
+        次の不定積分を求めよ。
+        \begin{enumerate}
+            \item
+            $\int\sqrt{x^2+A}dx$
+            \item
+            $\displaystyle\int\sqrt{\frac{1-x}{x}}dx$
+        \end{enumerate}
+    \end{ex}
+\end{shaded}
+
+\begin{ans}[解答\ref{ex9.6}]\
+    \begin{enumerate}
+        \item
+        $t=\sqrt{x^2+A}-x$とおくと，$\displaystyle\frac{1}{2}\left(\frac{A}{t}-t\right)=x$より$\displaystyle x=\frac{A-t^2}{2t}$で，$\displaystyle dx=\frac{-t^2-A}{2t}dt$より
+        \[
+        \begin{split}
+        \int\sqrt{x^2+A}dx
+        &=-\frac{1}{4}\int\frac{(t^2+A)^2}{t^3}dt\\
+        &=\frac{1}{8}\left(\frac{A^2}{t^2}-t^2\right)-\frac{A}{2}\log{|t|}
+        \end{split}
+        \]
+        ここで$\displaystyle x^2=\frac{1}{4}\left(\frac{A^2}{t^2}+t^2-2A\right)$ゆえ$\displaystyle\frac{1}{8}\left(\frac{A^2}{t^2}-t^2\right)=\frac{x}{2}\sqrt{x^2+A}$\\
+        よって
+        \[
+        \int\sqrt{x^2+A}dx=\frac{x}{2}\sqrt{x^2+A}-\frac{A}{2}\log{\left|\sqrt{x^2+A}-x\right|}+C
+        \]
+
+        \item
+        $\displaystyle t=\sqrt{\frac{1-x}{x}}$とおくと$\displaystyle x=\frac{1}{1+t^2},\frac{dx}{dt}=\frac{-2t}{(1+t^2)^2}$
+        \[
+        \begin{split}
+        \int\sqrt{\frac{1-x}{x}}dx
+        &=-2\int\frac{t^2}{(t^2+1)^2}dt\\
+        &=-2\int\frac{t^2+1-1}{(t^2+1)^2}dt\\
+        &=2\left(\int\frac{dt}{(t^2+1)^2}-\int\frac{dt}{t^2+1}\right)\\
+        &=2\left(\frac{1}{2}\frac{t}{t^2+1}+\frac{1}{2}\int\frac{dt}{t^2+1}-\int\frac{dt}{t^2+1}\right)\\
+        &=\frac{t}{t^2+1}-\arctan{t}\\
+        &=\sqrt{x(1-x)}-\arctan{\sqrt{\frac{1-x}{x}}}
+        \end{split}
+        \]
+    \end{enumerate}
+\end{ans}
+
+\newpage
+
+\section{定積分（Riemann積分）}
+\begin{framed}
+	\begin{dfn}\label{def10.1}\footnotemark\
+		\begin{enumerate}
+			\item $\Delta=\{x_i\}_{i=0}^n$が$[a,b]$の分割であるとは，$\displaystyle a=x_0<x_1<\cdots<x_n=b$の形の有限点列をいい，$\displaystyle|\Delta|:=\max_{i=1,2,\cdots,n}|x_i-x_{i-1}|$を分割$\Delta$の幅という。
+			\item $f$を$[a,b]$上の関数，$\Delta$を$[a,b]$上の分割とするとき，代表点$\xi:=\{\xi\}_{i=1}^n$（$x_{i-1}\leq\xi\leq x_i$）に関する$f$のRiemann和$S(f;\Delta,\{\xi\})$を
+            \[
+            S(f;\Delta,\{\xi\})=\int_a^b(f;\Delta,\{\xi\})\equiv\sum_{i=1}^n f(\xi_i)(x_i-x_{i-1})
+            \]
+            とおく。（$\Delta x_i=x_i-x_{i-1}$とおく）
+			\item $f$が$[a,b]$上Riemann積分可能またはRiemann可積分（Riemann integrable）とは，ある実数$S$であって$\Delta,\{\xi_i\}$によらず$|\Delta|\to0$のとき$S(f;\Delta,\{\xi_i\})\to S$\footnotemark となることをいう。この$S$を$\displaystyle\int_a^bf(x)dx$とかく。
+		\end{enumerate}
+	\end{dfn}
+\end{framed}
+\footnotetext{
+定義が難しく使いづらいので下の定理で言い換える。なお、自動的にここでの関数は[a,b]で有界であるという条件が付随している。
+}
+\footnotetext{
+i.e.$\forall\epsilon>0,\exists\delta\ {\rm s.t.\ }|\Delta|<\delta\Rightarrow|S(f;\Delta,\{\xi_i\})-S|<\epsilon(\forall\Delta,\forall\{\xi\})$
+\\当然ここの$\forall\Delta$は$|\Delta|<\delta$である。
+}
+\begin{framed}
+\begin{thm}\label{def10.2}\
+$f$は$[a,b]$上有界な関数，$\Delta=\{x_i\}_{i=0}^n$に対し$\displaystyle v(\Delta):=\sum_{i=1}^n(M_i-m_i)\Delta x_i$とするとき（ただし$\displaystyle M_i:=\sup_{x\in[x_{i-1},x_i]}f(x),m_i:=\inf_{x\in[x_{i-1},x_i]}f(x)$\footnotemark）
+\[fが{\rm Riemann}積分可能である\Leftrightarrow\lim_{|\Delta|\to0}v(\Delta)=0である
+\]
+\end{thm}
+\end{framed}
+\footnotetext{
+前者が$\sum_{i=1}^n M_i\Delta x_i$に，後者が$\sum_{i=1}^n m_i\Delta x_i$に対応する
+}
+
+\begin{proof}[定理\ref{def10.2}の証明]\
+    \\
+    \fbox{$fが{\rm Riemann}積分可能である \Rightarrow \lim_{|\Delta|\to0}v(\Delta)=0である$}\\
+    \[
+    \sum_{i=1}^n M_i\Delta x_i =\sup_{\{\xi_i\}}S(f;\Delta,\{\xi\})
+    \]
+    \[
+    \sum_{i=1}^n m_i\Delta x_i =\sup_{\{\xi_i\}}S(f;\Delta,\{\xi\})
+    \]
+    仮定より$\forall\epsilon>0,\exists\delta>0\ {\rm s.t.\ }|\Delta|<\delta\Rightarrow |S(f;\Delta,\{\xi_i\})-S|<\epsilon,\forall\{\xi_i\}$
+    \[
+    \begin{split}
+    v(\Delta)
+    &=\left|\sum_{i=1}^n M_i\Delta x_i-\sum_{i=1}^n m_i\Delta x_i\right|\\
+    &\leq\left|\sum_{i=1}^n M_i\Delta x_i-S\right|+\left|\sum_{i=1}^n m_i \Delta x_i-S\right|\\
+    &\leq\epsilon+\epsilon\\
+    &=2\epsilon
+    \end{split}
+    \]
+    よって$v(\Delta)\to0\ (|\Delta|\to0)$\\
+    \fbox{$fが{\rm Riemann}積分可能である \Leftarrow \lim_{|\Delta|\to0}v(\Delta)=0である$}
+    \begin{enumerate}
+    \renewcommand{\labelenumi}{Step\arabic{enumi}.}
+    \item
+    $\Delta=\{y_i\}_{i=0}^n$が$\Delta=\{x_i\}_{i=0}^m$の細分であるとは
+    \[
+    n\geq m,\ \ \{y_i\}\supset\{x_i\}
+    \]
+    この時$v(\Delta)\geq|S(f;\Delta,\{\xi_i\})-S(f;\Delta',\{\xi_i'\})|$となる。\\
+    これは，$\Delta$の分割を1つの区間で考える。
+    \[
+    \begin{split}
+    \left|f(\xi_i)\Delta x_i-\sum_{k=j-l+1}^jf(\xi_k')\Delta y_k\right|
+    &=
+    \left|\sum_{k=j-l+1}^j(f(\xi_i)-f(\xi_k'))\Delta y_k\right|\\
+    &\leq(M_i-m_i)\Delta x_i
+    \end{split}
+    \]
+    最後の項に対して$i$について和をとると$v(\Delta)$となることにより従う。
+    \item $\Delta_1,\Delta_2：[a,b]$の分割$\Rightarrow v(\Delta_1)+v(\Delta_2)\geq|S(f;\Delta_1,\{\xi_i^{(1)}\})-S(f;\Delta_2,\{\xi_i^{(2)}\})|$
+    \\
+    これは，$\Delta_1,\Delta_2$の2つの細分を$\Delta_1\cup\Delta_2$と書くと，step1より
+    \[
+    v(\Delta_1)\geq|S(f;\Delta,\{\xi_i^{(1)}\})-S(f;\Delta_1\cup\Delta_2,\{\xi_i'\})|
+    \]
+    \[
+    v(\Delta_2)\geq|S(f;\Delta,\{\xi_i^{(2)}\})-S(f;\Delta_1\cup\Delta_2,\{\xi_i'\})|
+    \]
+    よって三角不等式より従う。
+    \item $|\Delta_n|\to0$を分割列とする。step2.と仮定[$v(\Delta)\to0\ (|\Delta|\to0)$]より$S(f;\Delta_n,\{\xi_i^{(n)}\})$はCauchy列
+    \[
+    |S(f;\Delta_n,\{\xi_i^{(n)}\})-S(f;\Delta_m,\{\xi_i^{(m)}\})|\leq v(\Delta_n)+v(\Delta_m)\to0\ (|\Delta_m|\to0,|\Delta_n|\to0\ {\rm as}\ n,m\to\infty)
+    \]
+    その極限を$S$とすると
+    \[
+    \forall\epsilon>0,\exists N\ {\rm s.t.\ }n\geq N\Rightarrow |S(f;\Delta_n,\{\xi_i^{(n)}\})-S|<\frac{\epsilon}{3}
+    \]
+    \footnote{同じ$\epsilon>0$に対して，である}
+    $|\Delta_n|$が十分小ならば$\displaystyle v(\Delta_n)<\frac{n}{3}$である。
+    \footnote{
+    $\Delta_n$の取り方を変えると収束先が変わってしまう可能性があるのでこれより後の議論が必要である。
+    }
+    このとき
+    \[
+    \begin{split}
+    |S(f;\Delta,\{\xi_i\})-S|
+    &\leq|S(f;\Delta,\{\xi_i\})-S(f;\Delta_n,\{\xi_i^{(n)}\})|+|S(f;\Delta_n,\{\xi_i^{(n)}\})-S|\\
+    &\leq v(\Delta)+v(\Delta_n)+|S(f;\Delta_n,\{\xi_i^{(n)}\})-S|\footnotemark\\
+    &\leq\frac{\epsilon}{3}+\frac{\epsilon}{3}+\frac{\epsilon}{3}\\
+    &=\epsilon
+    \end{split}
+    \]
+    \footnotetext{$|S(f;\Delta,\{\xi_i\})-S(f;\Delta_n,\{\xi_i^{(n)}\})|\leq v(\Delta)+v(\Delta_n) $はstep2により従う。}
+    \end{enumerate}
+    \vspace{-2\baselineskip}
+\end{proof}
+
+
+\begin{framed}
+    \begin{thm*}[Darbouxの定理]
+        $\displaystyle s(\Delta):=\sum m_i\Delta x_i,S(\Delta):=\sum M_i\Delta x_i$とすると$f$が有界$(|f|\leq\exists M)$のとき
+        \[
+        |\Delta|\to0\Rightarrow s(\Delta)\to\exists s,S(\Delta)\to\exists S
+        \]
+        $\displaystyle s=\underline{\int_a^b}f(x)dx$：下積分，$\displaystyle S=\overline{\int_a^b} f(x)dx$：上積分
+        と表す。
+    \end{thm*}
+\end{framed}
+
+\begin{note}
+    $s=S$ならばRiemann可積分である。（$v(\Delta)=S(\Delta)-s(\Delta)$より）
+\end{note}
+
+\begin{framed}
+    \begin{lem}\label{hodai_saibun}
+        $\Delta'$が$\Delta$の細分のとき，$s(\Delta)\leq s(\Delta'),S(\Delta)\geq S(\Delta')$
+    \end{lem}
+\end{framed}
+
+\begin{proof}[補題\ref{hodai_saibun}の証明]
+    $\{x_i\}:$分割$\Delta$の一つの区間$s(\Delta)$と$s(\Delta')$を$[x_{i-1},x_i]$で比較すると
+    \[
+    m_i\Delta x_i= \sum_{k=j-l+1}^j m_i\Delta y_k\leq\footnotemark \sum_{k=j-l+1}^j m_i'\Delta y_k
+    \]
+\end{proof}
+\footnotetext{ここの不等号は狭い区間でinfをとると大きくなるイメージ}
+
+\noindent
+
+\begin{proof}[Darbouxの定理の証明]
+    $\displaystyle s:=\sup_\Delta{s(\Delta)}$とする。supの定義より
+    \[
+    \forall n\in\mathbb{N},\exists\Delta_n:分割{\rm s.t.}\ s-\frac{1}{n}\leq s(\Delta_n)\leq s,s(\Delta_n)\leq s(\Delta_{n+1})
+    \]
+    となるようにとれる。
+    \[
+    \forall\epsilon>0,\exists N\ {\rm s.t.}\ \forall n\geq N\Leftarrow (0\leq)s-s(\Delta_n)<\epsilon
+    \]
+    このような$\Delta_n$を固定する。$\Delta_n$の分割個数を$p$，最小幅を$\delta$とする。
+    ここで$\Delta$を$\displaystyle|\Delta|<\min{\left(\delta,\frac{\epsilon}{2pM}\right)}$とする。\footnote{ここの$M$は有界の条件に現れた$|f|\leq\exists M$の$M$である。}
+    このとき$\Delta$の分割の1つの区間の中には$\Delta\cup\Delta_n$の分割は高々1個はいるだけである（分割の最小幅が$\delta$であるため）。\\
+    よってこの区間での$s(\Delta\cup\Delta_n)$ と$s(\Delta)$の差は$2M|\Delta|$以下である。ゆえに
+    \[s(\Delta\cup\Delta_n)-s(\Delta)\leq2M|\Delta|\times p<\epsilon
+    \]
+    よって
+    \[
+    \begin{split}
+    s-s(\Delta)&=s-s(\Delta\cup\Delta_n)+ s(\Delta\cup\Delta_n)-s(\Delta)\\
+    &\leq \epsilon+\epsilon=2\epsilon
+    \end{split}
+    \]
+\end{proof}
+
+\begin{framed}
+    \begin{thm}\label{thm10.3}
+        $f$が[a,b]上連続ならば$f$はRiemann積分可能である。
+    \end{thm}
+\end{framed}
+
+\begin{proof}[定理\ref{thm10.3}の証明]
+$f$が[a,b]上一様連続となるので
+\[
+\forall\epsilon>0,\exists\delta>0\ {\rm s.t.}\ |x-y|<\delta\Rightarrow|f(x)-f(y)|<\epsilon
+\]
+分割$\Delta$を$|\Delta|<\delta$ととると
+\[
+v(\Delta)=\sum_{i=1}^n(M_i-m_i)\Delta_i\leq\epsilon(b-a)
+\]
+\footnote{
+$M_i-m_i$のところは$\sup_{x\in[x_{i-1},x_i]}f(\xi)-\inf_{x\in[x_{i-1},x_i]}f(\xi) $
+}
+ゆえに$|\Delta|\to0$のとき$v(\Delta)\to0$
+\end{proof}
+
+\begin{example}[Riemann積分できない関数の例]
+    \[
+    f:[0,1]\to\mathbb{R}' \quad
+    f(x):=
+    \begin{cases}
+    1 & (x\in\mathbb{Q})\\
+    0 & (x\in\mathbb{R}\backslash\mathbb{Q})
+    \end{cases}
+    \]
+    このとき$s=0,S=1$ゆえRiemann積分不可能。
+\end{example}
+
+\begin{note}
+    このような関数を積分するにはLebesgue積分を用いる。
+\end{note}
+\begin{framed}
+    \begin{prop}\label{prop10.4}
+        $f,g$を[a,b]上有界な関数とする。
+        \begin{enumerate}
+        	\item
+        	$f$が$[a,b]$上Riemann可積分ならば$[a',b']\ (a\leq \forall a'<\forall b'\leq b)$で$f$はRiemann可積分である。\\さらに$c\in [a,b]$とすると$\displaystyle\int_a^b f(x)dx=\int_a^c f(x)dx+\int_c^b f(x)dx$
+        	\item
+        	$f,g$が$[a,b]$上Riemann可積分であるならば，$f+g,fg,|f|$もRiemann可積分である。\\
+        	また，$[a,b]$上$f\leq g$ならば$\displaystyle\int_a^b f(x) dx\leq\int_a^b g(x)dx$である。\\また，$\displaystyle \left|\int_a^b f(x)dx\right|\leq\int_a^b|f(x)|dx$\footnotemark である。
+        	\item
+        	$f$が$(a,b)$上Riemann可積分であるならば，$\displaystyle F(x):=\int_a^x f(t)dt$は$[a,b]$上連続である。
+        \end{enumerate}
+    \end{prop}
+\end{framed}
+\footnotetext{
+右辺が有界ならば左辺も有界だと示せる。
+}
+
+\begin{proof}[命題\ref{prop10.4}の証明]\footnote{講義中に示したのは3のみである。1と2は編集者による解答である。}\
+    \\
+    分割$\Delta=\{x_i\}_{i=1}^n$と$f$に対して，$\Delta x_i:=x_i-x_{i-1}$としたとき，$\displaystyle v(\Delta;f):=\sum_{i=1}^n\left(\sup_{x\in[x_{i-1},x_i]}f(x)-\inf_{x\in[x_{i-1},x_i]}f(x)\right)\Delta x_i$と定義する。
+    \begin{enumerate}
+        \item
+        $[a,b]$の分割$\Delta=\{x_i\}_{i=0}^n$のうち$a',b',c$となるものをとれるので，明らか。
+
+        \item 任意の$\xi_i,\eta_i\in[x_{i-1},x_i]$に対して
+        \[
+        \begin{split}
+        v(\Delta;f+g)
+        &=\sum_{i=1}^n\left|\left\{f(\xi_i)+g(\eta_i)\right\}-\left\{f(\eta_i)+g(\eta_i)\right\}\right|\Delta x_i\\
+        &\leq\sum_{i=1}^n |f(\xi_i)-f(\eta_i)|\Delta_i+ \sum_{i=1}^n |g(\xi_i)-g(\eta_i)|\Delta x_i\\
+        &\leq \sum_{i=1}^n \left|\sup_{x\in[x_{i-1},x_i]}f(x)-\inf _{x\in[x_{i-1},x_i]}f(x)\right|\Delta x_i+\left|\sup _{x\in[x_{i-1},x_i]}g(x)-\inf _{x\in[x_{i-1},x_i]}g(x)\right|\Delta x_i\\
+        &=v(\Delta;f)+v(\Delta;g)\\
+        &\to 0\ (|\Delta|\to 0)
+        \end{split}
+        \]
+        よって$f+g$はRiemann可積分である。また
+        \[
+        \begin{split}
+        v(\Delta;fg)
+        &=\sum_{i=1}^n|f(\xi_1)g(\xi_i)-f(\eta_i)g(\eta_i)|\Delta x_i\\
+        &= \sum_{i=1}^n |f(\xi_i)(g(\xi_i)-g(\eta_i))+g(\eta_i)(f(\xi_i)-f(\eta_i))|\\
+        &\leq \sum_{i=1}^n |f(\xi_i)||g(\xi_i)-g(\eta_i)|\Delta x_i+ \sum_{i=1}^n |g(\eta_i)||f(\xi_i)-f(\eta_i)|\Delta x_i\\
+        &\leq\sup_{x\in[a,b]}|f(x)| \sum_{i=1}^n\left|\sup_ {x\in[x_{i-1},x_i]}g(x)-\inf_ {x\in[x_{i-1},x_i]}g(x)\right|\Delta x_i+\sup_{y\in[a,b]}|g(y)| \sum_{i=1}^n\left|\sup_ {x\in[x_{i-1},x_i]}f(x)-\inf_ {x\in[x_{i-1},x_i]}f(x)\right|\Delta x_i\\
+        &=\sup_{x\in[a,b]}|f(x)|v(\Delta;f)+\sup_{y\in[a,b]}|g(y)|v(\Delta;g)\\
+        &\to 0\ (|\Delta|\to0)
+        \end{split}
+        \]
+        よって$fg$はRiemann可積分である。一方Riemann和について，$f\leq g$ならば
+        \[
+        \sum_{i=1}^n f(\xi_i)\Delta x_i\leq\sum_{i=1}^n g(\xi_i)\Delta x_i
+        \]
+        が成り立つので，$|\Delta|\to0$として
+        \[
+        \int_a^b f(x)dx\leq\int_a^b g(x)dx
+        \]
+        となる。さらに
+        \[
+        \begin{split}
+        v(\Delta;|f|)
+        &=\sum_{i=1}^n\left(\sup_{x\in[x_{i-1},x_i]}|f(x)|-\inf_{x\in[x_{i-1},x_i]}|f(x)|\right)\Delta x_i\\
+        &\leq\sum_{i=1}^n\left(\sup_{x\in[x_{i-1},x_i]}f(x)-\inf_{x\in[x_{i-1},x_i]}f(x)\right)\Delta x_i\\
+        &=v(\Delta;f)\\
+        &\to0\ (|\Delta|\to0)
+        \end{split}
+        \]
+        よって$|f|$はRiemann可積分である。一方Riemann和について
+        \[
+        \left|\sum_{i=1}^n f(\xi_i)\Delta_i\right|\leq\sum_{i=1}^n|f(\xi_i)|\Delta x_i
+        \]
+        が成り立つので，$|\Delta|\to0$として
+        \[
+        \left|\int_a^b f(x)dx\right|\leq\int_a^b|f(x)|dx
+        \]
+        が成り立つ。
+        \item
+        $a\leq x<x+h\leq b$とする。
+        \[
+        \begin{split}
+        |f(x+h)-f(x)|
+        &=\left|\int_x^{x+h}f(t)dt\right|\\
+        &\leq\int_x^{x+h}|f(t)|dt\\
+        &\leq\sup_{t\in[a,b]}|f(t)|\int_x^{x+t}dt\\
+        &= \sup_{t\in[a,b]}|f(t)|h\\
+        &\to 0\ (h\to0)
+        \end{split}
+        \]
+    \end{enumerate}
+\end{proof}
+
+\begin{framed}
+    \begin{thm}[微分積分学の基本定理]\label{thm10.5}
+    	$f$が$[a,b]$上Riemann可積分，$x=c$で連続であるならば，$\displaystyle F(x)=\int_a^x f(t)dt\ (a\leq x\leq b)$は$x=c$で微分可能
+    \end{thm}
+\end{framed}
+
+\begin{proof}[定理\ref{thm10.5}の証明]
+    \[
+    \begin{split}
+    \left|\frac{F(c+h)-F(c)}{h}-f(c)\right|
+    &=\left|\frac{1}{h}\int_c^{c+h}f(t)dt-\frac{1}{h}\int_c^{c+h}f(c)dt\right|\\
+    &=\left|\frac{1}{h}\int_c^{c+h}(f(t)-f(c))dt\right|\\
+    &\leq\frac{1}{|h|}\left|\int_c^{c+h}|f(t)-f(c)|dt\right|\footnotemark\\
+    &<\epsilon
+    \end{split}
+    \]
+    \footnotetext{$h>0$ではいいが$h<0$で$\int_c^{c+h}|f(t)-f(c)|dt<0$となる可能性があるので絶対値をつける。}
+    最終行については$|t-c|<h$では$f(t)-f(c)|<\epsilon$であることによる。以上より
+    \[
+    \lim_{h\to0}\frac{F(c+h)-F(c)}{h}=f(c)
+    \]
+\end{proof}
+
+\begin{framed}
+    $f$が$[a,b]$上連続であるならば，$
+    \begin{cases}
+    F'(x)=f(x) & (\forall x\in[a,b])\\
+    f(a)=0 & \
+    \end{cases}
+    $
+    をみたす$F$が唯一存在する。
+\end{framed}
+
+これは原始関数の存在を示す。このとき$\displaystyle\int_\alpha^\beta f(t)dt=F(\beta)-F(\alpha)$
+
+\newpage
+
+\section{広義積分}
+$\displaystyle \int_0^1\frac{1}{\sqrt{x}}dx$や$\displaystyle \int_0^\infty e^{-x}dx$の値はなんだろうか？
+
+\begin{framed}
+    \begin{dfn}[広義可積分]\label{def11.1}\
+        \begin{enumerate}
+            \item
+            $f:(a,b]\to\mathbb{R},a<\forall a'<b$について$[a',b]$でRiemann可積分，$\displaystyle\lim_{a'\to a}\int_{a'}^b f(x)dx$が存在するとき，$f$は$(a,b]$で広義可積分といい，極限を$\displaystyle\int_a^b f(x)dx$とかく。\footnotemark
+            \item
+            $f:[a,\infty)\to\mathbb{R},a<\forall a'$について$[a,a']$でRiemann可積分で$\displaystyle\lim_{a'\to\infty}\int_a^{a'}f(x)dx$が存在するとき，$f$は$[a,\infty)$で広義可積分といい，この極限を$\displaystyle\int_a^\infty f(x)dx$とかく。
+        \end{enumerate}
+    \end{dfn}
+\end{framed}
+
+\begin{note}
+    $[a,b),(a,b),(-\infty,b],(-\infty,\infty)$等でも同様。例えば$\displaystyle\int_{-\infty}^\infty f(x)dx=\lim_{M\to\infty,M'\to\infty}\int_{-M'}^M f(x)dx$\\
+    $M$と$M'$は同じでないことに注意。
+\end{note}
+
+\begin{shaded}
+    \begin{ex}\label{ex2.44} 次の広義積分の値を求めよ。
+        \begin{enumerate}
+            \item $\displaystyle\int_0^1\frac{1}{\sqrt{x}}dx$
+            \item $\displaystyle\int_0^\infty e^{-x}dx$
+        \end{enumerate}
+    \end{ex}
+\end{shaded}
+
+\begin{ans}[解答\ref{ex2.44}]\
+	\begin{enumerate}
+		\item
+		\[
+		\begin{split}
+		\int_0^1\frac{1}{\sqrt{x}}dx
+		&=\lim_{a\to+0}\int_a^1\frac{1}{\sqrt{x}}dx\\
+		&=\lim_{a\to+0}[2\sqrt{x}]_a^1\\
+		&=2
+		\end{split}
+		\]
+		\item
+		\[
+		\begin{split}
+		\int_0^\infty e^{-x}dx
+		&=\lim_{M\to\infty}\int_0^M e^{-x}dx\\
+		&=\lim_{M\to\infty}[-e^{-x}]_0^M\\
+		&=1
+		\end{split}
+		\]
+	\end{enumerate}
+\end{ans}
+\footnotetext{
+$\int_a^b f(x)dx$は収束するという。
+}
+
+\newpage
+
+\begin{shaded}
+\begin{example}\ $p$の値によって収束・発散を分類せよ。
+\begin{enumerate}
+\item $\displaystyle \int_1^\infty x^p dx$
+\item $\displaystyle \int_0^1 x^p dx$
+\end{enumerate}
+\end{example}
+\end{shaded}
+\footnotetext{広義積分可能なパラメータを求めさせる問題がよくでる}
+
+\begin{ans}[例題の解答]\
+    \begin{enumerate}
+        \item
+        $\displaystyle\int_1^M x^p dx=
+        \begin{cases}
+        \displaystyle\frac{1}{p+1}(M^{p+1}-1) & (p\neq1)\\
+        \log{M} & (p=1)
+        \end{cases}
+        $
+        ，よって
+        $
+        \begin{cases}
+        p<-1なら収束 & \left(\int_1^\infty x^p dx=-\displaystyle\frac{1}{p+1}\right)\\
+        p\geq-1なら発散 & \
+        \end{cases}
+        $
+        \item
+        $\displaystyle\int_d^1 x^p dx=
+        \begin{cases}
+        \displaystyle\frac{1}{p+1}(1-d^{p+1}) & (p\neq-1)\\
+        -\log{d} & (p=1)
+        \end{cases}
+        $
+        ，よって
+        $
+        \begin{cases}
+        p>-1なら収束 & \displaystyle\left(\int_0^1 x^p dx=\frac{1}{p+1}\right)\\
+        p\leq-1なら発散 & \
+        \end{cases}
+        $
+    \end{enumerate}
+\end{ans}
+
+\begin{framed}
+    \begin{thm}[比較定理]\label{thm11.2}
+        $f:(a,b]\to\mathbb{R}$が$\forall c>a$に対し$[c,d]$上でRiemann可積分，$g$を$(a,b]$上広義可積分で十分$a$に近い$x$で$|f(x)|\leq g(x)$ならば$f$も$(a,b]$上で広義可積分である。\footnotemark
+    \end{thm}
+\end{framed}
+\footnotetext{
+以下のような場合にも比較定理は用いられる。\\
+$f:[0,\infty)\to\mathbb{R}$が$\forall c>0$で$[0,c]$上でRiemann可積分，$g$を$[0,\infty)$上広義可積分で十分大きな$x$で$|f(x)|\leq g(x)$ならば$f$も$[0,\infty)$上で広義可積分である。
+}
+
+\begin{proof}[定理\ref{thm11.2}の証明]$[0.\infty)$の場合を示す。\\
+    $\exists m>0(m\in\mathbb{R}) {\rm s.t.}\ x\geq M$で$|f(x)|\leq g(x)$とする。この時$\displaystyle \int_m^\infty f(x)dx$が収束することを示す。\\
+    $\displaystyle G(x):=\int_m^x g(t)dt,F(x):=\int_m^x f(t)dt$とすると，$\alpha>\beta(\geq m)$に対して
+    \[
+    \begin{split}
+    |F(\alpha)-F(\beta)|
+    &=\left|\int_\beta^\alpha f(t)dt\right|\\
+    &\leq\int_\beta^\alpha|f(t)|dt\\
+    &\leq\int_\beta^\alpha g(t)dt\\
+    &=|G(\alpha)-G(\beta)|
+    \end{split}
+    \]
+    いま，$G(x)$は$x\to\infty$で収束$\Leftrightarrow$$\forall\epsilon>0,\exists N\in\mathbb{N}\ {\rm s.t.}\ \forall\alpha>\forall\beta\geq N\Rightarrow |G(\alpha)-G(\beta)|<\epsilon$より
+    \[
+    \forall\epsilon>0,\exists N\in\mathbb{N}\ {\rm s.t.}\ \forall\alpha>\forall\beta\geq N \Rightarrow|F(\alpha)-F(\beta)|\leq|G(\alpha)-G(\beta)|<\epsilon
+    \]
+    つまり$x\to\infty$で$F(x)$は収束する。
+\end{proof}
+
+\begin{shaded}
+    \begin{example}\label{ex11.5}\
+        \begin{enumerate}
+            \item
+            $\displaystyle \int_0^\infty\frac{\sin{x}}{x}dx$は収束する。\footnotemark
+            \item
+            $\displaystyle \int_0^\infty\left|\frac{\sin{x}}{x}\right|dx$は発散する。
+        \end{enumerate}
+    \end{example}
+\end{shaded}
+\footnotetext{収束値は$\displaystyle\frac{\pi}{2}$\\
+$\int_1^\infty\frac{1}{x}dx=\infty,\int_1^\infty\frac{1}{x^{1+\epsilon}}dx<\infty(\epsilon>0),\int_0^1\frac{1}{x}dx=\infty, \int_0^1\frac{1}{x^{1-\epsilon}}dx<\infty(\epsilon>0)$
+}
+\begin{proof}[例\ref{ex11.5}の証明]\
+    \begin{enumerate}
+    \item
+    $x\to0$のとき$\displaystyle \frac{\sin{x}}{x}\to1$ゆえ，$x=0$の方は問題なし（$x=0$でも連続）\\
+    $\displaystyle \int_0^\infty\frac{\sin{x}}{x}dx=\int_0^1\frac{\sin{x}}{x}dx+ \int_1^\infty\frac{\sin{x}}{x}dx
+    $であるので，後ろの項について
+    \[
+    \int_1^T\frac{\sin{x}}{x}dx=\left[\frac{-\cos{x}}{x}\right]_1^T-\int_1^T\frac{\cos{x}}{x^2}dx
+    \]
+    $\displaystyle\left|\frac{\cos{x}}{x^2}\right|\leq\frac{1}{x^2}$可積分より，定理\ref{thm11.2}から収束する。
+    \item
+    \[
+    \begin{split}
+    \int_0^{n\pi}\left|\frac{\sin{x}}{x}\right|dx
+    &=\sum_{k=1}^n\int_{(k-1)\pi}^{k\pi}\left|\frac{\sin{x}}{x}\right|dx\\
+    &=\sum_{k=1}^n\int_0^\pi\frac{|\sin{(t+(k-1)\pi)}|}{t+(k-1)\pi}dt\\
+    &\geq\sum_{k=1}^n\frac{1}{k\pi}\int_0^\pi \sin{t}dt\\
+    &=\frac{2}{\pi}\sum_{k=1}^n\frac{1}{k}\\
+    &\to\infty\ (n\to\infty)
+    \end{split}
+    \]
+    \end{enumerate}
+\end{proof}
+
+\begin{note}
+	$f$が広義可積分でも，$|f|$が広義可積分とは限らない\footnote{$f$がRiemann可積分ならば$|f|$もRiemann可積分，範囲が有限なら問題ない}
+\end{note}
+
+\newpage
+
+\paragraph{広義積分の応用}
+$\Gamma-$関数・B関数（$n!$の拡張，多くの定積分の値を表す）
+\begin{shaded}
+\begin{example}\label{ex11.6}
+$\displaystyle \int_0^\infty e^{-x} x^{s-1}dx\ (s>0)$は収束する。
+\end{example}
+\end{shaded}
+
+\begin{proof}[例\ref{ex11.6}の証明]\
+    \\
+    $\displaystyle \int_0^\infty e^{-x} x^{s-1}dx = \int_0^1 e^{-x} x^{s-1}dx + \int_1^\infty e^{-x} x^{s-1}dx$として，項毎に考える。\\
+    $\displaystyle \int_0^1 e^{-x} x^{s-1}dx$については$x=0$が特異点。$x>0$で$f(x)=e^{-x}x^{s-1}<x^{s-1}$。\\$s>0$で$\displaystyle\int_0^1 x^{s-1}dx=\left[\frac{1}{s}x^s\right]_0^1<\infty$。ゆえに定理\ref{thm11.2}により$\displaystyle \int_0^1 f(x)dx$は収束する。\\
+    $\displaystyle \int_1^\infty e^{-x} x^{s-1}dx$については，$x\to\infty$で$e^{-x}x^{s+1}\to0$であるので，$e^{-x}x^{s+1}\leq M$となる正実数$M$が存在する。このとき，$\displaystyle f(x)=e^{-x}x^{s+1}=\frac{e^{-s}x^{s+1}}{x^2}\leq\frac{M}{x^2}$より$\displaystyle\int_1^\infty\frac{M}{x^2}dx<\infty$。ゆえに定理\ref{thm11.2}より$\displaystyle\int_1^\infty f(x)dx$は収束する。
+\end{proof}
+
+\begin{shaded}
+    \begin{example}\label{ex-beta}
+        $\displaystyle\int_0^1 x^{p-1}(1-x)^{q-1}dx\ (p,q>0)$は収束する\footnotemark
+    \end{example}
+\end{shaded}
+\footnotetext{演習問題より移植}
+\begin{proof}[例\ref{ex-beta}の証明]
+被積分関数は非負なので
+\[
+\int_0^1 x^{p-1}(1-x)^{q-1}dx\leq\max\{2^{1-q},1\}\int_0^{\frac{1}{2}}x^{p-1}dx+\max\{2^{1-p},1\}\int_{\frac{1}{2}}^1(1-x)^{q-1}dx
+\]
+であり，この右辺の積分は$p>0,q>0$のとき収束するので，左辺も収束する。
+
+\begin{framed}
+    \begin{dfn*}[ガンマ関数・ベータ関数]
+        これらの関数は収束する。\\
+        $\displaystyle\Gamma(s):=\int_0^\infty e^{-x} x^{s-1}dx\ (s>0)$：ガンマ関数
+        $\displaystyle B(p,q):=\int_0^1 x^{p-1}(1-x)^{q-1}dx\ (p,q>0)$：ベータ関数
+    \end{dfn*}
+\end{framed}
+
+\newpage
+
+\begin{thm*}[$\Gamma$関数の性質]\
+    \vspace{-\baselineskip}
+    \begin{enumerate}
+    \item $\displaystyle\Gamma(x+1)=x\Gamma(x)\ (x\neq0)$
+    \item $\displaystyle\Gamma(1)=1$
+    \item $\displaystyle\Gamma(n)=(n-1)!$
+    \item $\displaystyle\Gamma(x)>0$
+    \item $\displaystyle\Gamma(x)=2\int_0^\infty e^{-r^2} r^{2x-1}dr=\int_0^1\left(\log{\frac{1}{s}}\right)^{s-1}ds$
+    \item $\displaystyle B(x,y)=2\int_0^{\frac{\pi}{2}}\sin^{2x-1}\theta\cos^{2y-1}\theta d\theta=B(y,x)=\int_0^\infty\frac{t^{x-1}}{(1+t)^{x+y}}dt$
+    \end{enumerate}
+\end{thm*}
+\begin{proof}\
+\begin{enumerate}
+\item $\displaystyle\Gamma(x+1)=[-e^{-t}t^x]_0^\infty+x\int_0^\infty e^{-t}t^{x-1}dt=x\Gamma(x)$
+\item $\displaystyle\Gamma(1)=\int_0^\infty e^{-t}dt=1$
+\item 1.2.より明らか。
+\item $e^{-t}t^{x-1}>0$より明らか。
+\item 1つめの等号について，$t=r^2$とおく。\\2つめの等号について，$e^{-t}=s$とおく。（$\displaystyle t=\log\frac{1}{s},ds=-e^{-t}dt=-sdt$）
+\item 1つめの等号について，$t=\sin^2\theta$とおくと，\\$\displaystyle B(x,y)=\int_0^1 t^{x-1}(1-t)^{y-1}dt=\int_0^{\frac{\pi}{2}}\sin^{2x-2}\theta\cos^{2y-2}\theta\cdot2\sin\theta\cos\theta d\theta$となる。\\2つめの等号について，$t=1-s$とおく。\\3つめの等号について，$\displaystyle t'=\frac{1}{t}-1$とおく。（$\displaystyle t=\frac{1}{t'+1},dt'=-\frac{1}{t^2}dt$）
+\end{enumerate}
+\end{proof}
+いま，以下の事実を認めよう。（後期履修内容：重積分により示す）
+\[
+B(x,y)=\frac{\Gamma(x)\Gamma(y)}{\Gamma(x+y)}
+\]
+すると，6.から
+\[
+2\int_0^{\frac{\pi}{2}}\sin^{2x-1}\theta\cos^{2y-1}\theta d\theta= \frac{\Gamma(x)\Gamma(y)}{\Gamma(x+y)}
+\]
+となる。ここで$\displaystyle x=\frac{n+1}{2},y=\frac{1}{2}$とすれば
+\[
+\int_0^{\frac{\pi}{2}}\sin^n\theta d\theta= \frac{\Gamma\left(\displaystyle\frac{n+1}{2}\right)\Gamma\left(\displaystyle\frac{1}{2}\right)}{2\Gamma\left(\displaystyle\frac{n}{2}+1\right)}
+\]
+よって，$n=0$とすると$\displaystyle\frac{\pi}{2}=\frac{\left\{\Gamma\left(\displaystyle\frac{1}{2}\right)\right\}^2}{2}$より
+\[
+\Gamma\left(\frac{1}{2}\right)=\sqrt{\pi}
+\]
+したがって
+\[
+\begin{split}
+\Gamma\left(n+\frac{1}{2}\right)&=\left(n-\frac{1}{2}\right)\left(n-\frac{3}{2}\right)\cdots\frac{1}{2}\Gamma\left(\frac{1}{2}\right)\\
+&=\frac{(2n-1)!!}{2^n}\sqrt{\pi}
+\end{split}
+\]
+\end{proof}
+
+\begin{example}\
+    \begin{enumerate}
+        \item$\displaystyle\int_0^\pi \frac{dx}{\sqrt{\sin x}}=2\cdot\frac{1}{2}B\left(\frac{1}{4},\frac{1}{2}\right)=B\left(\frac{1}{4},\frac{1}{2}\right)$
+        \item $\displaystyle\int_0^\infty e^{-x^2}dx=\frac{\Gamma\left(\displaystyle\frac{1}{2}\right)}{2}=\frac{\sqrt{\pi}}{2}$
+    \end{enumerate}
+\end{example}
+
+\begin{framed}
+    \subparagraph{Stirlingの公式}
+    \[
+    n!\sim\sqrt{2\pi}n^{n+\frac{1}{2}}e^{-n}\footnotemark
+    \]
+\end{framed}
+\footnotetext{
+$\displaystyle f\sim g\ (n\to\infty)\Leftrightarrow \frac{f}{g}\to1\ (n\to\infty)$
+}
+
+\begin{framed}
+\subparagraph{一般型}
+\[
+\displaystyle \Gamma(x)=\sqrt{2\pi}x^{x-\frac{1}{2}}e^{-x}e^{\frac{\theta(x)}{12x}}\ (0<\theta(x)<1)
+\]
+\end{framed}
+なお，$n!=n\Gamma(n)\sim \sqrt{2\pi}n^{n+\frac{1}{2}}e^{-n}$である。
+
+\begin{comment}
+
+\newpage
+
+前期内容はここまでです。
+\newpage
+
+\section{一様収束}
+\paragraph{関数の収束}
+\begin{example}
+	$\displaystyle f_n(x)=1+x+x^2+\cdots+x^n$，$\displaystyle f(x)=\frac{1}{1-x}$，$|x|<1$で$f_n(x)\to f(x)\ (n\to\infty)$
+\end{example}
+\begin{shaded}
+\begin{qes}
+$f_n(x)$は連続で，$[a,b]$上$f_n(x)\to f(x)$とする。このとき
+\begin{enumerate}
+\item $f(x)$は連続か。
+\item $\displaystyle\int_a^b f_n(x)dx\to \int_a^b f(x)dx$は成立するか。
+\end{enumerate}
+\end{qes}
+\end{shaded}
+\noindent
+{\bf 解答}\ 一般には成立しない。
+
+\begin{example}\label{ex12.1}\
+\begin{enumerate}
+\item \
+
+\begin{table}[htb]
+\begin{tabular}{ccc}
+\begin{minipage}[t]{0.4\hsize}
+\begin{center}
+\begin{tikzpicture}[xscale = 4, yscale = 2]
+\draw (0,0) node[below left]{O};
+\draw[thick, ->] (-0.1,0)—(1.1,0) node[right] {$x$}; % x軸、[->]で矢印、他に[-stealth]等
+\draw[thick, ->] (0,-0.1)—(0,1.4) node[above] {$y$}; % y軸
+\path[draw,domain=0.35:0.65] plot (\x, {-10/3*0.35+10/3*\x}) node[above right] {$y=f_n(x)$};
+\path[draw,domain=0.65:1.1] plot (\x, {1});
+\draw[dashed] (0,1) — (0.6,1);
+\draw[dashed] (0,0.5) — (0.5,0.5);
+\draw[dashed] (0.5,0) — (0.5,0.5);
+\draw[dashed] (0.65,0) — (0.65,1);
+\draw[dashed] (1,0) — (1,1);
+\draw (1,0) node[below]{$1$};
+\draw (0.35,0) node[below]{$\frac{1}{2}-\frac{1}{n}$};
+\draw (0.5,0) node[below]{$\frac{1}{2}$};
+\draw (0.65,0) node[below]{$\frac{1}{2}+\frac{1}{n}$};
+\draw (0,0.5) node[left]{$\frac{1}{2}$};
+\draw (0,1) node[left]{$1$};
+\end{tikzpicture}
+\[連続\]
+\end{center}
+\end{minipage}
+
+\begin{minipage}[h]{0.05\hsize}
+\[\raisebox{70pt}{$\overset{n\to\infty}{\longrightarrow}$}\]
+\end{minipage}
+
+\begin{minipage}[t]{0.45\hsize}
+\begin{center}
+
+\begin{tikzpicture}[xscale = 2, yscale = 2]
+\draw (0,0) node[below left]{O};
+\draw[thick, ->] (-0.2,0)—(2.2,0) node[right] {$x$}; % x軸、[->]で矢印、他に[-stealth]等
+\draw[thick, ->] (0,-0.1)—(0,1.4) node[above] {$y$}; % y軸
+\path[draw,domain=0:0.98] plot (\x, {0});
+\draw (1,0) circle[radius=1pt];
+\fill (1,0.5) circle [radius=1pt];
+\draw (1,1) circle[radius=1pt];
+\path[draw,domain=1.02:2.1] plot (\x, {1}) node[above] {$y=f_n(x)$};
+\draw[dashed] (0,0.5) — (1,0.5);
+\draw[dashed] (0,1) — (1,1);
+\draw[dashed] (1,0) — (1,1);
+\draw[dashed] (2,0) — (2,1);
+\draw (2,0) node[below]{$1$};
+\draw (1,0) node[below]{$\frac{1}{2}$};
+\draw (0,0.5) node[left]{$\frac{1}{2}$};
+\draw (0,1) node[left]{$1$};
+\end{tikzpicture}
+\[連続でない\]
+\end{center}
+\end{minipage}
+\end{tabular}
+\end{table}
+
+\item \
+
+\begin{table}[htb]
+\begin{tabular}{ccc}
+\begin{minipage}[t]{0.4\hsize}
+\begin{center}
+\begin{tikzpicture}[xscale = 4, yscale = 2]
+\draw (0,0) node[below left]{O};
+\draw[thick, ->] (-0.1,0)—(1.1,0) node[right] {$x$}; % x軸、[->]で矢印、他に[-stealth]等
+\draw[thick, ->] (0,-0.1)—(0,1.4) node[above] {$y$}; % y軸
+\path[draw,domain=0:0.1] plot (\x, {10*\x}) node[above right] {$y=f_n(x)$};
+\path[draw,domain=0.1:0.2] plot (\x, {2-10*\x});
+\path[draw,domain=0.65:1.1] plot (\x, {0});
+\draw[dashed] (0,1) — (0.1,1);
+\draw[dashed] (0.1,0) — (0.1,1);
+\draw (0.1,0) node[below]{$\frac{1}{n}$};
+\draw (0.2,0) node[below]{$\frac{2}{n}$};
+\draw (1,0) node[below]{$1$};
+\end{tikzpicture}
+\[\int_0^1 f_n(x)dx=1\]
+\end{center}
+\end{minipage}
+
+\begin{minipage}[h]{0.05\hsize}
+\[\raisebox{80pt}{$\overset{n\to\infty}{\longrightarrow}$}\]
+\end{minipage}
+
+\begin{minipage}[t]{0.45\hsize}
+\begin{center}
+\begin{tikzpicture}[xscale = 4, yscale = 2]
+\draw (0,0) node[below left]{O};
+\draw[thick, ->] (-0.1,0)—(1.1,0) node[right] {$x$}; % x軸、[->]で矢印、他に[-stealth]等
+\draw[thick, ->] (0,-0.1)—(0,1.4) node[above] {$y$}; % y軸
+\path[draw,domain=0:1.1] plot (\x, {0}) node[above left] {$y=f(x)$};
+\draw (1,0) node[below]{$1$};
+\end{tikzpicture}
+\[\int_0^1 f(x)dx=0\]
+\end{center}
+\end{minipage}
+\end{tabular}
+\end{table}
+\end{enumerate}
+\end{example}
+
+\newpage
+
+\begin{framed}
+\begin{dfn}
+$A\subset\mathbb{R}$，$f_n,f$を$A$上の関数とする。このとき
+\begin{enumerate}
+\item
+$n\to\infty$で$f_n$が$f$に$A$上各点収束するとは，$\forall x\in A$で$\displaystyle\lim_{n\to\infty}f_n(x)=f(x)$となることである。\footnotemark
+\item
+$n\to\infty$で$f_n$が$f$に$A$上一様収束するとは，$\displaystyle ||f_n-f||_A:=\sup_{x\in A}|f_n(x)-f(x)|$とするとき$||f_n-f||\to0$\footnotemark（これを$f_n\rightrightarrows f\ (n\to\infty)$と書くこともある）となることである。
+\end{enumerate}
+\end{dfn}
+\end{framed}
+\footnotetext{
+i.e.\ $\forall x\in A,\forall\epsilon>0,\exists N(x,\epsilon)\ {\rm s.t.}\ \forall n>N(x,\epsilon)\Rightarrow|f_n(x)-f(x)|<\epsilon$
+}
+\footnotetext{
+i.e.$\forall\epsilon>0,\exists N(\epsilon)\ {\rm s.t.}\ \forall n>N(\epsilon),\forall x\in A,|f_n(x)-f(x)|<\epsilon$
+}
+例\ref{ex12.1}の1.2.は各点収束だが一様収束ではない。
+\begin{framed}
+\begin{thm}\label{thm12.3}\
+\begin{enumerate}
+\item
+$f_n$は$A$上連続で$f_n\rightrightarrows f\ (n\to\infty)$ならば$f$は$A$上連続
+\item
+$A=[a,b]$，$f_n\rightrightarrows f\ (n\to\infty)$，$f_n$は$A$上有界でRiemann可積分ならば$f$もRiemann可積分で，$\displaystyle\int_a^b f_n(x)dx\to\int_a^b f(x)dx\ (n\to\infty)$
+\end{enumerate}
+
+\end{thm}
+
+\end{framed}
+
+\noindent
+{\bf 定理\ref{thm12.3}の証明}
+\begin{enumerate}
+\item
+任意の正実数$\epsilon$をとる。十分大きな$n$に対して$\displaystyle||f_n-f||<\frac{\epsilon}{3}$\footnotemark 。また，各$n$について$f_n$は連続であるので
+\[
+\forall x\in A,\exists\delta>0\ {\rm s.t.}\ \forall y:|x-y|<\delta,|f_n(x)-f_n(y)|<\frac{\epsilon}{3}
+\]
+いま，$x,y\in A$で$|x-y|<\delta$のとき
+\[
+\begin{split}
+|f(x)-f(y)|
+&\leq|f(x)-f_n(x)|+|f_n(x)-f_n(y)|+|f_n(y)-f(y)|\\
+&\leq\frac{\epsilon}{3}+ \frac{\epsilon}{3}+ \frac{\epsilon}{3}\\
+&=\epsilon
+\end{split}
+\]
+\item
+\begin{note}
+$\displaystyle\left|\sup_{x\in[a,b]}f(x)-\sup_{x\in[a,b]}g(x)\right|\leq||f-g||$，$\displaystyle\left|\inf_{x\in[a,b]}f(x)-\inf_{x\in[a,b]}g(x)\right|\leq||f-g||$
+\end{note}
+$\Delta$を$[a,b]$の分割とし，$\Delta=\{x_i\}_{i=1}^m$とする。
+\[
+\begin{split}
+v(f;\Delta)
+&=\sum_{i=1}^m\left(\sup_{x\in[x_{i-1},x_i]}f(x)-\inf_ {x\in[x_{i-1},x_i]}f(x)\right)(x_i-x_{i-1})\\
+&\leq\sum_{i=1}^m 2||f_n-f||(x_i-x_{i-1})+v(f_n;\Delta)\\
+&\leq 2||f_n-f||\cdot|b-a|+v(f_n;\Delta)
+\end{split}
+\]
+一方，一様収束より$\forall\epsilon>0$に対し十分大きな$n$で$\displaystyle||f_n-f||<\frac{\epsilon}{\Delta|b-a|}$となる。また，Riemann可積分ゆえ$|\Delta|<\delta$ならば$\displaystyle v(f_n;\Delta)<\frac{\epsilon}{2}$である。よって$\displaystyle v(f;\Delta)<\epsilon$となり$f$もRiemann可積分。さらに
+\[
+\begin{split}
+\left|\int_a^b f_n(x)dx-\int_a^b f(x)dx\right|
+&=\left|\int_a^b\left(f_n(x)-f(x)\right)dx\right|\\
+&\leq\int_a^b|f_n(x)-f(x)|dx\\
+&\leq\int_a^b||f_n-f||dx\\
+&=||f_n-f||(b-a)\\
+&\to0\ (n\to\infty)
+\end{split}
+\]
+\end{enumerate}
+\footnotetext{
+i.e.\ $\forall x\in A$で$\displaystyle |f_n(x)-f(x)|<\frac{\epsilon}{3}$
+}
+\begin{shaded}
+\begin{example}\label{ex12.4}
+$\displaystyle\log2=1-\frac{1}{2}+\frac{1}{3}-\frac{1}{4}+\cdots$
+\end{example}
+\end{shaded}
+{\bf 例\ref{ex12.4}の証明}
+$\displaystyle f_m(x):=\sum_{k=1}^m\frac{(-1)^{k-1}}{k}x^k,f(x):=\log{x}+1$とすると
+\[
+f^{(m)}(x)=\frac{(-1)^{m-1}(m-1)!}{(1+x)^m}
+\]
+となる。ゆえにTaylorの公式により
+\[
+f(x)=f_m(x)+\frac{(-1)^m x^{m+1}}{(a+\theta x)^{m+1}(m+1)}\ (0<\exists\theta<1)
+\]
+したがって
+\[
+||f-f_m||_{[0,1]}=\sup_{x\in[0,1]}\left|\frac{(-1)^m x^{m+1}}{(a+\theta x)^{m+1}(m+1)}\right|\leq\frac{1}{m+1}
+\]
+よって$[0,1]$上で$f_m\rightrightarrows f\ (m\to\infty)$\\
+$x=1$を代入して$\log2$の式を得る。
+
+\begin{framed}
+\begin{thm}\label{thm12.5}
+$f_n$は$A$上$C^1$級であって，$A$上$f_n\rightrightarrows f\ (n\to\infty)$，さらに$f_n'$は$n\to\infty$で$A$上一様収束ならば$f$は$A$上$C^1$級で$f_n'\rightrightarrows f'\ (n\to\infty)$
+\end{thm}
+\end{framed}
+
+\noindent
+{\bf 定理\ref{thm12.5}の証明}
+
+$f_n'\rightrightarrows \exists g\ (n\to\infty)$とすると，定理\ref{thm12.3}より$g$は連続である。よって定理\ref{thm12.3}より
+\[
+f_n(x)-f_n(a)=\int_a^x f_n'(t)dt \to \int_a^x g(t)dt\ (n\to\infty)
+\]
+ゆえに
+\[
+f(x)-f(a)=\int_a^x g(t)dt
+\]
+つまり，$f$は$C^1$級で$f'=g$（微分積分学の基本定理）となる。
+
+\paragraph{関数項級数}
+関数項級数とは，関数列$\{f_n(x)\}$が区間$I$で定義されていて，これらの関数の無限和$\displaystyle\sum f_n(x)$のことである。例えば，$\displaystyle\sum_{n=1}^\infty\frac{\sin{nx}}{n^2}$や$\displaystyle\sum_{n=0}^\infty\frac{x^n}{n!}$などが挙げられる。
+\begin{framed}
+\begin{thm}\label{thm12.6}
+（WeierstrassのM判定法）\\
+$g_n$を$A$上の関数とし，すべての$x\in A$に対し$g_n(x)\leq M_n$となる$M_n$が存在し，$\displaystyle\sum_{n=1}^\infty M_n<\infty$ならば$\displaystyle\sum_{n=1}^\infty g_n(x)$は$A$上絶対一様収束する（絶対一様収束とは，絶対収束かつ一様収束することである）。
+\end{thm}
+\end{framed}
+
+\noindent
+{\bf 定理\ref{thm12.6}の証明}\\
+$\displaystyle f(x):=\sum_{n=1}^\infty g_n(x)$が各$x\in A$で絶対収束することは定理\ref{thm4.4}（比較判定）により明らか。\\
+いま，$n\geq m$のとき
+\[
+\left|\sum_{k=1}^n g_k(x)-\sum_{k=1}^m g_k(x)\right|\leq M_{m+1}+M_{m+2}+\cdots+M_n
+\]
+$n\to\infty$とすると，すべての$x\in A$で
+\[
+\left|f(x)-\sum_{k=1}^m g_k(x)\right|\leq\sum_{k=m+1}^\infty M_k
+\]
+したがって
+\[
+\left|\left|f-\sum_{k=1}^m g_k\right|\right|\leq\sum_{k=m+1}^\infty M_k \to0\ (m\to\infty)
+\]
+ゆえに$\displaystyle\sum_{k=1}^m g_k\rightrightarrows f\ (m\to\infty)$一様収束が示された。
+
+\begin{example}
+（Weierstrass関数）\\
+\[
+W_{ab}(x):=\sum_{n=0}^\infty a^n\cos{(b^n\pi x)}
+\]
+この関数は
+\begin{itemize}
+\item $|a|<1$ならば$\mathbb{R}$上一様収束（定理\ref{thm12.6}により従う）
+\item さらに$|ab|<1$ならば$\mathbb{R}$上微分不可能（定理\ref{thm12.5}と定理\ref{thm12.6}により従う）
+\item さらに$0<a<1$，$b$は奇数，$\displaystyle ab>1+\frac{3}{2}\pi$ならば$W_{ab}(x)$はすべての$x$で微分不可能である（証明は困難）
+\end{itemize}
+\end{example}
+
+\newpage
+
+\section{ベキ級数}
+\begin{example}\
+	\begin{enumerate}
+	\item
+	$\displaystyle\sum\frac{x^n}{n!}e^x$は$\forall x\in\mathbb{R}$で収束する。
+	\item
+	$\displaystyle\sum x^n$は$|x|<1$で$\displaystyle\frac{1}{1-x}$に収束する。
+	\end{enumerate}
+\end{example}
+
+\begin{framed}
+\begin{thm}\label{thm13.1}
+$\displaystyle\sum_{n=0}^\infty a_n x^n$に対して$\displaystyle R:=\left(\varlimsup_{n\to\infty}|a_n|^{\frac{1}{n}}\right)^{-1}$とする。
+\begin{enumerate}
+\item
+$0<r<R$なるすべての$r$に対して$\displaystyle\sum_{n=0}^\infty a_n x^n$は$[-r,r]$で一様収束する。（$|x|<R$で$\displaystyle\sum a_n x^n$は広義一様収束するという。）
+\item
+$|x|>R$ならば$\displaystyle\sum_{n=0}^\infty a_n x^n$は発散する。
+\end{enumerate}
+\end{thm}
+\end{framed}
+
+\noindent
+{\bf 定理\ref{thm13.1}の証明}
+\begin{enumerate}
+\item
+$\displaystyle\varlimsup_{n\to\infty}|a_n|^{\frac{1}{n}}=\frac{1}{R}<\frac{1}{s}<\frac{1}{r}\ (r<s<R)$となる$s$をとる。このとき，十分大きな$n$に対して$\displaystyle |a_n|<\left(\frac{1}{s}\right)^n$となる。いま，十分大きな$n$に対して$|x|\leq r$で$\displaystyle|a_n x^n|\leq|a_n|r^n<\left(\frac{r}{s}\right)^n$また，$\displaystyle\left|\frac{r}{s}\right|<1$より$\displaystyle\sum_{n=0}^\infty\left(\frac{r}{s}\right)^n<\infty$であるので，定理\ref{thm12.6}より$[-r,r]$で$\displaystyle\sum_{n=0}^\infty a_n x^n$は一様収束する。
+\item
+$\{a_n\}$の部分列$\{a_{n_j}\}$で$\displaystyle\lim_{j\to\infty}|a_{n_j}|^{\frac{1}{n_j}}=\frac{1}{R}$となるものをとる。$\displaystyle|a_{n_j}x^{n_j}|^{\frac{1}{n_j}}=|a_{n_j}|^{\frac{1}{n_j}}|x|$は$|x|>R$であることより$j\to\infty$で$\displaystyle\frac{|x|}{R}>1$となるので，$j\to\infty$で$|a_{n_j}x^{n_j}|\to\infty$，$a\to0$で$\displaystyle\sum a_n<\infty$である。よって$\displaystyle\sum_{n=0}^\infty a_n x^n$は発散する。
+\end{enumerate}
+
+\begin{note}
+上の$R$を$\displaystyle \sum_{n=0}^\infty a_n x^n$の収束半径という。また，$\displaystyle\varlimsup_{n\to\infty}|a_n|^{\frac{1}{n}}=\infty$ならば$R=0$，$\displaystyle\varlimsup_{n\to\infty}|a_n|^{\frac{1}{n}}=0$ならば$R=\infty$と定める。
+\end{note}
+
+\begin{shaded}
+\begin{ex}\label{ex13.05}次の無限級数について，収束半径$R$の値を求めよ。
+\begin{enumerate}
+\item $\displaystyle\sum_{n=0}^\infty\frac{x^n}{n!}$
+\item $\displaystyle\sum_{n=0}^\infty x^n$
+\item $\displaystyle\sum_{n=0}^\infty\frac{(-1)^{n-1}}{n}x^n$
+\end{enumerate}
+\end{ex}
+\end{shaded}
+
+\noindent
+{\bf 例題\ref{ex13.05}の解}
+\begin{enumerate}
+\item $\displaystyle a_n=\frac{1}{n!}$，$\displaystyle\lim_{n\to\infty}\left|\frac{a_n}{a_{n+1}}\right|=\lim_{n\to\infty}|n+1|\to\infty$よって$R=\infty$
+\item $a_n=1$よって$R=1$
+\item $\displaystyle a_n=\frac{(-1)^{n-1}}{n}$よって$R=1$
+\end{enumerate}
+
+
+\begin{framed}
+\begin{prop}\label{prop13.2}
+十分大きな$n$に対して$a_n\neq0$かつ$\displaystyle\lim_{n\to\infty}\left|\frac{a_{n+1}}{a_n}\right|$が存在するならば，$\displaystyle R=\lim_{n\to\infty}\left|\frac{a_n}{a_{n+1}}\right|$
+\end{prop}
+\end{framed}
+
+\noindent
+{\bf 命題\ref{prop13.2}の証明}\ 定理\ref{thm4.5}を$\{a_n x^n\}$に適用すればよい。
+
+\begin{note}
+$\displaystyle\sum_{n=0}^\infty\left(\sum_{m=0}^\infty a_{(n,m)} \right)\neq \sum_{m=0}^\infty\left(\sum_{n=0}^\infty a_{(n,m)}\right)$，$\displaystyle\frac{d}{dx}\left(\sum_{n=0}^\infty a_n x^n\right)\neq \sum_{n=0}^\infty \frac{d}{dx}(a_n)x^n$
+\end{note}
+
+\begin{framed}
+\begin{thm}\label{thm13.3}
+$\displaystyle\sum a_n x^n$の収束半径を$R$とし，$|x|<R$で$\displaystyle f(x):=\sum a_n x^n$とすると，$f$は$|x|<R$で無限回微分可能で$n!a_n:=b_n$とおくと$\displaystyle f^{(m)}(x)=\sum_{n=0}^\infty \frac{b_{n+m}}{n!}x^n$
+\end{thm}
+\end{framed}
+
+\noindent
+{\bf 定理\ref{thm13.3}の証明}\\ $\displaystyle \sum_{n=1}^\infty (n+1)a_{n+1}x^n$の収束判定も$R$になることを示せば，定理\ref{thm12.5}より$\displaystyle f'(x)= \sum_{n=1}^\infty (n+1)a_{n+1}x^n $が成立する。（これを$n$について帰納的に繰り返す）
+\[
+\varlimsup_{n\to\infty}(n+1)^{\frac{1}{n}}|a_{n+1}|^{\frac{1}{n}}=\varlimsup_{n\to\infty}|a_n|^{\frac{1}{n}}=\frac{1}{R}
+\]
+より成立。
+
+\end{comment}
+
+\newpage
+
+
+\section{編集者補足 不定積分}
+
+\begin{table}[h]
+\begin{center}
+{\renewcommand\arraystretch{1.6}
+ \small
+\begin{tabular}{p{15em}|l} \hline
+$f(x)=F'(x)$ & $F(x)=\int f(x) dx$ \\ \hline \hline
+$x^r\ \ \ (r\neq -1)$ & $\displaystyle\frac{x^{r+1}}{r+1}$ \\
+$\displaystyle \frac{1}{x}$ & $\log{|x|}$ \\
+$e^x$ & $e^x$\\
+$a^x$ & $\displaystyle \frac{a^x}{\log{a}}$\\
+$\displaystyle \frac{1}{x^2-a^2}\ \ \ (a>0)$ & $\displaystyle \frac{1}{2a}\log\left|\frac{x-a}{x+a}\right|$\\
+$\displaystyle \frac{1}{x^2+a^2}\ \ \ (a>0)$ & $\displaystyle \frac{1}{a}\arctan{\frac{x}{a}}$\\
+$\displaystyle \frac{1}{\sqrt{a^2-x^2}}\ \ \ (a>0)$ & $\displaystyle \arcsin{\frac{x}{a}}$\\
+$\displaystyle \frac{-1}{\sqrt{a^2-x^2}}\ \ \ (a>0)$ & $\displaystyle \arccos{\frac{x}{a}}$\\
+$\sqrt{a^2-x^2}\ \ \ (a>0)$ & $\displaystyle\frac{1}{2}\left(x\sqrt{a^2-x^2}+a^2\arcsin{\frac{x}{a}}\right)$\\
+$\displaystyle \frac{-1}{\sqrt{a^2+A}}$ & $\displaystyle\log\left|x+\sqrt{x^2+A}\right|$\\
+$\sqrt{x^2+A}$ & $\displaystyle\frac{1}{2}\left(x\sqrt{x^2+A}+A\log\left|x+\sqrt{x^2+A}\right|\right)$\\
+$\sin{x}$ & $-\cos{x}$\\
+$\cos{x}$ & $\sin{x}$\\
+$\tan{x}$ & $-\log|\cos x|$\\
+$\cot{x}$ & $-\log|\sin x|$\\
+$\sec{x}$ & $\displaystyle\log\left|\tan\left(\frac{x}{2}+\frac{\pi}{4}\right)\right|$\\
+$\csc{x}$ & $\displaystyle\log\left|\tan\frac{x}{2}\right|$\\
+$\sec^2 x$ & $\tan{x}$\\
+$\csc^2 x$ & $-\cot{x}$\\
+$e^{ax}\sin bx$ & $\displaystyle\frac{e^{ax}}{a^2+b^2}(a\sin bx-b\cos bx)$\\
+$e^{ax}\cos bx$ & $\displaystyle\frac{e^{ax}}{a^2+b^2}(a\cos bx+b\sin bx)$\\
+$\log x$ & $x\log x-x$\\ \hline
+\end{tabular}
+}
+\caption{積分公式}
+\end{center}
+\end{table}
+
+\subsection{有理関数の不定積分}
+$P(x),Q(x)$を多項式としたとき，有理関数$\displaystyle f(x)=\frac{Q(x)}{P(x)}$の不定積分は，有理関数，対数関数，逆正接関数を用いて表される。
+\begin{framed}
+\begin{enumerate}
+\item 除算を実行し$P(x)$の次数を$Q(x)$より低くする
+\item $Q(x)$を可能な限り因数分解する。このとき1次因数と既約の2次因数の積となる。
+\item 部分分数分解を行う。$Q(x)$に繰り返し現れる1次因数や2次因数があるときは，例えば$(ax+b)$が$k$回表れたら$\displaystyle \frac{A_1}{ax+b}+\frac{A_2}{(ax+b)^2}+\cdots+\frac{A_k}{(ax+b)^k}$や$(ax^2+bx+c)$が$k$回表れたら$\displaystyle \frac{A_1x+B_1}{ax^2+bx+c}+\frac{A_2x+B_2}{(ax^2+bx+c)^2}+\cdots+\frac{A_kx+B_k}{(ax^2+bx+c)^k}$とする。
+\item 各項積分を実行する$\displaystyle \frac{dx}{(x+\alpha)^n}$については
+\[
+\int\frac{dx}{(x+\alpha)^n}=
+\begin{cases}
+\displaystyle-\frac{1}{n-1}\frac{1}{(x+\alpha)^{n-1}} & (n>1)\\
+\\
+\log{|x+\alpha|} & (n=1)
+\end{cases}
+\]
+$\displaystyle\frac{Bx+C}{(x^2+\beta x+\gamma)^m}=\frac{B}{2}\frac{2x+\beta}{(x^2+\beta x+\gamma)^m}+\left(C-\frac{\beta B}{2}\right)\frac{1}{(x^2+\beta x+\gamma)^m}$については
+\[
+\begin{split}
+\int \frac{2x+\beta}{(x^2+\beta x+\gamma)^m}dx& =
+\begin{cases}
+\displaystyle\log{(x^2+\beta x+\gamma)} & (m=1)\\
+\\
+\displaystyle-\frac{1}{m-1}\frac{1}{(2x+\beta)/(x^2+\beta x+\gamma)^{m-1}} & (m>1)
+\end{cases}
+\\
+\int\frac{dx}{(x^2+\beta x+\gamma)^m}&=\int\frac{dx}{\left\{\left(x+\frac{\beta}{2}\right)^2+\gamma-\frac{\beta^2}{4}\right\}^m}
+\end{split}
+\]
+\end{enumerate}
+\end{framed}
+
+\subsection{三角関数の不定積分}
+\begin{itemize}
+\item 正弦半角置換\\
+$R(\sin x,\cos x)$を積分するときは正弦半角置換が有用。これを用いて有理関数の形に帰すことができる。
+\begin{framed}
+$\displaystyle t=\tan\frac{x}{2}$とすれば$\displaystyle \cos x=\frac{1-t^2}{1+t^2},\sin x=\frac{2t}{1+t^2}, dx=\frac{2dt}{1+t^2}$となる。
+\end{framed}
+
+\item 相互法\\
+\begin{framed}
+$\displaystyle\int\frac{A+B\cos x+C\sin x}{a+b\cos x+c\sin x} dx$のような形の積分は
+\[
+A+B\cos x+C\sin x\simeq p(a+b\cos x+c\sin x)+q\frac{d}{dx}(a+b\cos x+c\sin x)+r
+\]
+のように表すと
+\[
+\int p+q\frac{\frac{d}{dx}(a+b\cos x+c\sin x)}{(a+b\cos x+c\sin x)}+\frac{r}{a+b\cos x+c\sin x}dx
+\]
+となり，正弦半角置換よりも容易に計算できる。
+\end{framed}
+\end{itemize}
+
+\subsection{無理関数の不定積分}
+\begin{itemize}
+\item $R\left(x,\sqrt[n]{\frac{ax+b}{c+d}}\right)$，$ad-bc\neq0$のとき
+\begin{framed}
+$\displaystyle t=\sqrt[n]{\frac{ax+b}{c+d}}$とおく。このとき$\displaystyle x=\frac{dt^n-b}{-ct^n+a}$
+\end{framed}
+\item
+$R(x,\sqrt{ax^2+bx+c})$のとき
+\begin{itemize}
+\item $a>0$のとき：$t=\sqrt{ax^2+bx+c}-\sqrt{a}x$とおく。
+\item $a<0$のとき：$\displaystyle t=\sqrt{\frac{x-\alpha}{\beta-x}}$とおく（ただし$\alpha,\beta$は$ax^2+bx+c=0$の2つの実数解）。
+\end{itemize}
+
+\end{itemize}
+\newpage
+
+\part{2019年度小テスト問題}
+
+\section*{小テスト1（2019/5/14 4限実施）}
+\begin{enumerate}
+\item 次の各問にそれぞれ答えよ。
+\begin{enumerate}
+\renewcommand{\labelenumii}{(\arabic{enumii})}
+\item 実数列$\{a_n\}_{n=1}^\infty$が$\alpha$に収束することの定義を正確に記述せよ。
+\item $\displaystyle\lim_{n\to\infty}\sqrt[n]{n^2}=1$を示せ。
+\item 実数列$\{a_n\}_{n=1}^\infty$は収束列で$a_n\neq0\ (\forall n\in\mathbb{N})$を満たすものとする。このとき数列$\displaystyle\{1/a_n\}_{n=1}^\infty$は収束列であることを示せ。（注\ 次の条件を追加してください：ある正の定数$\delta>0$に対して$a_n\geq\delta\ (\forall n\in\mathbb{N})$を満たすとする）
+\end{enumerate}
+\item 次の各問にそれぞれ答えよ。
+\begin{enumerate}
+\renewcommand{\labelenumii}{(\arabic{enumii})}
+\item 実数列$\{a_n\}_{n=1}^\infty$がCauchy列であれば有界列であることを示せ。
+\item 実数列$\{a_n\}_{n=1}^\infty$は上に有界かつ集積点が存在するものとする。このとき$b_k:=\sup\{a_n:n\geq k\}$とおくと実数列$\{b_k\}_{k=1}^\infty$は下に有界であることを証明せよ。
+\item 実数列$\{a_n\}_{n=1}^\infty$が有界列で$a_n>0\ (\forall n\in\mathbb{N})$を満たすとき\ 次の不等式を証明せよ。
+\[
+\varlimsup_{n\to\infty}\sqrt[n]{a_n}\leq\varlimsup_{n\to\infty}\frac{a_{n+1}}{a_n}
+\]
+\end{enumerate}
+\end{enumerate}
+\section*{小テスト2（2019/6/11 4限実施）}
+\begin{enumerate}
+\item 以下の各問にそれぞれ答えよ。
+\begin{enumerate}
+\renewcommand{\labelenumii}{(\arabic{enumii})}
+\item 実数列$\{a_n\}_{n=0}^\infty$に対して$\displaystyle\sum_{n=0}^\infty a_n$が収束するとき，$\displaystyle\lim_{n\to\infty}a_n=0$となることを示せ。
+\item 実数列$\{a_n\}_{n=0}^\infty$は任意の絶対収束する無限級数$\displaystyle\sum_{n=0}^\infty |b_n|<\infty$に対し$\displaystyle\sum_{n=0}^\infty a_nb_n<\infty$を満たすものとする。このとき$\{a_n\}_{n=0}^\infty$は有界列であることを示せ。
+\end{enumerate}
+\item 以下の各問にそれぞれ答えよ。
+\begin{enumerate}
+\renewcommand{\labelenumii}{(\arabic{enumii})}
+\item $x_0\in\mathbb{R}$の近傍で定義された実数値関数$f$が$x_0$で微分可能であれば，$x_0$で連続であることを$\epsilon-\delta$論法を用いて示せ。
+\item $y=\tan{x}$$\displaystyle\left(-\frac{\pi}{2}\leq x\leq\frac{\pi}{2}\right)$の逆関数を$x=\arctan y$とする。このとき次の関数$\displaystyle\arctan{\frac{2x}{1-x^2}}$の導関数を求めよ。
+\item $f:\mathbb{R}\to\mathbb{R}$を有界関数とする。このとき$a\in\mathbb{R}$に対して，次の等式を証明せよ。
+\[
+\varlimsup_{x\to a}f(x)=\lim_{r\to+0}\left(\sup_{0<|x-a|<r}f(x)\right)
+\]
+\end{enumerate}
+\end{enumerate}
+
+
+\end{document}
