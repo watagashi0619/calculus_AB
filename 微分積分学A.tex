@@ -110,7 +110,7 @@
 			定義の確認，簡単な計算，演習問題の簡単な問題など
 		\item 期末試験
 	\end{itemize}
-	授業の出席は取らない
+	%授業の出席は取らない
 \item 参考書
 	\begin{itemize}
 		\item 解析入門I（基礎数学2）- 杉浦光夫 [東京大学出版]
@@ -810,7 +810,7 @@ $\epsilon=1$とすれば
 したがって
 \[\lim_{k\to\infty}|a_{n_k}-a_{m_k}|=0\]
 すなわち
-\[\lim_{k\to\infty} a_{n_k}=\lim_{k\to\infty}a_{m_k}\ \ \ \ \ ({\rm i.e.}\ \alpha=\beta)\]
+\[\lim_{k\to\infty} a_{n_k}=\lim_{k\to\infty}a_{m_k}\quad({\rm i.e.}\ \alpha=\beta)\]
 
 \noindent\fbox{$2.\Rightarrow 1.$}
 $\alpha=\varlimsup a_n=\varliminf a_n\ (|\alpha|<\exists M)$とすると，系\ref{cor3.7}より
@@ -819,7 +819,7 @@ $\alpha=\varlimsup a_n=\varliminf a_n\ (|\alpha|<\exists M)$とすると，系\r
 よって，$N:=\max\{N_1,N_2\}$とすれば
 \[n\geq N\Longrightarrow |a_n-\alpha|<\epsilon\]
 つまり
-\[a_n\to\alpha\ (n\to\infty)\]
+\[a_n\to\alpha\quad(n\to\infty)\]
 となって収束。
 \end{proof}
 
@@ -863,7 +863,7 @@ $\alpha=\varlimsup a_n=\varliminf a_n\ (|\alpha|<\exists M)$とすると，系\r
 
 \end{framed}
 \begin{proof}[命題\ref{prop4.3}の証明] 定理\ref{thm3.8}より明らか。$\displaystyle S_n:=\sum_{i=1}^{N}a_i$とすると
-\[\{S_N\}が収束列\overset{定理\ref{thm3.8}}{\Leftrightarrow}\{S_n\}はCauchy列\footnotemark \]
+\[\{S_N\}が収束列\overset{定理\ref{thm3.8}}{\Leftrightarrow}\{S_n\}は\text{Cauchy}列\footnotemark \]
 \end{proof}
 
 \footnotetext{$\forall\epsilon>0,\exists N\in\mathbb{N}\ {\rm s.t.}\ m>n-1\geq N\Rightarrow |S_m-s_{n-1}|<\epsilon$\\
@@ -950,10 +950,10 @@ $\alpha=\varlimsup a_n=\varliminf a_n\ (|\alpha|<\exists M)$とすると，系\r
 系\ref{cor3.7}（十分大きな$n$では$\displaystyle a_n<\varlimsup_{n\to\infty}a_n+\epsilon$）より
 \[\forall\epsilon>0,\exists N\in\mathbb{N}\ {\rm s.t.}\ n\geq N\Rightarrow \left|\frac{a_{n+1}}{a_n}\right|\leq R+\epsilon\]
 ここで$\displaystyle\epsilon:=\frac{1-R}{2}$とし，$r=R+\epsilon$とおけば
-\[\left|\frac{a_{n+1}}{a_n}\right|\leq r<1\ (\forall n\leq N)\]
+\[\left|\frac{a_{n+1}}{a_n}\right|\leq r<1\quad(\forall n\leq N)\]
 よって
 \[a_n\leq ra_{n-1}\leq r^2a_{n-2}\leq\cdots\leq r^{n-N}a_N\]
-\[a_n\leq r^n\frac{a_N}{r^N}\ (\forall n>N)\]
+\[a_n\leq r^n\frac{a_N}{r^N}\quad(\forall n>N)\]
 $\displaystyle\frac{ a_N}{r^N}=c$とおく。
 }
 
@@ -962,7 +962,7 @@ $\displaystyle\frac{ a_N}{r^N}=c$とおく。
 \renewcommand{\labelenumi}{Case\arabic{enumi}.}
 \item $x=0$のときは明らか。
 \item $x\neq 0$のときは，$\displaystyle a_n:=\frac{x^n}{n!}$とすると
-	\[\left|\frac{a_{n+1}}{a_n}\right|=\left|\frac{x^{n+1}n!}{(n+1)!x^n}\right|=\left|\frac{x}{n+1}\right|\to0\ (n\to\infty)\]
+	\[\left|\frac{a_{n+1}}{a_n}\right|=\left|\frac{x^{n+1}n!}{(n+1)!x^n}\right|=\left|\frac{x}{n+1}\right|\to0\quad(n\to\infty)\]
 	定理\ref{thm4.5}より，収束。
 \end{enumerate}
 \end{ans}
@@ -1125,11 +1125,12 @@ $f(x)$を$x=a$のまわりで定義された関数とする。このとき，
 \end{framed}
 
 \begin{proof}[定理\ref{th5.2}の証明]\
+    \\
     \fbox{$1\Rightarrow 2$}\\
     $\forall\epsilon>0,\exists\delta>0\ {\rm s.t.}\ \forall x:0<|x-a|<\delta \Rightarrow |f(x)-\alpha|<\epsilon\ $\\
     いま，$x_n\to a\ (n\to\infty)$より，$\delta>0$に対して$n$が十分大きいならば
     \[0<|x_n-a|<\delta \overset{仮定より}{\Rightarrow} |f(x_n)-\alpha|<\epsilon\]
-
+    \\
     \fbox{$2\Rightarrow 1$}\\
     「$\forall\epsilon>0,\exists\delta>0\ {\rm s.t.}\ 0<|x-a|<\delta \Rightarrow |f(x)-\alpha|<\epsilon\ $」の対偶\\
     「$\exists\epsilon>0,\forall\delta>0,\exists x:0<|x-a|<\delta \land |f(x)-\alpha|\geq\epsilon\ $」を示す。\footnote{目標としては$\delta=\frac{1}{n}\Rightarrow x_n$としたい。この技術はよく使うらしい。}
@@ -1386,7 +1387,7 @@ $f(a)\geq f(b)\Rightarrow f(a)\geq \alpha \geq f(b)$，$f(a)\leq f(b)\Rightarrow
 
             \item 十分大きい$x$に対して定義された$f$に対し
             \[
-            \lim_{x\to\infty}f(x)=\alpha\ {\rm or}\ f(x)\to\alpha(x\to \infty)
+            \lim_{x\to\infty}f(x)=\alpha\ {\rm or}\ f(x)\to\alpha\ (x\to \infty)
             \]
             とは
             \[
@@ -1406,7 +1407,7 @@ $f(a)\geq f(b)\Rightarrow f(a)\geq \alpha \geq f(b)$，$f(a)\leq f(b)\Rightarrow
             \]
             \item 十分小さい$x$に対して定義された$f$に対し
             \[
-            \lim_{x\to-\infty}f(x)=\alpha\ {\rm or}\ f(x)\to\alpha(x\to -\infty)
+            \lim_{x\to-\infty}f(x)=\alpha\ {\rm or}\ f(x)\to\alpha\ (x\to -\infty)
             \]
             とは
             \[
@@ -1443,12 +1444,12 @@ i.e. $\exists M>0,\exists r>0 \ {\rm s.t.}\ |x-a|<r \Rightarrow |f(x)|\leq M$
     \]
     $z$に対して，
     \[
-    \exists y_n\to a,f(y_n)\to z(n\to\infty)
+    \exists y_n\to a,f(y_n)\to z\quad(n\to\infty)
     \]
     $\forall m\in\mathbb{N}$に対して$\displaystyle |x_m-a|<\frac{1}{m},|f(x_m)-\alpha|<\frac{2}{m}$となる$x_m$が存在することを示す。\\
     $\displaystyle \exists z\in L\ {\rm s.t.}\ \alpha-\frac{1}{m}<z\leq \alpha$。この$z$に対して
     \[
-    \exists y_n\to a,f(y_n)\to z(n\to\infty)
+    \exists y_n\to a,f(y_n)\to z\quad(n\to\infty)
     \]
     したがって，十分大きな$n$では
     \[
@@ -1481,7 +1482,7 @@ i.e. $\exists M>0,\exists r>0 \ {\rm s.t.}\ |x-a|<r \Rightarrow |f(x)|\leq M$
     $\beta=\max\{\omega:\exists x_n\to a \ {\rm s.t.}\ f(x_n)\to\omega\}$
     より，
     \[
-    \exists\{x_n\} \ {\rm s.t.}\ x_n\to a,f(x_n)\to \beta \ (n\to\infty)
+    \exists\{x_n\} \ {\rm s.t.}\ x_n\to a,f(x_n)\to \beta \quad(n\to\infty)
     \]
     となるので
     \[
@@ -1579,8 +1580,8 @@ i.e. $\exists M>0,\exists r>0 \ {\rm s.t.}\ |x-a|<r \Rightarrow |f(x)|\leq M$
     \begin{split}
     \left|\frac{f(y)-1}{y}-1\right|&=\left|\frac{y}{2!}+\frac{y^2}{3!}+\cdots\right|\\
     &\leq|y|+|y^2|+|y^3|+\cdots\\
-    &=\frac{|y|}{1-|y|} \ (|y|<1)\\
-    &\to 0\ (y\to 0)
+    &=\frac{|y|}{1-|y|} \quad(|y|<1)\\
+    &\to 0\quad(y\to 0)
     \end{split}
     \]
     よって
@@ -1708,7 +1709,8 @@ $\displaystyle F(x):=f(x)-\left\{\frac{f(b)-f(a)}{b-a}(x-a)+f(a)\right\}$とす�
 \newpage
 
 \paragraph{三角関数}
-\begin{dfn*}[三角関数の定義]
+\begin{dfn*}[三角関数]\
+    \vspace{-\baselineskip}
     \begin{itemize}
     \item $s'(x)=c(x),c'(x)=-s(x),c(0)=1,s(0)=0$をみたす関数$s(x),c(x)$を$s(x)=\sin{x},c(x)=\cos{x}$とかく。
     \item $\displaystyle e^x=\sum_{n=0}^{\infty}\frac{x^n}{n!}$を$z=x+iy\in\mathbb{C}$に拡張して$\displaystyle e^z=\sum_{n=0}^{\infty}\frac{z^n}{n!}$としたとき
@@ -1760,7 +1762,7 @@ $s^2(x)+c^2(x)=1\equiv \textrm{Const.}$（左辺を$x$で微分すると$2ss'+2c
 \begin{dfn*}[高階導関数]（関数$f$のが点$x_0$で微分可能なとき，$f$は点$x_0$で1回微分可能という。）\\
     $f'(x)$は$x_0$の関数となる。これを$f$の1階導関数という。同様に$n$階導関数$f^{(n)}(x)$または$\displaystyle \frac{d^n}{dx^n}f(x)$を
     \[
-    f^{(n)}(x)=(f^{(n-1)}(x))'\ (n=1,2,\cdots)
+    f^{(n)}(x)=(f^{(n-1)}(x))'\quad(n=1,2,\cdots)
     \]
     で定める（ただし$f^{(0)}=f(x)$）。
 \end{dfn*}
@@ -1882,7 +1884,7 @@ F(x)=f(x)+f'(x)(b-x)+\frac{f''(x)}{2!}(b-x)^2+\cdots+\frac{f^{(n-1)}}{(n-1)!}(b-
 \[
 |R_n(x)|=\frac{f^{(n)}(c)}{n}|x-x_0|^n\leq c\frac{d^n}{n!}|x-x_0|^n
 \]
-一般に$\displaystyle \frac{M^n}{n!}\to0\ (n\to\infty)$
+一般に$\displaystyle \frac{M^n}{n!}\to0\ (n\to\infty)$。
 よって1.の条件はみたされて題意は示された。
 \end{enumerate}
 \end{proof}
@@ -1897,15 +1899,15 @@ F(x)=f(x)+f'(x)(b-x)+\frac{f''(x)}{2!}(b-x)^2+\cdots+\frac{f^{(n-1)}}{(n-1)!}(b-
     \begin{example}\label{ex8.4}\
         \begin{enumerate}
             \item
-            $\displaystyle e^x=\sum_{n=0}^\infty \frac{x^n}{n!}=1+\frac{1}{1!}x+\frac{1}{2!}x^2+\frac{1}{3!}x^3+\frac{1}{4!}x^4+\cdots\ (x\in\mathbb{R})$
+            $\displaystyle e^x=\sum_{n=0}^\infty \frac{x^n}{n!}=1+\frac{1}{1!}x+\frac{1}{2!}x^2+\frac{1}{3!}x^3+\frac{1}{4!}x^4+\cdots\quad(x\in\mathbb{R})$
             \item
-            $\displaystyle \frac{1}{1-x}=\sum_{n=0}^\infty x^n=1+x+x^2+x^3+x^4+\cdots\ (|x|<1)$
+            $\displaystyle \frac{1}{1-x}=\sum_{n=0}^\infty x^n=1+x+x^2+x^3+x^4+\cdots\quad(|x|<1)$
             \item
-            $\displaystyle \sin x=\sum_{n=0}^\infty\frac{(-1)^n x^{2n+1}}{(2n+1)!}=x-\frac{1}{3!}x^3+\frac{1}{5!}x^5-\frac{1}{7!}x^7+\cdots\ (x\in\mathbb{R})$
+            $\displaystyle \sin x=\sum_{n=0}^\infty\frac{(-1)^n x^{2n+1}}{(2n+1)!}=x-\frac{1}{3!}x^3+\frac{1}{5!}x^5-\frac{1}{7!}x^7+\cdots\quad(x\in\mathbb{R})$
             \item
-            $\displaystyle \cos x=\sum_{n=0}^\infty\frac{(-1)^n x^{2n}}{(2n)!}=1-\frac{1}{2!}x^2+\frac{1}{4!}x^4-\frac{1}{6!}x^6+\cdots\ (x\in\mathbb{R})$
+            $\displaystyle \cos x=\sum_{n=0}^\infty\frac{(-1)^n x^{2n}}{(2n)!}=1-\frac{1}{2!}x^2+\frac{1}{4!}x^4-\frac{1}{6!}x^6+\cdots\quad(x\in\mathbb{R})$
             \item
-            $\displaystyle \log{(1+x)}=\sum_{n=1}^\infty\frac{(-1)^{n+1}x^n}{n!}=x-\frac{1}{2}x^2+\frac{1}{3}x^3-\frac{1}{4}x^4+\cdots\ (|x|<1)$
+            $\displaystyle \log{(1+x)}=\sum_{n=1}^\infty\frac{(-1)^{n+1}x^n}{n!}=x-\frac{1}{2}x^2+\frac{1}{3}x^3-\frac{1}{4}x^4+\cdots\quad(|x|<1)$
         \end{enumerate}
     \end{example}
 \end{shaded}
@@ -1919,11 +1921,11 @@ F(x)=f(x)+f'(x)(b-x)+\frac{f''(x)}{2!}(b-x)^2+\cdots+\frac{f^{(n-1)}}{(n-1)!}(b-
 \begin{ans}[例題\ref{ex8.5}の解答]
     Maclaurin展開
     \[
-    \cos{x}=1-\frac{\cos{(\theta x)}}{2!}x^2\ (0<\exists\theta<1)
+    \cos{x}=1-\frac{\cos{(\theta x)}}{2!}x^2\quad(0<\exists\theta<1)
     \]
     よって
     \[
-    \frac{1-\cos{x}}{x^2}=\frac{1}{2!}\cos{(\theta x)}\to\frac{1}{2}\ (x\to0)
+    \frac{1-\cos{x}}{x^2}=\frac{1}{2!}\cos{(\theta x)}\to\frac{1}{2}\quad(x\to0)
     \]
 \end{ans}
 \footnotetext{編集者注：例\ref{ex8.4}の例の数を板書よりも増やしました。}
@@ -2023,9 +2025,9 @@ $y=\arcsin{x}$より$\sin{y}=x$。
 \begin{ex}\label{ex9.2}
 次の不定積分を求めよ。
 \begin{enumerate}
-\item $\log{|x|}$
-\item $\cos^2 x$
-\item $\sqrt{a^2-x^2}(a>0)$
+\item $\displaystyle\int \log{|x|}dx$
+\item $\displaystyle\int \cos^2 x dx$
+\item $\displaystyle\int \sqrt{a^2-x^2} dx\quad(a>0)$
 \end{enumerate}
 \end{ex}
 \end{shaded}
@@ -2173,7 +2175,7 @@ $\displaystyle\int\frac{dx}{x^3+1}$を求めよ。
 \[
 \begin{split}
 \int\frac{dx}{x^3+1}&=\frac{1}{3}\int\frac{dx}{x+1}-\frac{1}{3}\int\frac{x-2}{x^2-x+1}dx\\
-&=\frac{1}{3}\int\frac{dx}{x+1}-\frac{1}{6}\int\frac{(2x-1)-3}{\left(x-\frac{1}{2}\right)^2+\frac{3}{4}}dx\\
+&=\frac{1}{3}\int\frac{dx}{x+1}-\frac{1}{6}\int\frac{(2x-1)-3}{(x-1/2)^2+3/4}dx\\
 &=\frac{1}{3}\log{|x+1|}-\frac{1}{6}\log{|x^2-x+1|}+\frac{1}{\sqrt{3}}\arctan{\left(\frac{2x-1}{\sqrt{3}}\right)}+C
 \end{split}
 \]
@@ -2509,7 +2511,7 @@ $M_i-m_i$のところは$\sup_{x\in[x_{i-1},x_i]}f(\xi)-\inf_{x\in[x_{i-1},x_i]}
         &\leq\sum_{i=1}^n |f(\xi_i)-f(\eta_i)|\Delta_i+ \sum_{i=1}^n |g(\xi_i)-g(\eta_i)|\Delta x_i\\
         &\leq \sum_{i=1}^n \left|\sup_{x\in[x_{i-1},x_i]}f(x)-\inf _{x\in[x_{i-1},x_i]}f(x)\right|\Delta x_i+\left|\sup _{x\in[x_{i-1},x_i]}g(x)-\inf _{x\in[x_{i-1},x_i]}g(x)\right|\Delta x_i\\
         &=v(\Delta;f)+v(\Delta;g)\\
-        &\to 0\ (|\Delta|\to 0)
+        &\to 0\quad(|\Delta|\to 0)
         \end{split}
         \]
         よって$f+g$はRiemann可積分である。また
@@ -2521,7 +2523,7 @@ $M_i-m_i$のところは$\sup_{x\in[x_{i-1},x_i]}f(\xi)-\inf_{x\in[x_{i-1},x_i]}
         &\leq \sum_{i=1}^n |f(\xi_i)||g(\xi_i)-g(\eta_i)|\Delta x_i+ \sum_{i=1}^n |g(\eta_i)||f(\xi_i)-f(\eta_i)|\Delta x_i\\
         &\leq\sup_{x\in[a,b]}|f(x)| \sum_{i=1}^n\left|\sup_ {x\in[x_{i-1},x_i]}g(x)-\inf_ {x\in[x_{i-1},x_i]}g(x)\right|\Delta x_i+\sup_{y\in[a,b]}|g(y)| \sum_{i=1}^n\left|\sup_ {x\in[x_{i-1},x_i]}f(x)-\inf_ {x\in[x_{i-1},x_i]}f(x)\right|\Delta x_i\\
         &=\sup_{x\in[a,b]}|f(x)|v(\Delta;f)+\sup_{y\in[a,b]}|g(y)|v(\Delta;g)\\
-        &\to 0\ (|\Delta|\to0)
+        &\to 0\quad(|\Delta|\to0)
         \end{split}
         \]
         よって$fg$はRiemann可積分である。一方Riemann和について，$f\leq g$ならば
@@ -2539,7 +2541,7 @@ $M_i-m_i$のところは$\sup_{x\in[x_{i-1},x_i]}f(\xi)-\inf_{x\in[x_{i-1},x_i]}
         &=\sum_{i=1}^n\left(\sup_{x\in[x_{i-1},x_i]}|f(x)|-\inf_{x\in[x_{i-1},x_i]}|f(x)|\right)\Delta x_i\\
         &\leq\sum_{i=1}^n\left(\sup_{x\in[x_{i-1},x_i]}f(x)-\inf_{x\in[x_{i-1},x_i]}f(x)\right)\Delta x_i\\
         &=v(\Delta;f)\\
-        &\to0\ (|\Delta|\to0)
+        &\to0\quad(|\Delta|\to0)
         \end{split}
         \]
         よって$|f|$はRiemann可積分である。一方Riemann和について
@@ -2560,7 +2562,7 @@ $M_i-m_i$のところは$\sup_{x\in[x_{i-1},x_i]}f(\xi)-\inf_{x\in[x_{i-1},x_i]}
         &\leq\int_x^{x+h}|f(t)|dt\\
         &\leq\sup_{t\in[a,b]}|f(t)|\int_x^{x+t}dt\\
         &= \sup_{t\in[a,b]}|f(t)|h\\
-        &\to 0\ (h\to0)
+        &\to 0\quad(h\to0)
         \end{split}
         \]
     \end{enumerate}
@@ -2762,7 +2764,7 @@ $\int_1^\infty\frac{1}{x}dx=\infty,\int_1^\infty\frac{1}{x^{1+\epsilon}}dx<\inft
     &=\sum_{k=1}^n\int_0^\pi\frac{|\sin{(t+(k-1)\pi)}|}{t+(k-1)\pi}dt\\
     &\geq\sum_{k=1}^n\frac{1}{k\pi}\int_0^\pi \sin{t}dt\\
     &=\frac{2}{\pi}\sum_{k=1}^n\frac{1}{k}\\
-    &\to\infty\ (n\to\infty)
+    &\to\infty\quad (n\to\infty)
     \end{split}
     \]
     \end{enumerate}
@@ -2805,7 +2807,7 @@ $\displaystyle \int_0^\infty e^{-x} x^{s-1}dx\ (s>0)$は収束する。
 \begin{framed}
     \begin{dfn*}[ガンマ関数・ベータ関数]
         これらの関数は収束する。\\
-        $\displaystyle\Gamma(s):=\int_0^\infty e^{-x} x^{s-1}dx\ (s>0)$：ガンマ関数
+        $\displaystyle\Gamma(s):=\int_0^\infty e^{-x} x^{s-1}dx\ (s>0)$：ガンマ関数\\
         $\displaystyle B(p,q):=\int_0^1 x^{p-1}(1-x)^{q-1}dx\ (p,q>0)$：ベータ関数
     \end{dfn*}
 \end{framed}
@@ -2827,7 +2829,7 @@ $\displaystyle \int_0^\infty e^{-x} x^{s-1}dx\ (s>0)$は収束する。
 \begin{enumerate}
 \item $\displaystyle\Gamma(x+1)=[-e^{-t}t^x]_0^\infty+x\int_0^\infty e^{-t}t^{x-1}dt=x\Gamma(x)$
 \item $\displaystyle\Gamma(1)=\int_0^\infty e^{-t}dt=1$
-\item 1.2.より明らか。
+\item 1.と2.より明らか。
 \item $e^{-t}t^{x-1}>0$より明らか。
 \item 1つめの等号について，$t=r^2$とおく。\\2つめの等号について，$e^{-t}=s$とおく。（$\displaystyle t=\log\frac{1}{s},ds=-e^{-t}dt=-sdt$）
 \item 1つめの等号について，$t=\sin^2\theta$とおくと，\\$\displaystyle B(x,y)=\int_0^1 t^{x-1}(1-t)^{y-1}dt=\int_0^{\frac{\pi}{2}}\sin^{2x-2}\theta\cos^{2y-2}\theta\cdot2\sin\theta\cos\theta d\theta$となる。\\2つめの等号について，$t=1-s$とおく。\\3つめの等号について，$\displaystyle t'=\frac{1}{t}-1$とおく。（$\displaystyle t=\frac{1}{t'+1},dt'=-\frac{1}{t^2}dt$）
@@ -2858,13 +2860,14 @@ B(x,y)=\frac{\Gamma(x)\Gamma(y)}{\Gamma(x+y)}
 \]
 \end{proof}
 
-\begin{example}\
-    \begin{enumerate}
-        \item$\displaystyle\int_0^\pi \frac{dx}{\sqrt{\sin x}}=2\cdot\frac{1}{2}B\left(\frac{1}{4},\frac{1}{2}\right)=B\left(\frac{1}{4},\frac{1}{2}\right)$
-        \item $\displaystyle\int_0^\infty e^{-x^2}dx=\frac{\Gamma\left(\displaystyle\frac{1}{2}\right)}{2}=\frac{\sqrt{\pi}}{2}$
-    \end{enumerate}
-\end{example}
-
+\begin{shaded}
+    \begin{example}\
+        \begin{enumerate}
+            \item$\displaystyle\int_0^\pi \frac{dx}{\sqrt{\sin x}}=2\cdot\frac{1}{2}B\left(\frac{1}{4},\frac{1}{2}\right)=B\left(\frac{1}{4},\frac{1}{2}\right)$
+            \item $\displaystyle\int_0^\infty e^{-x^2}dx=\frac{\Gamma\left(\displaystyle\frac{1}{2}\right)}{2}=\frac{\sqrt{\pi}}{2}$
+        \end{enumerate}
+    \end{example}
+\end{shaded}
 \begin{framed}
     \subparagraph{Stirlingの公式}
     \[
@@ -3264,15 +3267,15 @@ $\displaystyle\sum a_n x^n$の収束半径を$R$とし，$|x|<R$で$\displaystyl
  \small
 \begin{tabular}{p{15em}|l} \hline
 $f(x)=F'(x)$ & $F(x)=\int f(x) dx$ \\ \hline \hline
-$x^r\ \ \ (r\neq -1)$ & $\displaystyle\frac{x^{r+1}}{r+1}$ \\
+$x^r\quad(r\neq -1)$ & $\displaystyle\frac{x^{r+1}}{r+1}$ \\
 $\displaystyle \frac{1}{x}$ & $\log{|x|}$ \\
 $e^x$ & $e^x$\\
 $a^x$ & $\displaystyle \frac{a^x}{\log{a}}$\\
-$\displaystyle \frac{1}{x^2-a^2}\ \ \ (a>0)$ & $\displaystyle \frac{1}{2a}\log\left|\frac{x-a}{x+a}\right|$\\
-$\displaystyle \frac{1}{x^2+a^2}\ \ \ (a>0)$ & $\displaystyle \frac{1}{a}\arctan{\frac{x}{a}}$\\
-$\displaystyle \frac{1}{\sqrt{a^2-x^2}}\ \ \ (a>0)$ & $\displaystyle \arcsin{\frac{x}{a}}$\\
-$\displaystyle \frac{-1}{\sqrt{a^2-x^2}}\ \ \ (a>0)$ & $\displaystyle \arccos{\frac{x}{a}}$\\
-$\sqrt{a^2-x^2}\ \ \ (a>0)$ & $\displaystyle\frac{1}{2}\left(x\sqrt{a^2-x^2}+a^2\arcsin{\frac{x}{a}}\right)$\\
+$\displaystyle \frac{1}{x^2-a^2}\quad(a>0)$ & $\displaystyle \frac{1}{2a}\log\left|\frac{x-a}{x+a}\right|$\\
+$\displaystyle \frac{1}{x^2+a^2}\quad(a>0)$ & $\displaystyle \frac{1}{a}\arctan{\frac{x}{a}}$\\
+$\displaystyle \frac{1}{\sqrt{a^2-x^2}}\quad(a>0)$ & $\displaystyle \arcsin{\frac{x}{a}}$\\
+$\displaystyle \frac{-1}{\sqrt{a^2-x^2}}\quad(a>0)$ & $\displaystyle \arccos{\frac{x}{a}}$\\
+$\sqrt{a^2-x^2}\quad(a>0)$ & $\displaystyle\frac{1}{2}\left(x\sqrt{a^2-x^2}+a^2\arcsin{\frac{x}{a}}\right)$\\
 $\displaystyle \frac{-1}{\sqrt{a^2+A}}$ & $\displaystyle\log\left|x+\sqrt{x^2+A}\right|$\\
 $\sqrt{x^2+A}$ & $\displaystyle\frac{1}{2}\left(x\sqrt{x^2+A}+A\log\left|x+\sqrt{x^2+A}\right|\right)$\\
 $\sin{x}$ & $-\cos{x}$\\
