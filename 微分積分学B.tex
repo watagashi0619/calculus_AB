@@ -86,6 +86,8 @@
 \def\blfootnote{\xdef\@thefnmark{}\@footnotetext}
 \makeatother
 
+\setcounter{tocdepth}{1}%目次をsectionまでの表示にする
+
 \title{微分積分学B}
 %\author{KUinfoB1 Twitter:\_2pt}
 \author{2019年度 1T23,24 担当：久保}
@@ -1051,7 +1053,7 @@ $f^i=\pi^i\circ f,\pi^i:\mathbb{R}^m\to\mathbb{R}(\pi^i(x)=x^i)$\\
 	\]
 \end{proof}
 
-	\footnotetext{この証明が可能であると仮定すれば、2.3から各成分関数が全微分可能とできるため。}
+	\footnotetext{この証明が可能であると仮定すれば，2.3から各成分関数が全微分可能とできるため。}
 	\footnotetext{
 	$f'(a)=(D_1f(a),\cdots,D_nf(a)$\\
 	三角不等式を用いている。また，最後の等号は$D_if$は$a$で連続より，$h\to0$のとき$c_i\to h^i$となることによる。
@@ -1217,7 +1219,7 @@ $f:\mathbb{R}^n\to\mathbb{R}^n$は点$a\in\mathbb{R}^n$を含む開集合で$C^1
 	\[
 	\sum_{i=1}^n 2(y^i-f^i(x_0))\cdot D_jf^i(x_0)=0\ (1\leq j\leq n)
 	\]
-	性質(2)により$(D_jf^i(x_0))_{ij}$は正則であるから（$\det(D_jf^i(x_0))\neq0$）逆行列が存在する。\footnote{上の式に$(D_jf^i(x_0))_{ij} $の逆行列を作用させて残るのは$y^i-f^i(x_0)$の部分だけで，さらに左辺は0である。}よって$\forall i=1,\cdots,n$に対して$y^i-f^i(x_0)=0$となる、ゆえに$y=f(x_0)$となる。また，このような$x_0$が唯一つであることは(4)より明らか。
+	性質(2)により$(D_jf^i(x_0))_{ij}$は正則であるから（$\det(D_jf^i(x_0))\neq0$）逆行列が存在する。\footnote{上の式に$(D_jf^i(x_0))_{ij} $の逆行列を作用させて残るのは$y^i-f^i(x_0)$の部分だけで，さらに左辺は0である。}よって$\forall i=1,\cdots,n$に対して$y^i-f^i(x_0)=0$となる，ゆえに$y=f(x_0)$となる。また，このような$x_0$が唯一つであることは(4)より明らか。
 
 	\item $V:=(U-B)\cap f^{-1}(W)$\footnote{$f$は$a$の近傍についてしか条件を考えていないため，それ以外のところから$W$に移す写像になっている可能性があるため，$a$近傍についてのみ議論するために，$f^{-1}(W)$に属しているだけでなく$U-B$に属するという条件も付加している。}
 	とおくと$V$は$a$を含む開集合で関数$f:V\to W$は逆関数$f^{-1}:W\to V$をもつことがわかる。性質(4)を書き換えると，$y_1:=f(x_1),f_2:=f(x_2)$とすると$y_1=f^{-1}(y_1),x_2=f^{-1}(y_2)$で
@@ -1724,7 +1726,7 @@ $\delta$を小さくすると$M(a,f,\delta)-m(a,f,\delta)(\geq 0)$も小さく�
 	となり，$\displaystyle\sum_{S\in\mathscr{S}}|S|\leq\epsilon$となる。\\
 	一方
     \footnote{
-    境界に不連続点がたまたまあったとすると、差$M_S(f)-m_S(f)$が出ないため、内部のみを考えて、残りは後で考えている。
+    境界に不連続点がたまたまあったとすると，差$M_S(f)-m_S(f)$が出ないため，内部のみを考えて，残りは後で考えている。
     }
     ，$\Delta$の小方体の境界全体は明らかに測度$0$である。つまり境界全体を覆う有限個の開方体$c_1,c_2,\cdots,c_l$で$\displaystyle \sum_{i=1}^l|c_i|<\epsilon$となるものが存在する
     \footnote{開方体$c_i$は細くとればいくらでも小さなものはとれる
@@ -1746,7 +1748,7 @@ $\delta$を小さくすると$M(a,f,\delta)-m(a,f,\delta)(\geq 0)$も小さく�
 			0 & x\notin A
 		\end{cases}
 	\]
-	によって定義する。これを$A$の特性関数\footnote{確率論での特性関数は、フーリエ変換をした後の関数のことを意味する、とかもあるので、数学の分野による名前のそれに注意。}という。
+	によって定義する。これを$A$の特性関数\footnote{確率論での特性関数は，フーリエ変換をした後の関数のことを意味する，とかもあるので，数学の分野による名前のそれに注意。}という。
 	\item $A$が有界ならば，$A$を含む閉方体$C$が存在する。関数$f:C\to\mathbb{R}$が有界で関数$f\cdot\chi_A$が$C$上可積分のとき，$f$は$A$上可積分といい，
 	\[
 		\int_A f := \int_C f\cdot\chi_A
@@ -1906,7 +1908,7 @@ $\delta$を小さくすると$M(a,f,\delta)-m(a,f,\delta)(\geq 0)$も小さく�
 			\int_{A\times B}f=\int_A\left(\int_B f(x,y)dy\right)dx
 			\]
 			が成り立つ。特に$f$が連続ならば成立する。
-			\item $g_x$が可積分でない$x\in A$が高々有限個の場合，この有限個以外の$x$に対して$\displaystyle L(x)=\int_B f(x,y)dy$であり，関数$L(x)$の積分は有限個の点で関数の値を変えても変わらないので、結局この場合も
+			\item $g_x$が可積分でない$x\in A$が高々有限個の場合，この有限個以外の$x$に対して$\displaystyle L(x)=\int_B f(x,y)dy$であり，関数$L(x)$の積分は有限個の点で関数の値を変えても変わらないので，結局この場合も
 			\[
 			\int_{A\times B}f=\int_A\left(\int_B f(x,y)dy\right)dx
 			\]
@@ -1922,7 +1924,7 @@ $\delta$を小さくすると$M(a,f,\delta)-m(a,f,\delta)(\geq 0)$も小さく�
 					1-\frac{1}{q} & (x,y\in\mathbb{Q},x=\frac{p}{q}:既約分数)
 				\end{cases}
 				\]
-				と定めると、$f$は可積分（演習問題で示した）で，$\displaystyle \int_{[0,1]\times[0,1]}f=1$。一方で$x$が無理数なら$\displaystyle \int_0^1 f(x,y)dy=1$。$x$が有理数なら$g_x$はすべての点で不連続なので可積分でない。よって，$\displaystyle h(x)=\int_0^1 f(x,y)dy$が存在しない時には$0$とおくと$h(x)$は可積分にならない。\footnote{この場合，$1$とおけばたまたまうまくいくが，一般論として考えれば定義に戻るのが賢明。}
+				と定めると，$f$は可積分（演習問題で示した）で，$\displaystyle \int_{[0,1]\times[0,1]}f=1$。一方で$x$が無理数なら$\displaystyle \int_0^1 f(x,y)dy=1$。$x$が有理数なら$g_x$はすべての点で不連続なので可積分でない。よって，$\displaystyle h(x)=\int_0^1 f(x,y)dy$が存在しない時には$0$とおくと$h(x)$は可積分にならない。\footnote{この場合，$1$とおけばたまたまうまくいくが，一般論として考えれば定義に戻るのが賢明。}
 			\end{example}
 			\item $A=[a_1,b_1]\times\cdots\times[a_n,b_n]\subset\mathbb{R}^n$のとき，$f:A\to\mathbb{R}$が例えば連続関数ならば，定理\ref{th3.10}を繰り返し用いて
 			\[
@@ -1987,7 +1989,7 @@ $f:\mathbb{R}\to\mathbb{R}:$連続関数に対して，変換$g:[a,b]\to\mathbb{
 円$x^2+y^2\leq a^2$は極座標変換により，$0\leq r\leq a,0\leq \theta\leq 2\pi$に対応するので，
 \[
 \begin{split}
-	V&=2\int_{\theta=0}^{\theta=\pi}\left(\int_{r=0}^{r=a}\sqrt{a^2-r^2}rdr\right)d\theta\\
+	V&=2\int_{\theta=0}^{\theta=2\pi}\left(\int_{r=0}^{r=a}\sqrt{a^2-r^2}rdr\right)d\theta\\
 	&=4\pi\int_0^a r\sqrt{a^2-r^2}dr\\
 	&=\frac{4}{3}\pi a^3
 \end{split}
@@ -2266,7 +2268,7 @@ $K_n=\left\{(x,y):\frac{1}{n^2}\leq x^2+y^2\leq 1\right\}$とおくと
 \begin{split}
 	I_1
 	&=\lim_{n\to\infty}\int_{K_n}\log{(x^2+y^2)}dxdy\\
-	&=\lim_{n\to\infty}\int_{\theta=0}^{\theta=\pi}\int_{r=\frac{1}{n}}^{r=1}2r\log{r} rdrd\theta\\
+	&=\lim_{n\to\infty}\int_{\theta=0}^{\theta=\pi}\int_{r=\frac{1}{n}}^{r=1}2r\log{r} drd\theta\\
 	&=4\pi\lim_{n\to\infty}\frac{1}{4}\left\{\left(\frac{1}{n}\right)^2-1+2\left(\frac{1}{n}\right)^2\log{n}\right\}\\
 	&=-\pi
 \end{split}
@@ -2296,7 +2298,7 @@ $K_n=\left\{(x,y):\frac{1}{n^2}\leq x^2+y^2\leq 1\right\}$とおくと
 
 \begin{example}\
 	\begin{enumerate}\renewcommand{\labelenumi}{(\arabic{enumi})}
-	\item $\displaystyle\frac{\partial}{\partial x}\left(\frac{2x}{(x+y)^2}\right)=-\frac{\partial}{\partial y}\left(\frac{2y}{(x^2+y^2)}\right)=\frac{2y-2x}{(x+y)^2}$
+	\item $\displaystyle\frac{\partial}{\partial x}\left(\frac{2x}{(x+y)^2}\right)=-\frac{\partial}{\partial y}\left(\frac{2y}{(x+y)^2}\right)=\frac{2y-2x}{(x+y)^3}=f(x,y)$
 		を用いて
 		\[
         \displaystyle\int_0^1\left(\int_0^1\frac{2y-2x}{(x+y)^3}dx\right)dy =1, \int_0^1\left(\int_0^1\frac{2y-2x}{(x+y)^3}dy\right)dx =-1
@@ -2318,7 +2320,7 @@ $K_n=\left\{(x,y):\frac{1}{n^2}\leq x^2+y^2\leq 1\right\}$とおくと
 
 \end{example}
 
-\begin{ans}
+\begin{ans}\
     \begin{enumerate}\renewcommand{\labelenumi}{(\arabic{enumi})}
     \item
     \[
@@ -2328,14 +2330,14 @@ $K_n=\left\{(x,y):\frac{1}{n^2}\leq x^2+y^2\leq 1\right\}$とおくと
         \int_0^1\left(\int_0^1\frac{2y-2x}{(x+y)^3}dy\right)dx=\int_0^1\left[\frac{-2y}{(x+y)^2}\right]_{y=0}^{y=1}dy=\int_0^1\frac{-2}{(1+x)^2}dx=-1
     \]
     \begin{note}
-        これは$\displaystyle f(x,y)=\frac{2(x-y)}{(x+y)^3}$は（$[0,1]\times[0,1]$上）可積分でないことを示している。
+        これは$\displaystyle f(x,y)=\frac{2(x-y)}{(x+y)^3}$が（$[0,1]\times[0,1]$上）可積分でないことを示している。
     \end{note}
     \item
 	\[
 	\begin{split}
 		\int_{D(a,b)}f(x,y)dxdy
 		&=\int_b^1\left[\frac{-2x}{(x+y)^2}\right]_a^1 dy\\
-		&=\int_a^1\left(-\frac{2}{(1+y)^2}+\frac{2a}{(a+y)^2}\right)dy\\
+		&=\int_b^1\left(-\frac{2}{(1+y)^2}+\frac{2a}{(a+y)^2}\right)dy\\
 		&=\left[\frac{2}{1+y}-\frac{2a}{a+y}\right]_b^1\\
 		&=1-\frac{2a}{1+a}-\frac{2}{1+b}+\frac{2a}{a+b}
 	\end{split}
@@ -2366,7 +2368,7 @@ $\displaystyle B(p,q)=\int_0^1 x^{p-1}(1-x)^{q-1}dx=2\int_0^{\frac{\pi}{2}}\sin^
 	\begin{split}
 	\Gamma(p)\Gamma(q)
 	&=\left(\int_0^\infty x^{p-1}e^{-x}dx\right)\left(\int_0^\infty y^{q-1}e^{-y}dy\right)\\
-	&=4\left(\int_0^\infty x^{2p-1}e^{-x^2}dx\right)\left(\int_0^\infty y^{2q-1}e^{-y^2}\right)\\
+	&=4\left(\int_0^\infty x^{2p-1}e^{-x^2}dx\right)\left(\int_0^\infty y^{2q-1}e^{-y^2}dy\right)\\
 	&=4\lim_{n\to\infty}\int_{D_n}e^{-x^2-y^2}x^{2p-1}y^{2q-1}dxdy	\end{split}
 	\]
 	ここで$D_n=\{(x,y):0\leq x\leq n,0\leq y\leq n\},\Omega_n=\{(x,y):X^2+y^2\leq n,x\geq0,y\geq0\}$とすると
@@ -2561,7 +2563,7 @@ A=
             であることを用いると
             \[
             \begin{split}
-            \frac{|f(a+h)-f(a)-\lambda(h)|_m}{|h|_n}
+            \frac{|f(a+h)-f(a)|_m}{|h|_n}
             &=\frac{|f(a+h)-f(a)-\lambda(h)+\lambda(h)|_m}{|h|_n}\\
             &\leq\frac{|f(a+h)-f(a)-\lambda(h)|_m}{|h|_n}+\frac{|\lambda(h)|_m}{|h|_n}\\
             &<\epsilon+M
